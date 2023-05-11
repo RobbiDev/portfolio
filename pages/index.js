@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import { Inter, Signika, Konkhmer_Sleokchher } from 'next/font/google'
+import Head from 'next/head'
 
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] })
 
 export default function Home() {
   return (
     <main className={`container mx-auto flex justify-center ${Konkhmer.className}`}>
+      <Head>
+        <title>Robert Johnson</title>
+      </Head>
       <header className={`h-screen flex flex-col justify-center`}>
         <nav className={` z-10 flex flex-rol justify-between text-gray-300`}>
           <a href='/projects'>Projects</a>
