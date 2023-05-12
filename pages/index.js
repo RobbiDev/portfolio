@@ -23,7 +23,7 @@ export default function Home() {
       </Head>
 
       <section id="main" className={`relative h-screen w-screen flex flex-col items-center unselectable overflow-hidden `}>
-        <Image className={``} src={TopChip} />
+        <Image className={`hidden sm:block`} src={TopChip} />
         <div className={`flex flex-row justify-between gap-10`}>
           <Image className={`w-full`} src={Line} />
           <Image className={``} src={Line} />
