@@ -22,7 +22,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <section id="main" className={`relative h-screen w-screen flex flex-col items-center unselectable `}>
+      <section id="main" className={`relative h-screen w-screen flex flex-col items-center unselectable overflow-hidden `}>
         <Image className={``} src={TopChip} />
         <div className={`flex flex-row justify-between gap-10`}>
           <Image className={`w-full`} src={Line} />
