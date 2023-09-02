@@ -22,9 +22,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <main className={` container mx-auto flex justify-center ${Konkhmer.className}`}>
+      <main className={`container mx-auto flex justify-center ${Konkhmer.className}`}>
 
-        <header className={` h-screen flex flex-col justify-center`}>
+        <header className={`px-5 sm:px-0 h-screen flex flex-col justify-center`}>
           <div className='flex flex-col'>
 
 
@@ -35,7 +35,7 @@ export default function Home() {
             </nav>
 
             <div class="code-text base">
-              <a className={`text-4xl unselectable text-white place-content-center`}>making <span class="gradient">things</span> better</a>
+              <a className={`text-3xl sm:text-4xl unselectable text-white place-content-center`}>making <span class="gradient">things</span> better</a>
             </div>
 
 
