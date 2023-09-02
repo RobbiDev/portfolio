@@ -22,11 +22,13 @@ body, html {
   height: 100%;
   overflow-y: hidden;
   touch-action: none;
-      
+  margin-top: 0;
 }
+
 .code-text {
       font-family: 'Courier Prime', monospace;
 }
+
 .gradient {
   background: linear-gradient(90deg, #6EB2F1 -2.92%, #5B37EB 109.42%);
     background-clip: text;
