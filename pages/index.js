@@ -35,7 +35,7 @@ export default function Home() {
             </nav>
 
             <div class="code-text base">
-              <a className={`text-4xl unselectable text-white place-content-center`}>making it <span class="gradient">better</span></a>
+              <a className={`text-4xl unselectable text-white place-content-center`}>making <span class="gradient">things</span> better</a>
             </div>
 
 
