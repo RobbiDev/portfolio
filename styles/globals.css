@@ -14,11 +14,11 @@
 }
 
 
-body, html {
+body {
   background-color: #222;
       background: radial-gradient(50% 50% at 50% 50%, #181818 0, #222 100%);
   overscroll-behavior: contain;
-overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
         height: 100%;
         overflow-y: hidden;
       
