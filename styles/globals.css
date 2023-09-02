@@ -21,7 +21,7 @@ body, html {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   touch-action: none;
   margin-top: 0;
 }
