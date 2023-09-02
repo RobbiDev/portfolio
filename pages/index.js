@@ -3,14 +3,6 @@ import { Inter, Signika, Konkhmer_Sleokchher } from 'next/font/google'
 import Head from 'next/head'
 
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] })
-import chip from '@/assets/ComputerChip.svg'
-import HorizLine from '@/assets/Left.svg'
-import VertLine from '@/assets/VertLine.svg'
-import TopChip from '@/assets/TopChip.svg'
-
-import ChipComponent from '@/assets/Component.svg'
-import MiddleChip from '@/assets/MiddleChip.svg'
-import Line from '@/assets/Line.svg'
 
 
 export default function Home() {

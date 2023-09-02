@@ -27,25 +27,25 @@ body, html {
 }
 
 .code-text {
-      font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', monospace;
 }
 
 .gradient {
   background: linear-gradient(90deg, #6EB2F1 -2.92%, #5B37EB 109.42%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent
 }
 
 .base {
   border-radius: 7px;
   border: 2px solid #2E2E2E;  background: #222222;
-  @apply p-5
+  @apply p-5;
 }
 
 
 .item {
   display: flex;
   justify-content: space-between;
-  @apply px-5 py-2 text-gray-300
+  @apply px-5 py-2 text-gray-300;
 }
