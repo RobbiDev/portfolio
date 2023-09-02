@@ -2,19 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
 
 .unselectable {
   -webkit-touch-callout: none;
@@ -26,6 +14,29 @@
 }
 
 body {
-  background: #FFFFFF;
+
+      background: radial-gradient(50% 50% at 50% 50%, #181818 0, #222 100%);
+    
+}
+.code-text {
+      font-family: 'Courier Prime', monospace;
+}
+.gradient {
+  background: linear-gradient(90deg, #6EB2F1 -2.92%, #5B37EB 109.42%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
 }
 
+.base {
+  border-radius: 7px;
+  border: 2px solid #2E2E2E;  background: #222222;
+  @apply p-5
+}
+
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  @apply px-5 py-2 text-gray-300
+}

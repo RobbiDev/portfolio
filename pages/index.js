@@ -22,75 +22,51 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <section id="main" className={`relative h-screen w-screen flex flex-col items-center unselectable overflow-hidden `}>
-        <Image className={`hidden sm:block`} src={TopChip} />
-        <div className={`flex flex-row justify-between gap-10`}>
-          <Image className={`w-full`} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-          <Image className={``} src={Line} />
-        </div>
-        <div className={`flex flex-row justify-between gap-7`}>
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-          <Image className={``} src={ChipComponent} />
-        </div>
-        <div className={` flex justify-center px-10`}>
-          <Image className={`max-w-full h-auto object-none object-right`} src={HorizLine} />
-          <Image className={``} src={MiddleChip} />
-          <Image className={`max-w-full h-auto object-none object-right rotate-180`} src={HorizLine} />
-        </div>
-        <div className={`flex flex-col items-center rotate-180`}>
-          <div className={`flex flex-row justify-between gap-10`}>
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
-            <Image className={``} src={Line} />
+      <main className={` container mx-auto flex justify-center ${Konkhmer.className}`}>
+
+        <header className={` h-screen flex flex-col justify-center`}>
+          <div className='flex flex-col'>
+
+
+            <nav className={`item`}>
+              <a href='/projects'>Projects</a>
+              <a href='/contact'>Contact</a>
+              <a href='/experience'>Experience</a>
+            </nav>
+
+            <div class="code-text base">
+              <a className={`text-4xl unselectable text-white place-content-center`}>making it <span class="gradient">better</span></a>
+            </div>
+
+
+
+            <nav className={`item`}>
+              <a href='/projects'>Robert Johnson</a>
+              <a href='/experience'>18 yr</a>
+            </nav>
+
           </div>
-          <div className={`flex flex-row justify-between gap-7`}>
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-            <Image className={``} src={ChipComponent} />
-          </div>
-        </div>
+
+        </header>
+
+      </main>
+
+
+
+
+      {/* <section id="main" className={`h-screen w-screen text-xl flex items-center justify-center unselectable z-5`}>
+        <h1>making it <span class="gradient">better.</span></h1>
       </section>
 
+      <section className={`container mx-auto `}>
+        <h1 class="font-black">April 26th, 2023</h1>
+        <p>untrackable, disorganized cleaning system for fryers at chick-fil-a was <span class="gradient">made better</span></p>
+
+        <h1 class="font-black">April 26th, 2023</h1>
+        <p>untrackable, disorganized cleaning system for fryers at chick-fil-a was <span class="gradient">made better</span></p>
 
 
 
-
-
-
-      {/* <section id="main" className={`relative h-screen w-screen flex flex-col items-center overflow-hidden unselectable `}>
-        <Image className={``} src={TopChip} />
-        <div className={` flex flex-col justify-center items-center unselectable p-5 sm:p-0`}>
-
-          <Image className={`px-4 sm:px-0`} src={VertLine} />
-          <div className={`flex justify-center`}>
-            <Image className={` `} src={HorizLine} />
-            <Image className={` `} src={chip} />
-            <Image className={` `} src={HorizLine} />
-          </div>
-          <Image className={` `} src={VertLine} />
-        </div>
       </section> */}
 
     </main>
