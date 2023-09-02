@@ -13,10 +13,12 @@
   user-select: none;
 }
 
-body {
+
+body, html {
   background-color: #222;
       background: radial-gradient(50% 50% at 50% 50%, #181818 0, #222 100%);
-
+  overscroll-behavior: contain;
+overscroll-behavior: contain;
         height: 100%;
         overflow-y: hidden;
       
