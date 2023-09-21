@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <main className={`${Konkhmer.className}`}>
             <Head>
-                <title>Robert Johnson</title>
+                <title>Projects | Robert Johnson</title>
                 <meta name="description" content="My Portfolio Website" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
