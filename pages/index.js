@@ -28,8 +28,8 @@ export default function Home() {
             </div>
 
             <nav className={`item`}>
-              <a href='/projects'>Robert Johnson</a>
-              <a href='/experience'>18 yr</a>
+              <p>Robert Johnson</p>
+              <p>18 yr</p>
             </nav>
           </div>
         </header>
