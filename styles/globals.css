@@ -10,10 +10,9 @@
   }
 }
 
-body, html {
+* {
   border: none;
   background-color: rgb(34, 34, 34);
-  background: radial-gradient(50% 50% at 50% 50%, #181818 0, #222 100%);
 
 }
 
