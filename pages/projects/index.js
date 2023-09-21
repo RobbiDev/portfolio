@@ -13,7 +13,6 @@ export default function Home() {
             <Head>
                 <title>Projects | Robert Johnson</title>
                 <meta name="description" content="My Portfolio Website" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
 
             <main className={`container mx-auto ${Konkhmer.className} px-5 `}>
