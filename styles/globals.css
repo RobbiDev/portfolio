@@ -30,6 +30,7 @@ body, html {
   font-family: 'Courier Prime', monospace;
 }
 
+
 .gradient {
   background: linear-gradient(90deg, #6EB2F1 -2.92%, #5B37EB 109.42%);
   background-clip: text;
@@ -41,6 +42,12 @@ body, html {
   border-radius: 7px;
   border: 2px solid #2E2E2E;  background: #222222;
   @apply p-5;
+}
+
+.card-bg {
+  border-radius: 7px;
+    border: 2px solid #2E2E2E;
+    background: #222222;
 }
 
 
