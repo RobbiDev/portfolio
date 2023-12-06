@@ -36,7 +36,7 @@ export default function Home() {
       </main>
 
       {/* <section id="main" className={`h-screen w-screen text-xl flex items-center justify-center unselectable z-5`}>
-        <h1>making it <span class="gradient">better.</span></h1>
+        <h1>making i <span class="gradient">better.</span></h1>
       </section>
 
       <section className={`container mx-auto `}>
