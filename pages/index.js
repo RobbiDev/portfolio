@@ -29,7 +29,7 @@ export default function Home() {
 
             <nav className={`item`}>
               <p>Robert Johnson</p>
-              <p>18 yr</p>
+              <p>19 yr</p>
             </nav>
           </div>
         </header>
