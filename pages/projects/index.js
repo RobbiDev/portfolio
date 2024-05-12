@@ -38,7 +38,7 @@ export default function Home() {
 
                     <Card date={"April 26th, 2023"} views={"440"} title={"Grandover Project"} desc={`A full-stack application designed specifically to enhance the operations of Chick-Fil-A at Grandover Village.`} />
                     <Card date={"April 26th, 2023"} views={"440"} title={"ImDragonsAPI"} desc={"An API that allows for instant access to a massive database of infomation regarding the band Imagine Dragons!"} />
-                    <Card date={"April 26th, 2023"} views={"440"} title={"Boil-Out Control"} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
+                    <Card date={"April 26th, 2023"} views={"440"} title={""} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
                     <Card date={"April 26th, 2023"} views={"440"} title={"robbyj.dev"} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
 
                 </section>
@@ -48,10 +48,10 @@ export default function Home() {
                 <section className='mt-5 border-t-3 bgflex flex-col lg:grid grid-cols-3 gap-2'>
 
 
-                    {/* <Card date={"April 26th, 2023"} views={"440"} title={"Grandover Project"} desc={`A full-stack application designed specifically to enhance the operations of Chick-Fil-A at Grandover Village.`} />
-                    <Card date={"April 26th, 2023"} views={"440"} title={"ImDragonsAPI"} desc={"An API that allows for instant access to a massive database of infomation regarding the band Imagine Dragons!"} />
+                    <Card date={"April 26th, 2023"} views={"440"} title={"Grandover"} desc={`A full-stack application designed specifically to enhance the operations of Chick-Fil-A at Grandover Village.`} />
+                    <Card date={"April 26th, 2023"} views={"440"} title={"ImDragons.JS"} desc={"An API that allows for instant access to a massive database of infomation regarding the band Imagine Dragons!"} />
                     <Card date={"April 26th, 2023"} views={"440"} title={"Boil-Out Control"} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
-                    <Card date={"April 26th, 2023"} views={"440"} title={"robbyj.dev"} /> */}
+                    <Card date={"April 26th, 2023"} views={"440"} title={"www.robbyj.dev"} />
 
                 </section>
             </main>

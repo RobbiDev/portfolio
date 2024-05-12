@@ -1,18 +1,12 @@
 import CFA from '@/assets/cfa.png'
 import Image from 'next/image'
 
-const roles = {
+import data from '@/data/jobs.json'
 
-	"cfa": [
 
-	],
-	"virtuollis": [
+export default function JobCard({ title, location, date, year, image, fruits }) {
 
-	]
-
-}
-
-export default function JobCard({ title, location, date, year, image }) {
+	console.log(fruits)
 
 	return (
 		<>
@@ -26,15 +20,26 @@ export default function JobCard({ title, location, date, year, image }) {
 							<p class="text-xs text-zinc-100 pb-2">{date}</p>
 							<p class="text-xs text-zinc-500">{year}</p>
 						</div>
-						<h1 className='text-xl font-bold text-zinc-100 group-hover:text-white font-display'>{title}</h1>
+						<a href="https://www.virtuollis.com/" className='text-xl font-bold text-zinc-100 group-hover:text-white font-display'>{title}</a>
 						<p class="text-xs text-zinc-500 pt-2">{location}</p>
 
-						<div className='mt-5 flex flex-col space-y-1'>
+						<ul className='mt-5 flex flex-col space-y-5'>
 
-							<h1>BOH Supervisor</h1>
-							<p class="text-xs text-zinc-500 ">Jan 2023 - Present</p>
+							<ul>
+								{fruits.map((fruit, index) => (
+									<li key={index}>{fruit}</li>
+								))}
+							</ul>
 
-						</div>
+							{/* <li className='flex flex-col'>
+								<h3 class="text-lg font-semibold text-gray-900 dark:text-white">{roles[1].title}</h3>
+								<time class="text-sm font-normal text-zinc-500">hi</time>
+							</li> */}
+
+
+
+
+						</ul>
 					</div>
 				</header>
 

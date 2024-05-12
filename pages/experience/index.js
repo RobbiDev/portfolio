@@ -6,11 +6,15 @@ import CFA from '@/assets/cfa.png'
 import Virtuollis from '@/assets/virtuollis.svg'
 import Link from 'next/link'
 
+import data from '@/data/jobs.json'
+
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] })
-
-
+const arrayData = ['Apple', 'Banana', 'Cherry'];
 export default function Home() {
+
+
     return (
+        
         <main className={`${Konkhmer.className}`}>
             <Head>
                 <title>Projects | Robert Johnson</title>
@@ -41,17 +45,18 @@ export default function Home() {
                         <div class="w-full mt-5 h-px  bg-zinc-800"></div>
 
                         <div className='flex flex-col'>
-                            <JobCard date={"January 16th, 2023"} year={"9 mos"} title={"Virtuollis, LLC"} location={"Ontario, Canada · Remote"} image={Virtuollis} />
-
+                            <JobCard date={"January 16th, 2023"} year={"9 mos"} title={"Virtuollis LLC"} location={"Ontario, Canada · Remote"} image={Virtuollis}>
+                            <h1>BOH Supervisor</h1>
+							<p class="text-xs text-zinc-500 ">Jan 2023 - Present</p>
+                            </JobCard>
                         </div>
 
                     </div>
                     <div>
                         <h1>General Jobs</h1>
                         <div class="w-full mt-5 h-px bg-zinc-800"></div>
-                        <div className='flex flex-col'>
-                            <JobCard date={"August 18, 2021"} year={"2 yrs 2 mos"} title={"Chick-Fil-A Franchise"} location={"Grandover Village, NC · On-site"} image={CFA} />
-
+                        <div className='flex flex-col space-y-5'>
+                            {data.map(job => <JobCard date={job.date} year={job.time} title={job.company} location={job.location} image={CFA} fruits={arrayData} /> )}
                         </div>
                     </div>
 

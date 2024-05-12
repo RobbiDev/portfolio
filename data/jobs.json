@@ -1,0 +1,36 @@
+[
+    {
+        "company": "Imaflex USA",
+        "logo": "/images/example-inc-logo.png",
+        "location": "Ontario, Canada · Remote",
+        "date": "August 18, 2021",
+        "time": "2 yrs 2 mos",
+        "roles": [
+            {
+              "title": "Senior Developer",
+              "time": "2022-01"
+            },
+            {
+              "title": "Mid-Level Developer",
+              "time": "2022-01"
+            },
+            {
+              "title": "Junior Developer",
+              "time": "2022-01"
+            }
+          ]
+    },
+    {
+        "company": "Imaflex USA",
+        "logo": "/images/example-inc-logo.png",
+        "location": "Ontario, Canada · Remote",
+        "date": "August 18, 2021",
+        "time": "2 yrs 2 mos",
+        "roles": [
+            {
+                "title": "Printing Press Operator",
+                "time": "2022-01"
+            }
+          ]
+    }
+]
