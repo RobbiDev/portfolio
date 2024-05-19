@@ -1,36 +1,63 @@
 [
-    {
-        "company": "Imaflex USA",
-        "logo": "/images/example-inc-logo.png",
-        "location": "Ontario, Canada · Remote",
-        "date": "August 18, 2021",
-        "time": "2 yrs 2 mos",
-        "roles": [
-            {
-              "title": "Senior Developer",
-              "time": "2022-01"
-            },
-            {
-              "title": "Mid-Level Developer",
-              "time": "2022-01"
-            },
-            {
-              "title": "Junior Developer",
-              "time": "2022-01"
-            }
-          ]
-    },
-    {
-        "company": "Imaflex USA",
-        "logo": "/images/example-inc-logo.png",
-        "location": "Ontario, Canada · Remote",
-        "date": "August 18, 2021",
-        "time": "2 yrs 2 mos",
-        "roles": [
-            {
-                "title": "Printing Press Operator",
-                "time": "2022-01"
-            }
-          ]
-    }
+  {
+    "company": "Virtuollis LLC",
+    "logo": "virtuollis.svg",
+    "location": "Ontario, Canada · Remote",
+    "date": "April 2023 - Present",
+    "time": "1yr 2 mos",
+    "position": "Jr. Software Engineer",
+    "bulletpoints": [
+      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
+      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
+      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
+      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
+    ],
+    "category": "software"
+    
+  },
+  {
+    "company": "Virtuollis LLC",
+    "logo": "virtuollis.svg",
+    "location": "Ontario, Canada · Remote",
+    "date": "Jan 2023 - April 2023",
+    "time": "4 mos",
+    "position": "Software Engineer Intern",
+    "bulletpoints": [
+      "Engineered scalable REST APIs using Node.js and Express, enabling seamless integration with external services and accommodating a 50% increase in user traffic without performance degradation.",
+      "Proactively identified and resolved critical production issues, reducing downtime by 75% and improving system reliability during peak usage periods.",
+      "Collaborated with the design team to refactor and enhance the user interface, resulting in a 20% increase in user engagement."
+    ],
+    "category": "software"
+    
+  },
+  {
+    "company": "Chick-Fil-A Franchise",
+    "logo": "cfa.png",
+    "location": "Ontario, Canada · Remote",
+    "date": "Aug 2021 - Nov 2023",
+    "time": "2 yrs 4 mos",
+    "position": "Back of House Supervisor",
+    "bulletpoints": [
+      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
+      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
+      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
+      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
+    ],
+    "category": "general"
+  },
+  {
+    "company": "Imaflex USA",
+    "logo": "cfa.png",
+    "location": "Ontario, Canada · Remote",
+    "date": "August 18, 2021",
+    "time": "2 yrs 2 mos",
+    "position": "Printing Press Operator",
+    "bulletpoints": [
+      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
+      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
+      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
+      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
+    ],
+    "category": "general"
+  }
 ]
