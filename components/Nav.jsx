@@ -25,8 +25,8 @@ const Navbar = () => {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                     </svg>
                 </button>
-                <div className={`md:flex flex-row w-full md:w-auto  ${isOpen ? '' : 'hidden'}`} id="navbar-default">
-                    <ul className="font-medium flex flex-row pt-4 md:p-0 space-x-5  md:space-x-8  md:mt-0 text-gray-400 ">
+                <div className={`md:flex flex-row w-full md:w-auto ${isOpen ? '' : 'hidden'}`} id="navbar-default">
+                    <ul className="font-medium flex flex-row pt-4 md:p-0 space-x-5 border-t-2 border-zinc-800 md:border-0 pt-7 mt-7 justify-center  md:space-x-8  md:mt-0 text-gray-400 ">
                         <li>
                             <a href="/" className="" aria-current="page">Home</a>
                         </li>
