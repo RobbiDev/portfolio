@@ -36,7 +36,7 @@ export default function Home() {
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}
-                    <section className='flex flex-col max-h-screen space-y-5'>
+                    <section className='flex flex-col pb-5 lg:pb-0 max-h-screen space-y-5'>
                         <h1 className='text-white text-lg'>ABOUT</h1>
                         <div>
                             <p className='font-md text-zinc-400'>
@@ -50,7 +50,7 @@ export default function Home() {
                             </p>
                         </div>
                         {/* Skills section */}
-                        <div className='flex flex-col space-y-5 pb-5 lg:mb-0'>
+                        <div className='hidden lg:flex flex-col space-y-5 pb-5 lg:mb-0'>
                             <h1 className='text-white text-lg'>SKILLS</h1>
                             <div className='flex flex-row lg:flex-col space-x-5 lg:space-x-0 lg:space-y-5 text-zinc-300'>
                                 <div className='flex flex-col space-y-2'>
