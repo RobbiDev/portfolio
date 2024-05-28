@@ -3,7 +3,7 @@
     {
         "title": "ImDragonsAPI",
         "date": "April 24th, 2021",
-        "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+        "description": "ImDragonsAPI was created to give fans an all in one place for a fast, and constantly updating database of data regarding the band Imagine Dragons. Instantly giving results back after perfecting the codebase. Say goodbye to the painstaking process of copy and pasting Wikis!",
         "views": "976",
         "link": "https://github.com/unnecessarylibraries/ImDragonsAPI",
         "pinned": true
@@ -11,7 +11,7 @@
     {
         "title": "ImDragons.JS",
         "date": "Dec 20, 2022",
-        "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+        "description": "Imagine-dragons.js is a NodeJS library that utilizes the Unnecessary Libraries ImDragonsAPI. Making it easier for Developers to instantly find any information regarding the band \"Imagine Dragons\". Making a simple way to index though the mass amounts of Data the API has to offer.",
         "views": "874",
         "link": "https://github.com/RobbiDev/ImDragons.JS",
         "pinned": true
@@ -43,7 +43,7 @@
     {
         "title": "A.N.G.I.E.S",
         "date": "Oct 10, 2023",
-        "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+        "description": "A.N.G.I.E.S project, named after the inspiration behind it, my girlfriend Angela. This project is designed to showcase my networking skills while creating a secure environment to store photos, financial data, and all other important aspects of my life.",
         "views": "233",
         "link": "https://github.com/RobbiDev/A.N.G.I.E.S",
         "pinned": false
