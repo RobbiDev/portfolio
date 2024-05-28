@@ -52,7 +52,7 @@ export default function Home() {
                         {/* Skills section */}
                         <div className='flex flex-col space-y-5 pb-5 lg:mb-0'>
                             <h1 className='text-white text-lg'>SKILLS</h1>
-                            <div className='flex flex-row lg:flex-col space-x-5 lg:space-y-5 text-zinc-300'>
+                            <div className='flex flex-row lg:flex-col space-x-5 lg:space-x-0 lg:space-y-5 text-zinc-300'>
                                 <div className='flex flex-col space-y-2'>
                                     <h2 className='font-bold text-md'>General</h2>
                                     <ul className='flex flex-col space-y-1 text-zinc-400 font-extralight'>
