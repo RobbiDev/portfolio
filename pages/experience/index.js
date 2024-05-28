@@ -34,8 +34,8 @@ export default function Home() {
                     </nav>
                 </header>
 
-                <section className='flex flex-col md:flex-row md:space-x-5 '>
-                    <section className='flex max-h-screen flex-col xl:w-1/2'>
+                <section className='flex flex-col lg:flex-row lg:space-x-5 '>
+                    <section className='flex max-h-screen flex-col '>
                         <div className="flex space-y-5 flex flex-col max-h-screen">
                             <h1 className='text-white'>ABOUT</h1>
                             <p className='font-md text-zinc-300'>
