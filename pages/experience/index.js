@@ -3,6 +3,8 @@ import Head from 'next/head';
 import JobCard from '@/components/JobCard';
 import jobsData from '@/data/jobs.json';
 
+import Navbar from '@/components/Nav';
+
 
 // Define fonts with specific configurations
 import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
@@ -28,16 +30,7 @@ export default function Home() {
 
             <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
                 {/* Header section */}
-                <header className='flex flex-col md:flex-row text-lg py-10 items-center sm:justify-between text-white border-b-white'>
-                    <div className='text-gray-400'>
-                        <a href='/'>making/things/better<span className='gradient'>/experience</span></a>
-                    </div>
-                    <nav className='flex flex-row justify-between space-x-5 text-gray-400'>
-                        <a href='/'>Home</a>
-                        <a href='/projects'>Projects</a>
-                        <a href='/contact'>Contact</a>
-                    </nav>
-                </header>
+                <Navbar />
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}

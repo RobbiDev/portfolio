@@ -1,8 +1,4 @@
-import Image from 'next/image'
-
 export default function JobCard({ company, location, date, year, image,position,  summary }) {
-
-	const logo = require(`../assets/${image}`)
 
 	return (
 		<>
