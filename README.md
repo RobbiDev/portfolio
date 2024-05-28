@@ -2,13 +2,13 @@
 
 <p align="center">
   <a href="#gh-light-mode-only">
-    <img src="./assets/home.png" alt="logo" width="100%" height="auto" />
+    <img src="https://github.com/RobbiDev/portfolio/blob/main/assets/home.png" alt="logo" width="100%" height="auto" />
   </a>
 </p>
 <p align="center"></p>
 </p>
 <p align="center">
-  <a href="#about">About</a> •
+  <a href="#welcome">Welcome</a> •
   <a href="#Features">Features</a> •
   <a href="#technologies-used">Technologies Used</a> •
   <a href="#setup-and-usage">Setup and Usage</a> •
