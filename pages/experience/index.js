@@ -2,9 +2,7 @@
 import Head from 'next/head';
 import JobCard from '@/components/JobCard';
 import jobsData from '@/data/jobs.json';
-
 import Navbar from '@/components/Nav';
-
 
 // Define fonts with specific configurations
 import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
@@ -13,14 +11,15 @@ const primary = Roboto({ weight: ["700"], subsets: ['latin'] });
 const secondary = Roboto({ weight: ["400"], subsets: ['latin'] });
 const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
 
-
-
 /**
  * Experience component for displaying categorized job listings.
  * @component
  * @returns {JSX.Element} Experience component
  */
 export default function Home() {
+
+    const page = 'Projects';
+
     return (
         <div>
             <Head>
@@ -29,8 +28,10 @@ export default function Home() {
             </Head>
 
             <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
-                {/* Header section */}
-                <Navbar />
+                
+                {/* NavBar section */}
+                <Navbar page={page}/>
+
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}

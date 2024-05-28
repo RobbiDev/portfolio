@@ -1,7 +1,15 @@
 import { useState } from 'react';
 
-const Navbar = () => {
+
+/**
+ * Navbar component for displaying categorized job listings.
+ * @component
+ * @returns {JSX.Element} Navbar component
+ */
+export default function Navbar({ page }) {
+
     const [isOpen, setIsOpen] = useState(false);
+    const link = `/${page}`.toLocaleLowerCase()
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -31,7 +39,7 @@ const Navbar = () => {
                             <a href="/" className="" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="/projects" className="">Projects</a>
+                            <a href={link} className="">{page}</a>
                         </li>
                         <li>
                             <a href="/contact" className="">Contact</a>
@@ -42,6 +50,4 @@ const Navbar = () => {
 
         </header>
     );
-};
-
-export default Navbar;
+}

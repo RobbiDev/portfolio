@@ -7,7 +7,12 @@ import Link from 'next/link'
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] })
 
 
+import Navbar from '@/components/Nav';
+
 export default function Home() {
+
+    const page = 'Experience';
+
     return (
         <main className={`${Konkhmer.className}`}>
             <Head>
@@ -17,21 +22,7 @@ export default function Home() {
 
             <main className={`container mx-auto ${Konkhmer.className} px-5 pb-10`}>
 
-                <header className='flex flex-col md:flex-row text-lg py-10 items-center sm:justify-between text-white border-b-white '>
-
-                    <div className='text-gray-400'>
-                        <a href='/' >making/things/better<span className='gradient'>/projects</span></a>
-                    </div>
-
-
-                    <nav className='flex flex-row justify-between space-x-5 text-gray-400'>
-                        <a href='/'>Home</a>
-                        <a href='/experience'>Experience</a>
-                        <a href='/contact'>Contact</a>
-                    </nav>
-
-
-                </header>
+                <Navbar page={page}/>
 
                 <section className='flex flex-col lg:grid grid-cols-2 grid-row-1 gap-2'>
 
