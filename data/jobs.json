@@ -3,61 +3,28 @@
     "company": "Virtuollis LLC",
     "logo": "virtuollis.svg",
     "location": "Ontario, Canada · Remote",
-    "date": "April 2023 - Present",
-    "time": "1yr 2 mos",
-    "position": "Jr. Software Engineer",
-    "bulletpoints": [
-      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
-      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
-      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
-      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
-    ],
-    "category": "software"
-    
-  },
-  {
-    "company": "Virtuollis LLC",
-    "logo": "virtuollis.svg",
-    "location": "Ontario, Canada · Remote",
     "date": "Jan 2023 - April 2023",
     "time": "4 mos",
-    "position": "Software Engineer Intern",
-    "bulletpoints": [
-      "Engineered scalable REST APIs using Node.js and Express, enabling seamless integration with external services and accommodating a 50% increase in user traffic without performance degradation.",
-      "Proactively identified and resolved critical production issues, reducing downtime by 75% and improving system reliability during peak usage periods.",
-      "Collaborated with the design team to refactor and enhance the user interface, resulting in a 20% increase in user engagement."
-    ],
-    "category": "software"
+    "position": "Software Engineering Intern",
+    "summary": "From January to April 2023, I interned as a Software Engineer at Virtuollis LLC. I developed scalable REST APIs with Node.js and Express, supporting a 50% increase in user traffic. I resolved critical production issues, reducing downtime by 75%, and collaborated with the design team to enhance the user interface, increasing engagement by 20%."
     
   },
   {
     "company": "Chick-Fil-A Franchise",
     "logo": "cfa.png",
-    "location": "Ontario, Canada · Remote",
+    "location": "Jamestown, NC · On-Site",
     "date": "Aug 2021 - Nov 2023",
     "time": "2 yrs 4 mos",
     "position": "Back of House Supervisor",
-    "bulletpoints": [
-      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
-      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
-      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
-      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
-    ],
-    "category": "general"
+    "summary": "From August 2021 to November 2023, I was the Back of House Supervisor at a Chick-Fil-A franchise in Ontario, Canada. I managed kitchen operations, inventory, staff training, and equipment maintenance, ensuring high food quality and safety standards. My leadership fostered a productive work environment."
   },
   {
     "company": "Imaflex USA",
     "logo": "cfa.png",
-    "location": "Ontario, Canada · Remote",
-    "date": "August 18, 2021",
-    "time": "2 yrs 2 mos",
+    "location": "Thomasville, NC · On-Site",
+    "date": "Dec 2023 - Present",
+    "time": "6 mos",
     "position": "Printing Press Operator",
-    "bulletpoints": [
-      "Successfully collaborated with a cross-functional team to develop an online ordering platform for graphic designs, using Next.js, MongoDB, and JavaScript, significantly streamlining the design request process and enhancing user experience.",
-      "Played a pivotal role in the documentation process by creating comprehensive technical specifications and user manuals, ensuring clarity and usability for end-users and developers.",
-      "Actively participated in brainstorming sessions, contributing innovative ideas for new features and improvements.",
-      "Utilized languages such as Python, Typescript and JavaScript to develop back-end and front-end components of applications."
-    ],
-    "category": "general"
+    "summary": "From August 2021 to October 2023, I worked as a Printing Press Operator at Imaflex USA in Ontario, Canada. I operated and maintained printing press machines, ensuring quality and adherence to production schedules. My role required troubleshooting, regular maintenance, and compliance with safety and quality standards, which I consistently upheld."
   }
 ]
