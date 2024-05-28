@@ -35,21 +35,6 @@ export default function Home() {
                 </header>
             </main>
 
-            {/* <section id="main" className={`h-screen w-screen text-xl flex items-center justify-center unselectable z-5`}>
-        <h1>making it <span class="gradient">better.</span></h1>
-      </section>
-
-      <section className={`container mx-auto `}>
-        <h1 class="font-black">April 26th, 2023</h1>
-        <p>untrackable, disorganized cleaning system for fryers at chick-fil-a was <span class="gradient">made better</span></p>
-
-        <h1 class="font-black">April 26th, 2023</h1>
-        <p>untrackable, disorganized cleaning system for fryers at chick-fil-a was <span class="gradient">made better</span></p>
-
-
-
-      </section> */}
-
         </main>
     )
 }

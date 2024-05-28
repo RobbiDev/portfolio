@@ -1,38 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+<p align="center">
+  <a href="#gh-light-mode-only">
+    <img src="./assets/home.png" alt="logo" width="100%" height="auto" />
+  </a>
+</p>
+<p align="center"></p>
+</p>
+<p align="center">
+  <a href="#about">About</a> •
+  <a href="#Features">Features</a> •
+  <a href="#technologies-used">Technologies Used</a> •
+  <a href="#setup-and-usage">Setup and Usage</a> •
+  <a href="#roadmap">Roadmap</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+# Welcome 👋
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Welcome to my portfolio repository! Here, you'll find the code and assets for my professional portfolio website. Coding has been my passion since I was 9 years old—I vividly remember what started it all and it as accidentally discovering what the inspect button did on Coolmath Games! 😄
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+This portfolio marks my first step in showcasing my work. As a full-stack engineer, I excel in backend development while continuously refining my frontend design skills. While I acknowledge areas for improvement in design, I'm dedicated to honing these skills with each project.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+This portfolio reflects my current capabilities and represents the beginning of my professional journey. Thank you for visiting, and I'm eager to share more of my work with you!
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Current Version: **v1.0.0**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features ✨
 
-## Learn More
+- **Experience:** Detailed listing of professional experience using interactive cards.
+- **Projects:** Highlights of significant projects with descriptions and key details.
+- **Skills:** Overview of technical skills categorized by tools, frameworks, and languages.
+- **Contact:** Ways to get in touch with me for potential opportunities.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used 🛠️
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js:** React framework for building the frontend.
+- **Tailwind CSS:** Utility-first CSS framework used for styling.
+- **Next.js Font Optimization:** Integration of Google Fonts for typography needs.
+- **JSON Data Handling:** Utilization of JSON files for managing job listings and project details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Roadmap 🗺️
 
-## Deploy on Vercel
+Future updates for Version 2.0 may include:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    Enhanced UI/UX improvements.
+    Integration of additional project details and case studies.
+    Dynamic content loading using server-side rendering.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Your feedback and suggestions are welcome to improve this portfolio!
+
+## Contributing 🤝
+
+Contributions are welcome! Fork this repository, create your branch, commit your enhancements, and submit a pull request.
+
+## License 📜
+
+This project is licensed under the MIT License - see the LICENSE file for details.

@@ -4,6 +4,7 @@ import { useState } from 'react';
 /**
  * Navbar component for displaying categorized job listings.
  * @component
+ * @param {string} page - Makes the navbar show the proper oppsite page name 
  * @returns {JSX.Element} Navbar component
  */
 export default function Navbar({ page }) {

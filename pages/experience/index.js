@@ -1,23 +1,24 @@
 // General Imports
 import Head from 'next/head';
+import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
 import JobCard from '@/components/JobCard';
 import jobsData from '@/data/jobs.json';
+
+// Component Imports
 import Navbar from '@/components/Nav';
 
 // Define fonts with specific configurations
-import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
 const primary = Roboto({ weight: ["700"], subsets: ['latin'] });
 const secondary = Roboto({ weight: ["400"], subsets: ['latin'] });
 const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
 
 /**
- * Experience component for displaying categorized job listings.
+ * Experience component for displaying professional experience.
  * @component
  * @returns {JSX.Element} Experience component
  */
 export default function Home() {
-
     const page = 'Projects';
 
     return (
@@ -28,10 +29,8 @@ export default function Home() {
             </Head>
 
             <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
-                
                 {/* NavBar section */}
-                <Navbar page={page}/>
-
+                <Navbar page={page} />
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}
@@ -48,6 +47,7 @@ export default function Home() {
                                 better" in all endeavors.
                             </p>
                         </div>
+
                         {/* Skills section */}
                         <div className='hidden lg:flex flex-col space-y-5 pb-5 lg:mb-0'>
                             <h1 className='text-white text-lg'>SKILLS</h1>
