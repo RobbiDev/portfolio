@@ -19,7 +19,9 @@ const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
  * @returns {JSX.Element} Experience component
  */
 export default function Home() {
-    const page = 'Projects';
+    
+    const nextPage = 'Projects';
+    const currentPage = 'experience'
 
     return (
         <div>
@@ -30,7 +32,7 @@ export default function Home() {
 
             <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
                 {/* NavBar section */}
-                <Navbar page={page} />
+                <Navbar nextPage={nextPage} currentPage={currentPage} />
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}

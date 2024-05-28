@@ -7,10 +7,10 @@ import { useState } from 'react';
  * @param {string} page - Makes the navbar show the proper oppsite page name 
  * @returns {JSX.Element} Navbar component
  */
-export default function Navbar({ page }) {
+export default function Navbar({ nextPage, currentPage }) {
 
     const [isOpen, setIsOpen] = useState(false);
-    const link = `/${page}`.toLocaleLowerCase()
+    const link = `/${nextPage}`.toLocaleLowerCase()
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -20,7 +20,7 @@ export default function Navbar({ page }) {
         <header className='py-7 border-b-2 border-zinc-800 mb-10'>
             <div className='flex flex-wrap items-center md:flex-row text-lg justify-between text-white '>
                 <div className='text-gray-400'>
-                    <a href='/' className=''>making/things/better<span className='gradient'>/experience</span></a>
+                    <a href='/' className=''>making/things/better<span className='gradient'>/{currentPage}</span></a>
                 </div>
                 <button
                     onClick={toggleMenu}
@@ -40,7 +40,7 @@ export default function Navbar({ page }) {
                             <a href="/" className="" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href={link} className="">{page}</a>
+                            <a href={link} className="">{nextPage}</a>
                         </li>
                         <li>
                             <a href="/contact" className="">Contact</a>

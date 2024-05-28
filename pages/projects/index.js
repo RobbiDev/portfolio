@@ -5,10 +5,16 @@ import ProjectCard from '@/components/ProjectCard';
 import Link from 'next/link';
 import Navbar from '@/components/Nav';
 
+import projects from '@/data/projects.json'
+
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
 
 export default function Home() {
-    const page = 'Experience';
+    const nextPage = 'Experience';
+    const currentPage = 'projects'
+
+    // Filter projects where pinned is true
+    const pinnedProjects = projects.filter(project => project.pinned);
 
     return (
         <div>
@@ -18,22 +24,39 @@ export default function Home() {
             </Head>
 
             <main className={`container mx-auto ${Konkhmer.className} px-5 pb-10`}>
-                <Navbar page={page} />
+                <Navbar nextPage={nextPage} currentPage={currentPage} />
 
+                {/* Pinned Projects Section */}
                 <section className='flex flex-col lg:grid grid-cols-2 grid-row-1 gap-2'>
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"ImDragonsAPI"} desc={"An API that allows for instant access to a massive database of information regarding the band Imagine Dragons!"} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={""} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"robbyj.dev"} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"Grandover Project"} desc={`A full-stack application designed specifically to enhance the operations of Chick-Fil-A at Grandover Village.`} />
+                    {pinnedProjects.map((project, index) => (
+                        <ProjectCard
+                            key={index}
+                            date={project.date}
+                            title={project.title}
+                            views={project.views}
+                            desc={project.description}
+                            link={project.link}
+                        />
+                    ))}
                 </section>
 
+                {/* Divider */}
                 <div className="w-full mt-5 h-px bg-zinc-800"></div>
 
-                <section className='mt-5 border-t-3 bgflex flex-col lg:grid grid-cols-3 gap-2'>
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"Grandover"} desc={`A full-stack application designed specifically to enhance the operations of Chick-Fil-A at Grandover Village.`} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"ImDragons.JS"} desc={"An API that allows for instant access to a massive database of information regarding the band Imagine Dragons!"} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"Boil-Out Control"} desc={"An automatic system that helps monitor all fryers within the store and keeps track of deep cleanings (Boil Out)"} />
-                    <ProjectCard date={"April 26th, 2023"} views={"440"} title={"www.robbyj.dev"} />
+                {/* Other Projects Section (not pinned) */}
+                <section className='mt-5 border-t-3 flex flex-col space-y-2 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-2'>
+                    {projects.map((project, index) => (
+                        !project.pinned && (
+                            <ProjectCard
+                                key={index}
+                                date={project.date}
+                                title={project.title}
+                                views={project.views}
+                                desc={project.description}
+                                link={project.link}
+                            />
+                        )
+                    ))}
                 </section>
             </main>
         </div>
