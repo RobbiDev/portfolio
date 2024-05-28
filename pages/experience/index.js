@@ -10,12 +10,12 @@ const PrimaryFont = Roboto({ weight: ["400"], subsets: ['latin'] });
 
 /**
  * Home component for displaying categorized job listings.
+ * @component
+ * @returns {JSX.Element} Home component
  */
 export default function Home() {
-
     return (
         <div>
-
             <Head>
                 <title>Projects | Robert Johnson</title>
                 <meta name="description" content="My Portfolio Website" />
@@ -25,7 +25,7 @@ export default function Home() {
                 {/* Header section */}
                 <header className='flex flex-col md:flex-row text-lg py-10 items-center sm:justify-between text-white border-b-white'>
                     <div className='text-gray-400'>
-                        <a href='/' >making/things/better<span className='gradient'>/experience</span></a>
+                        <a href='/'>making/things/better<span className='gradient'>/experience</span></a>
                     </div>
                     <nav className='flex flex-row justify-between space-x-5 text-gray-400'>
                         <a href='/'>Home</a>
@@ -34,11 +34,12 @@ export default function Home() {
                     </nav>
                 </header>
 
-                <section className='flex flex-col lg:flex-row lg:space-x-5 '>
-                    <section className='flex max-h-screen flex-col '>
-                        <div className="flex space-y-5 flex flex-col max-h-screen">
-                            <h1 className='text-white'>ABOUT</h1>
-                            <p className='font-md text-zinc-300'>
+                <section className='flex flex-col lg:flex-row lg:space-x-5'>
+                    {/* About section */}
+                    <section className='flex flex-col max-h-screen space-y-5'>
+                        <h1 className='text-white text-lg'>ABOUT</h1>
+                        <div>
+                            <p className='font-md text-zinc-400'>
                                 Experienced professional with a passion
                                 for making things better through problem-
                                 solving and system design. Utilizes
@@ -48,44 +49,66 @@ export default function Home() {
                                 better" in all endeavors.
                             </p>
                         </div>
-                        <div className='flex flex-col space-y-5 py-10'>
-                            <h1 className=' text-white'>SKILLS</h1>
-                            <div className='text-zinc-300'>
-                            <p>hi</p>
-                            <p>hi</p>
-                            <p>hi</p>
-                            <p>hi</p>
+                        {/* Skills section */}
+                        <div className='flex flex-col space-y-5 pb-5 lg:mb-0'>
+                            <h1 className='text-white text-lg'>SKILLS</h1>
+                            <div className='flex flex-row lg:flex-col space-x-5 lg:space-y-5 text-zinc-300'>
+                                <div className='flex flex-col space-y-2'>
+                                    <h2 className='font-bold text-md'>General</h2>
+                                    <ul className='flex flex-col space-y-1 text-zinc-400 font-extralight'>
+                                        <li>Project Management Tools</li>
+                                        <li>Testing & Deployment</li>
+                                        <li>Software Development</li>
+                                        <li>Problem Solving</li>
+                                        <li>Communication/Teamwork</li>
+                                    </ul>
+                                </div>
+                                <div className='flex flex-col space-y-2'>
+                                    <h2 className='font-bold text-md'>Tools/Frameworks</h2>
+                                    <ul className='flex flex-col space-y-1 text-zinc-400 font-extralight'>
+                                        <li>AWS/Azure/Google Cloud</li>
+                                        <li>Microsoft & Google Products</li>
+                                        <li>Atlassian Cloud Products</li>
+                                        <li>MongoDB & MySQL</li>
+                                        <li>NodeJS & ExpressJS</li>
+                                        <li>TailwindCSS</li>
+                                    </ul>
+                                </div>
+                                <div className='flex flex-col space-y-2'>
+                                    <h2 className='font-bold text-md'>Languages</h2>
+                                    <ul className='flex flex-col space-y-1 text-zinc-400 font-extralight'>
+                                        <li>CSS/HTML</li>
+                                        <li>Python</li>
+                                        <li>JavaScript/TypeScript</li>
+                                        <li>C, C++, & C#</li>
+                                        <li>Java & .NET</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* Main content section */}
+                    {/* Experience section */}
                     <section className='flex flex-col space-y-5 text-white'>
-                        <div className="flex space-y-5 flex flex-col">
-                            {/* Software Engineering Jobs */}
-                            <div>
-                                <h1 className='mb-5'>EXPERIENCE</h1>
-                                <div className='flex flex-col space-y-5'>
-                                    {jobsData.map((job, index) => (
-                                        <JobCard
-                                            key={index}
-                                            date={job.date}
-                                            year={job.time}
-                                            company={job.company}
-                                            location={job.location}
-                                            image={job.logo}
-                                            position={job.position}
-                                            summary={job.summary}
-                                        />
-                                    ))}
-                                </div>
+                        <div>
+                            <h1 className='mb-5 text-lg'>EXPERIENCE</h1>
+                            <div className='flex flex-col space-y-5'>
+                                {jobsData.map((job, index) => (
+                                    <JobCard
+                                        key={index}
+                                        date={job.date}
+                                        year={job.time}
+                                        company={job.company}
+                                        location={job.location}
+                                        image={job.logo}
+                                        position={job.position}
+                                        summary={job.summary}
+                                    />
+                                ))}
                             </div>
-
-
                         </div>
                     </section>
                 </section>
-
             </main>
         </div>
     );
