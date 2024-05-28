@@ -1,40 +1,48 @@
-import Image from 'next/image'
-import { Inter, Signika, Konkhmer_Sleokchher } from 'next/font/google'
-import Head from 'next/head'
+import Image from 'next/image';
+import { Inter, Signika, Konkhmer_Sleokchher } from 'next/font/google';
+import Head from 'next/head';
 
-const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] })
+// Load the Konkhmer font with specified weight and subsets
+const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
 
-
+/**
+ * Home component for the portfolio website.
+ * Renders the main page with navigation and introductory text.
+ */
 export default function Home() {
   return (
-    <main className={`${Konkhmer.className}`}>
+    <main className={Konkhmer.className}>
       <Head>
         <title>Robert Johnson</title>
         <meta name="description" content="My Portfolio Website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <main className={`container mx-auto flex justify-center ${Konkhmer.className}`}>
-        <header className={`px-5 sm:px-0 h-screen flex flex-col justify-center`}>
-          <div className='flex flex-col'>
-            <nav className={`item`}>
-              <a href='/projects'>Projects</a>
-              <a href='/contact'>Contact</a>
-              <a href='/experience'>Experience</a>
+      <div className={`container mx-auto flex justify-center ${Konkhmer.className}`}>
+        <header className="px-5 sm:px-0 h-screen flex flex-col justify-center">
+          <div className="flex flex-col">
+            {/* Navigation menu */}
+            <nav className="item">
+              <a href="/projects">Projects</a>
+              <a href="/contact">Contact</a>
+              <a href="/experience">Experience</a>
             </nav>
 
-            <div class="code-text base">
-              <a className={`text-2xl md:text-4xl unselectable text-white place-content-center`}>making <span class="gradient">things</span> better</a>
+            {/* Main text content */}
+            <div className="code-text base">
+              <a className="text-2xl md:text-4xl unselectable text-white place-content-center">
+                making <span className="gradient">things</span> better
+              </a>
             </div>
 
-            <nav className={`item`}>
+            {/* Additional information */}
+            <nav className="item">
               <p>Robert Johnson</p>
               <p>19 yr</p>
             </nav>
           </div>
         </header>
-      </main>
-
+      </div>
     </main>
-  )
+  );
 }

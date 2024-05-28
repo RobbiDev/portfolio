@@ -7,24 +7,26 @@ import jobsData from '@/data/jobs.json';
 // Define fonts with specific configurations
 import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
-const PrimaryFont = Roboto({ weight: ["400"], subsets: ['latin'] });
+const primary = Roboto({ weight: ["700"], subsets: ['latin'] });
+const secondary = Roboto({ weight: ["400"], subsets: ['latin'] });
+const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
 
 
 
 /**
- * Home component for displaying categorized job listings.
+ * Experience component for displaying categorized job listings.
  * @component
- * @returns {JSX.Element} Home component
+ * @returns {JSX.Element} Experience component
  */
 export default function Home() {
     return (
         <div>
             <Head>
-                <title>Projects | Robert Johnson</title>
+                <title>Experience | Robert Johnson</title>
                 <meta name="description" content="My Portfolio Website" />
             </Head>
 
-            <main className={`container mx-auto ${Konkhmer.className} px-5 pb-10`}>
+            <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
                 {/* Header section */}
                 <header className='flex flex-col md:flex-row text-lg py-10 items-center sm:justify-between text-white border-b-white'>
                     <div className='text-gray-400'>
