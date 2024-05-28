@@ -3,10 +3,13 @@ import Head from 'next/head';
 import JobCard from '@/components/JobCard';
 import jobsData from '@/data/jobs.json';
 
+
 // Define fonts with specific configurations
 import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
 const PrimaryFont = Roboto({ weight: ["400"], subsets: ['latin'] });
+
+
 
 /**
  * Home component for displaying categorized job listings.
