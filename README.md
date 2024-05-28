@@ -19,7 +19,7 @@
 
 # Welcome 👋
 
-Welcome to my portfolio repository! Here, you'll find the code and assets for my professional portfolio website. Coding has been my passion since I was 9 years old—I vividly remember what started it all and it as accidentally discovering what the inspect button did on Coolmath Games! 😄
+Welcome to my portfolio repository! Here, you'll find the code and assets for my professional portfolio website. Coding has been my passion since I was 9 years old—I vividly remember what started it all and it was accidentally discovering what the inspect button did on Coolmath Games! 😄
 
 This portfolio marks my first step in showcasing my work. As a full-stack engineer, I excel in backend development while continuously refining my frontend design skills. While I acknowledge areas for improvement in design, I'm dedicated to honing these skills with each project.
 
