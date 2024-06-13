@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <a href="#gh-light-mode-only">
+  <a>
     <img src="https://github.com/RobbiDev/portfolio/blob/main/assets/home.png" alt="logo" width="100%" height="auto" />
   </a>
 </p>
