@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       from: process.env.GMAIL_USER,
       to: email,
       subject: 'Confirmation: I\'ve received your message',
-      text: `Hi ${name},\n\nThank you for reaching out and connecting with me! I appreciate you taking the time to get in touch.\n\nI will review your message and get back to you as soon as possible. If you have any urgent matters, please feel free to reach out to me directly at [your contact information].\n\nBest regards,\n\nRobert (Robby) Johnson`,
+      text: `Hi ${name},\n\nThank you for reaching out and connecting with me! I appreciate you taking the time to get in touch.\n\nI will review your message and get back to you as soon as possible. If you have any urgent matters, please feel free to reach out to me directly on linkedin.\n\nBest regards,\n\nRobert (Robby) Johnson`,
     };
 
     
