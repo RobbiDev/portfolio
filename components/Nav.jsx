@@ -1,20 +1,33 @@
 import { useState } from 'react';
 
-
 /**
  * Navbar component for displaying categorized job listings.
  * @component
  * @param {string} page - Makes the navbar show the proper oppsite page name 
  * @returns {JSX.Element} Navbar component
  */
-export default function Navbar({ nextPage, currentPage }) {
+export default function Navbar({ currentPage }) {
 
     const [isOpen, setIsOpen] = useState(false);
-    const link = `/${nextPage}`.toLocaleLowerCase()
+
+    const pages = {
+        home: "Home",
+        experience: "Experience",
+        contact: "Contact",
+        projects: "Projects"
+    };
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    function removeCurrentpage(currentPage) {
+        const array = Object.values(pages);
+        const index = array.indexOf(currentPage);
+
+        array.splice(index, 1)
+        return array
+    }
 
     return (
         <header className='py-7 border-b-2 border-zinc-800 mb-10'>
@@ -36,15 +49,11 @@ export default function Navbar({ nextPage, currentPage }) {
                 </button>
                 <div className={`md:flex flex-row w-full md:w-auto ${isOpen ? '' : 'hidden'}`} id="navbar-default">
                     <ul className="font-medium flex flex-row pt-4 md:p-0 space-x-5 border-t-2 border-zinc-800 md:border-0 pt-7 mt-7 justify-center  md:space-x-8  md:mt-0 text-gray-400 ">
-                        <li>
-                            <a href="/" className="" aria-current="page">Home</a>
-                        </li>
-                        <li>
-                            <a href={link} className="">{nextPage}</a>
-                        </li>
-                        <li>
-                            <a href="/contact" className="">Contact</a>
-                        </li>
+                        {removeCurrentpage(currentPage).map((page, index) => (
+                            <li>
+                                <a href={`/${page.toLowerCase()}`} className="" aria-current="page">{page}</a>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

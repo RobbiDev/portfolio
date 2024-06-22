@@ -20,8 +20,7 @@ const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
  */
 export default function Home() {
     
-    const nextPage = 'Projects';
-    const currentPage = 'experience'
+    const currentPage = 'Experience'
 
     return (
         <div>
@@ -32,7 +31,7 @@ export default function Home() {
 
             <main className={`container mx-auto ${primary.className} px-5 pb-10`}>
                 {/* NavBar section */}
-                <Navbar nextPage={nextPage} currentPage={currentPage} />
+                <Navbar currentPage={currentPage} />
 
                 <section className='flex flex-col lg:flex-row lg:space-x-5'>
                     {/* About section */}

@@ -10,8 +10,8 @@ import projects from '@/data/projects.json'
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
 
 export default function Home() {
-    const nextPage = 'Experience';
-    const currentPage = 'projects'
+    
+    const currentPage = 'Projects'
 
     // Filter projects where pinned is true
     const pinnedProjects = projects.filter(project => project.pinned);
@@ -24,7 +24,7 @@ export default function Home() {
             </Head>
 
             <main className={`container mx-auto ${Konkhmer.className} px-5 pb-10`}>
-                <Navbar nextPage={nextPage} currentPage={currentPage} />
+                <Navbar currentPage={currentPage} />
 
                 {/* Pinned Projects Section */}
                 <section className='flex flex-col lg:grid grid-cols-2 grid-row-1 gap-2'>
