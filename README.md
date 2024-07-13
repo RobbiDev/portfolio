@@ -48,6 +48,7 @@ Future updates for Version 2.0 may include:
     Enhanced UI/UX improvements.
     Integration of additional project details and case studies.
     Dynamic content loading using server-side rendering.
+    Creation of my own Blog called "Things"
 
 Your feedback and suggestions are welcome to improve this portfolio!
 
