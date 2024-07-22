@@ -1,9 +1,9 @@
 // General Imports
-import Head from 'next/head'; // For modifying the head of the HTML document
-import { Konkhmer_Sleokchher, Roboto } from 'next/font/google'; // For importing Google fonts
-import Navbar from '@/components/Nav'; // Custom Navbar component
-import { useState } from 'react'; // React hook for state management
-import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa'; // FontAwesome icons
+import Head from 'next/head';
+import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
+import Navbar from '@/components/Nav';
+import { useState } from 'react';
+import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
 
 // Define fonts with specific configurations
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
@@ -22,6 +22,9 @@ export default function Home() {
         message: '',
     });
 
+    // State for managing form submission
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     // Handle input changes and update form data state
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -34,6 +37,7 @@ export default function Home() {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true); // Disable the button
         const response = await fetch('/api/email-handler', {
             method: 'POST',
             headers: {
@@ -49,6 +53,8 @@ export default function Home() {
         } else {
             alert(data.error);
         }
+
+        setIsSubmitting(false); // Re-enable the button
 
         // Reload the page after form submission
         window.location.reload();
@@ -69,18 +75,20 @@ export default function Home() {
                     <div className='flex flex-col space-y-8'>
                         <div className='flex flex-col text-left space-y-5'>
                             <h2 className="text-white text-3xl font-bold">Contact Me!</h2>
-                            <p className="text-lg text-zinc-400">I'm excited to connect! Whether you're interested in discussing potential job opportunities, freelance work, or just want to network, feel free to reach out.</p>
+                            <p className="text-lg text-zinc-400">
+                                I'm excited to connect! Whether you're interested in discussing potential job opportunities, freelance work, or just want to network, feel free to reach out.
+                            </p>
                         </div>
 
                         <form action="#" onSubmit={handleSubmit} className="space-y-6 w-full flex flex-col">
-
                             <div className="flex flex-col">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">Your email</label>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
-                                    autocomplete="off"
+                                    required="true"
+                                    autoComplete='off'
                                     onChange={handleChange}
                                     className="p-2 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
@@ -91,23 +99,30 @@ export default function Home() {
                                     type="text"
                                     name="name"
                                     value={formData.name}
-                                    autocomplete="off"
+                                    required="true"
+                                    autoComplete='off'
                                     onChange={handleChange}
                                     className="p-2 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
-
                             <div className="flex flex-col">
                                 <label className="block mb-2 text-sm font-medium text-gray-300">Message</label>
                                 <textarea
                                     name="message"
                                     value={formData.message}
-                                    autocomplete="off"
+                                    required="true"
+                                    autoComplete='off'
                                     onChange={handleChange}
                                     className="p-2 h-32 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
-                            <button type="submit" className="py-2 px-4 bg-gradient text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">Send message</button>
+                            <button
+                                type="submit"
+                                className="py-2 px-4 bg-gradient text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+                                disabled={isSubmitting} // Disable the button when submitting
+                            >
+                                {isSubmitting ? 'Sending...' : 'Send message'} {/* Change button text when submitting */}
+                            </button>
                         </form>
 
                         <div className='flex flex-row space-x-4'>
