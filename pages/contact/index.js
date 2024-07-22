@@ -1,9 +1,9 @@
 // General Imports
-import Head from 'next/head';
-import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
-import Navbar from '@/components/Nav';
-import { useState } from 'react';
-import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
+import Head from 'next/head'; // For modifying the head of the HTML document
+import { Konkhmer_Sleokchher, Roboto } from 'next/font/google'; // For importing Google fonts
+import Navbar from '@/components/Nav'; // Custom Navbar component
+import { useState } from 'react'; // React hook for state management
+import { FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa'; // FontAwesome icons
 
 // Define fonts with specific configurations
 const Konkhmer = Konkhmer_Sleokchher({ weight: ["400"], subsets: ['latin'] });
@@ -12,15 +12,17 @@ const secondary = Roboto({ weight: ["400"], subsets: ['latin'] });
 const tertiary = Roboto({ weight: ["400"], subsets: ['latin'] });
 
 export default function Home() {
-
+    // Set the current page for the Navbar
     const currentPage = 'Contact';
 
+    // State for form data
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
     });
 
+    // Handle input changes and update form data state
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -29,6 +31,7 @@ export default function Home() {
         });
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch('/api/email-handler', {
@@ -46,6 +49,9 @@ export default function Home() {
         } else {
             alert(data.error);
         }
+
+        // Reload the page after form submission
+        window.location.reload();
     };
 
     return (
