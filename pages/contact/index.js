@@ -80,6 +80,7 @@ export default function Home() {
                                     type="email"
                                     name="email"
                                     value={formData.email}
+                                    autocomplete="off"
                                     onChange={handleChange}
                                     className="p-2 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
@@ -90,6 +91,7 @@ export default function Home() {
                                     type="text"
                                     name="name"
                                     value={formData.name}
+                                    autocomplete="off"
                                     onChange={handleChange}
                                     className="p-2 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
@@ -100,6 +102,7 @@ export default function Home() {
                                 <textarea
                                     name="message"
                                     value={formData.message}
+                                    autocomplete="off"
                                     onChange={handleChange}
                                     className="p-2 h-32 rounded-lg bg-[#222222] text-white border border-gray-600 focus:ring-2 focus:ring-blue-500"
                                 />
