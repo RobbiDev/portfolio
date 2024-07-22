@@ -39,8 +39,7 @@ export default function Home() {
             body: JSON.stringify(formData),
         });
 
-        const data = await response.json(); // Parse the JSON response
-
+        const data = await response.json();
 
         if (response.ok) {
             alert('Message sent!');

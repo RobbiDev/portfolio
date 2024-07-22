@@ -33,13 +33,12 @@ export default async function handler(req, res) {
 
 
     try {
-      await transporter.sendMail(mailOptionsForYou);
-      await transporter.sendMail(mailOptionsForSender);
       const receiving = process.env.RECEIVING
-      console.log(receiving)
       if (receiving == "false") {
         return res.status(404).json({ error: "Form is Currently Not Accepting any more submissions. Thank you for taking your time and please try again later!" });
       } else {
+        await transporter.sendMail(mailOptionsForYou);
+        await transporter.sendMail(mailOptionsForSender);
         res.status(200).json({ success: true });
       }
     } catch (error) {
