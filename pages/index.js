@@ -30,9 +30,9 @@ export default function Home() {
 
             {/* Main text content */}
             <div className="code-text base">
-              <a className="text-2xl md:text-4xl unselectable text-white place-content-center">
-                making <span className="gradient">things</span> better
-              </a>
+              <div className="text-2xl md:text-4xl unselectable text-white place-content-center">
+                making <a href="https://blog.robbyj.dev" target="_blank" className="gradient">things</a> better
+              </div>
             </div>
 
             {/* Additional information */}
