@@ -33,7 +33,7 @@ export default function Navbar({ currentPage }) {
         <header className='py-7 border-b-2 border-zinc-800 mb-10'>
             <div className='flex flex-wrap items-center md:flex-row text-lg justify-between text-white '>
                 <div className='text-gray-400'>
-                    <a href='/' className=''>making/things/better<span className='gradient'>/{currentPage}</span></a>
+                    <a href='/' className=''>making/things/better<span className='gradient'>/{currentPage.toLocaleLowerCase()}</span></a>
                 </div>
                 <button
                     onClick={toggleMenu}
