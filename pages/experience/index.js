@@ -4,7 +4,7 @@ import { Konkhmer_Sleokchher, Roboto } from 'next/font/google';
 import JobCard from '@/components/JobCard';
 import jobsData from '@/data/jobs.json';
 
-// Component Imports
+// Component Import
 import Navbar from '@/components/Nav';
 
 // Define fonts with specific configurations
