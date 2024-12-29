@@ -82,4 +82,5 @@ html {
 
 .animate-expand-line {
   animation: expand-line 2s ease-in-out forwards;
+  animation-delay: .6s
 }

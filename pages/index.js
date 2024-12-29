@@ -5,7 +5,7 @@ import RMATA from "../assets/RMATA.svg"; // Replace this with the path to your i
 
 export default function Home() {
   
-  const [dimensions, setDimensions] = useState({ width: 200, height: 200 });
+  const [dimensions, setDimensions] = useState({ width: 170, height: 170 });
 
   useEffect(() => {
     // Update dimensions based on window size
@@ -14,7 +14,7 @@ export default function Home() {
       if (width < 640) {
         setDimensions({ width: 150, height: 150 }); // Small screens
       } else if (width < 768) {
-        setDimensions({ width: 200, height: 200 }); // Medium screens
+        setDimensions({ width: 170, height: 170 }); // Medium screens
       }
     };
 
@@ -33,7 +33,7 @@ export default function Home() {
       </Head>
 
       {/* Main Container */}
-      <div className="flex justify-center items-center h-screen overflow-hidden relative home-bg-mobile sm:home-bg">
+      <div className="flex justify-center items-center h-screen overflow-hidden relative home-bg-mobile sm:home-bg bg-opacity-0">
         {/* Logo and Lines */}
         <div className="relative flex flex-col items-center">
           {/* Logo */}
