@@ -32,6 +32,9 @@ html {
   .home-bg {
     background-image: url('../assets/bg.png');
   }
+  .home-bg-mobile {
+    background-image: url('../assets/bg-mobile.png');
+  }
 }
 .code-text {
   font-family: 'Courier Prime', monospace;

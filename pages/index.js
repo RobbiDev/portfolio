@@ -33,7 +33,7 @@ export default function Home() {
       </Head>
 
       {/* Main Container */}
-      <div className="flex justify-center items-center h-screen overflow-hidden relative sm:home-bg">
+      <div className="flex justify-center items-center h-screen overflow-hidden relative home-bg-mobile sm:home-bg">
         {/* Logo and Lines */}
         <div className="relative flex flex-col items-center">
           {/* Logo */}
