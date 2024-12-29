@@ -28,10 +28,11 @@ html {
 
 }
 
-.home-bg {
-  background-image: url('../assets/bg.png');
+@layer utilities {
+  .home-bg {
+    background-image: url('../assets/bg.png');
+  }
 }
-
 .code-text {
   font-family: 'Courier Prime', monospace;
 }
