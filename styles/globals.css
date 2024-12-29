@@ -3,21 +3,33 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+/* FONT */
+
+.font-geist {
+  font-family: "Geist", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: heavy;
+}
+
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   #safari {
-    background-color: #222222
+    background-color: #303030
   }
 }
 
-* {
-  background-color: rgb(34, 34, 34);
+
+
+html {
+  background-color: black;
 
 }
 
-html {
-  background-color: rgb(34, 34, 34);
-
+.home-bg {
+  background-image: url('../assets/bg.png');
 }
 
 .code-text {
@@ -53,4 +65,17 @@ html {
   display: flex;
   justify-content: space-between;
   @apply px-5 py-2 text-gray-300;
+}
+
+@keyframes expand-line {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100vw;
+  }
+}
+
+.animate-expand-line {
+  animation: expand-line 2s ease-in-out forwards;
 }
