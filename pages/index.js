@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import RMATA from "../assets/rmata.svg"; // Replace this with the path to your image
+import RMATA from "../assets/RMATA.svg"; // Replace this with the path to your image
 
 export default function Home() {
   return (
