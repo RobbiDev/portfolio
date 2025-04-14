@@ -80,7 +80,7 @@ const GlitchText = ({ text, onClick }: { text: string; onClick: () => void }) =>
       onClick={onClick}
     >
       {/* Original text */}
-      <span className={isHovering ? "opacity-0" : ""}>{text}</span>
+      <span className={isHovering ? "opacity-0" : "text-lime-400"}>{text}</span>
 
       {/* Glitch layers - only visible on hover */}
       {isHovering && (
@@ -191,7 +191,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative max-h-screen">
       {/* Futuristic Background */}
       <FuturisticBackground />
 
@@ -205,7 +205,7 @@ export default function Home() {
             className="max-w-4xl mx-auto text-center space-y-8"
           >
             <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
-              PORTFOLIO // CREATIVE DEVELOPER
+              PORTFOLIO // FULL-STACK DEVELOPER
             </div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -213,7 +213,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-5xl md:text-7xl font-bold tracking-tighter"
             >
-              SHAPE THE <GlitchText text="FUTURE" onClick={handleGlitchClick} /> OF DIGITAL EXPERIENCES
+              MAKING <GlitchText text="THINGS" onClick={handleGlitchClick} /> BETTER
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -246,18 +246,9 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center z-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={loaded ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-xs font-mono text-neutral-400">SCROLL DOWN</span>
-            <div className="h-10 w-[1px] bg-lime-400/50"></div>
-          </motion.div>
-        </div>
       </div>
+
+      
     </div>
   )
 }

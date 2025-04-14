@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { Mail, Linkedin, Github, Send, Lock, Clock } from "lucide-react"
 import PageHeader from "@/components/page-header"
 import GridBackground from "@/components/grid-background"
+import Footer from "@/components/footer"
 
 // Interface for submission tracking
 interface SubmissionTracker {
@@ -172,8 +173,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-sm text-neutral-400">Email</p>
-                  <a href="mailto:hello@example.com" className="hover:text-lime-400 transition-colors">
-                    hello@example.com
+                  <a href="mailto:me@robbyj.dev" target="_blank" className="hover:text-lime-400 transition-colors">
+                    me@robbyj.dev
                   </a>
                 </div>
               </div>
@@ -184,12 +185,12 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm text-neutral-400">LinkedIn</p>
                   <a
-                    href="https://linkedin.com"
+                    href="https://linkedin.com/in/robby-johnson/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-lime-400 transition-colors"
                   >
-                    linkedin.com/in/username
+                    linkedin.com/in/robby-johnson/
                   </a>
                 </div>
               </div>
@@ -200,19 +201,19 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm text-neutral-400">GitHub</p>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/RobbiDev"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-lime-400 transition-colors"
                   >
-                    github.com/username
+                    github.com/RobbiDev
                   </a>
                 </div>
               </div>
             </div>
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
               <h3 className="font-bold text-xl mb-4">Location</h3>
-              <p className="text-neutral-400 mb-2">Based in San Francisco, California</p>
+              <p className="text-neutral-400 mb-2">Based in Greensboro, North Carolina</p>
               <p className="text-neutral-400">Available for remote work worldwide</p>
             </div>
 
@@ -346,6 +347,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   )
 }

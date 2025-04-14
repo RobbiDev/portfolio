@@ -17,9 +17,8 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Portfolio | Modern Developer",
-  description: "A modern portfolio website showcasing development projects and skills",
-    generator: 'v0.dev'
+  title: "Robert Johnson | Portfolio",
+  description: "Robert Johnson's Portfolio"
 }
 
 export default function RootLayout({
@@ -33,7 +32,6 @@ export default function RootLayout({
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navigation />
           <main className="flex-1">{children}</main>
-          <Footer />
         </div>
       </body>
     </html>
