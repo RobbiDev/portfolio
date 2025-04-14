@@ -1,0 +1,234 @@
+import { notFound } from "next/navigation"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowLeft, ExternalLink, Github } from "lucide-react"
+import GridBackground from "@/components/grid-background"
+import Markdown from "@/components/markdown"
+import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects"
+
+export async function generateStaticParams() {
+  const slugs = getAllProjectSlugs()
+  console.log("Generated static params for project slugs:", slugs)
+  return slugs.map((slug) => ({ slug }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+
+  let awaitparams = await params
+
+  const project = getProjectBySlug(awaitparams.slug)
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    }
+  }
+
+  return {
+    title: `${project.title} | Portfolio`,
+    description: project.summary,
+  }
+}
+
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
+  let project = null
+  let errorMessage = null
+  let awaitparams = await params
+
+  try {
+    project = getProjectBySlug(awaitparams.slug)
+    console.log("Retrieved project:", project ? project.title : "Not found")
+
+    if (!project) {
+      notFound()
+    }
+  } catch (error) {
+    console.error(`Error fetching project with slug ${params.slug}:`, error)
+    errorMessage = "Failed to load project details. Please try again later."
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="relative min-h-screen">
+        <GridBackground />
+        <div className="relative z-10 container py-16 md:py-24">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+          >
+            <ArrowLeft className="h-4 w-4" /> BACK TO PROJECTS
+          </Link>
+
+          <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
+            <h3 className="text-xl font-bold mb-4">Error</h3>
+            <p className="text-neutral-400">{errorMessage}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative min-h-screen">
+      <GridBackground />
+      <div className="relative z-10 container py-16 md:py-24">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" /> BACK TO PROJECTS
+        </Link>
+
+        <div className="grid gap-12">
+          {/* Project Header */}
+          <div className="grid gap-8 md:grid-cols-2 items-center">
+            <div className="space-y-6">
+              <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
+                {project.category}
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">{project.title}</h1>
+              <p className="text-neutral-400 text-lg">{project.summary}</p>
+              <div className="flex flex-wrap gap-4">
+                {project.liveUrl && (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 font-medium transition-colors"
+                  >
+                    VIEW LIVE <ExternalLink className="h-4 w-4" />
+                  </Link>
+                )}
+                {project.githubUrl && (
+                  <Link
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-lime-400/20 hover:bg-black/50 px-4 py-2 font-medium transition-colors"
+                  >
+                    VIEW CODE <Github className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
+            </div>
+            <div className="relative aspect-video bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden">
+              <Image
+                src={project.coverImage || "/placeholder.svg?height=600&width=800&query=project"}
+                alt={project.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Project Details */}
+          <div className="grid gap-12 md:grid-cols-[2fr_1fr]">
+            <div className="space-y-8">
+              {project.content && (
+                <div className="prose prose-invert prose-lime max-w-none">
+                  <Markdown content={project.content} />
+                </div>
+              )}
+
+              {project.images && project.images.length > 0 && (
+                <div className="space-y-6 mt-12">
+                  <h2 className="text-2xl font-bold">Project Gallery</h2>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {project.images.map((image, index) => (
+                      <div
+                        key={index}
+                        className="relative aspect-video bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
+                      >
+                        <Image
+                          src={image.url || "/placeholder.svg"}
+                          alt={image.caption || `${project.title} screenshot ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-8">
+              <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
+                <h2 className="text-xl font-bold mb-4">Project Details</h2>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-sm font-mono text-neutral-400">CLIENT</h3>
+                    <p>{project.client || "Personal Project"}</p>
+                  </div>
+                  {project.timeline && (
+                    <div>
+                      <h3 className="text-sm font-mono text-neutral-400">TIMELINE</h3>
+                      <p>{project.timeline}</p>
+                    </div>
+                  )}
+                  {project.role && (
+                    <div>
+                      <h3 className="text-sm font-mono text-neutral-400">ROLE</h3>
+                      <p>{project.role}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
+                <h2 className="text-xl font-bold mb-4">Technologies</h2>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies &&
+                    project.technologies.map((tech, index) => (
+                      <span key={index} className="text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono">
+                        {tech}
+                      </span>
+                    ))}
+                </div>
+              </div>
+
+              {project.features && project.features.length > 0 && (
+                <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
+                  <h2 className="text-xl font-bold mb-4">Key Features</h2>
+                  <ul className="space-y-2">
+                    {project.features.map((feature, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <div className="h-2 w-2 rounded-full bg-lime-400 mt-2"></div>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Next/Previous Projects */}
+          {project.relatedProjects && project.relatedProjects.length > 0 && (
+            <div className="mt-12 pt-12 border-t border-neutral-800">
+              <h2 className="text-2xl font-bold mb-6">More Projects</h2>
+              <div className="grid gap-6 md:grid-cols-2">
+                {project.relatedProjects.map((relatedProject, index) => (
+                  <Link
+                    key={index}
+                    href={`/projects/${relatedProject.slug}`}
+                    className="group bg-black/30 backdrop-blur-sm border border-neutral-800 p-6 hover:border-lime-400/30 transition-colors"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="h-2 w-2 rounded-full bg-lime-400"></div>
+                      <span className="text-xs font-mono text-neutral-400">{relatedProject.category}</span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-lime-400 transition-colors">
+                      {relatedProject.title}
+                    </h3>
+                    <p className="text-sm text-neutral-400">{relatedProject.summary}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

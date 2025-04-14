@@ -1,0 +1,328 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: 255, 255, 255;
+  --background: 0, 0, 0;
+  --accent: 163, 230, 53;
+  --glitch-blue: 62, 0, 254;
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans;
+  }
+
+  .font-mono {
+    @apply font-space-mono;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Code syntax highlighting */
+code[class*="language-"],
+pre[class*="language-"] {
+  @apply text-neutral-200;
+}
+
+.language-javascript .token.keyword,
+.language-typescript .token.keyword,
+.language-jsx .token.keyword,
+.language-tsx .token.keyword {
+  @apply text-lime-400;
+}
+
+.language-javascript .token.string,
+.language-typescript .token.string,
+.language-jsx .token.string,
+.language-tsx .token.string {
+  @apply text-amber-300;
+}
+
+.language-javascript .token.function,
+.language-typescript .token.function,
+.language-jsx .token.function,
+.language-tsx .token.function {
+  @apply text-blue-400;
+}
+
+.language-javascript .token.comment,
+.language-typescript .token.comment,
+.language-jsx .token.comment,
+.language-tsx .token.comment {
+  @apply text-neutral-500;
+}
+
+.language-javascript .token.number,
+.language-typescript .token.number,
+.language-jsx .token.number,
+.language-tsx .token.number {
+  @apply text-purple-400;
+}
+
+.language-javascript .token.operator,
+.language-typescript .token.operator,
+.language-jsx .token.operator,
+.language-tsx .token.operator {
+  @apply text-neutral-300;
+}
+
+.language-javascript .token.punctuation,
+.language-typescript .token.punctuation,
+.language-jsx .token.punctuation,
+.language-tsx .token.punctuation {
+  @apply text-neutral-400;
+}
+
+.language-javascript .token.boolean,
+.language-typescript .token.boolean,
+.language-jsx .token.boolean,
+.language-tsx .token.boolean {
+  @apply text-orange-400;
+}
+
+.language-javascript .token.property,
+.language-typescript .token.property,
+.language-jsx .token.property,
+.language-tsx .token.property {
+  @apply text-cyan-300;
+}
+
+.language-javascript .token.tag,
+.language-typescript .token.tag,
+.language-jsx .token.tag,
+.language-tsx .token.tag {
+  @apply text-red-400;
+}
+
+.language-javascript .token.attr-name,
+.language-typescript .token.attr-name,
+.language-jsx .token.attr-name,
+.language-tsx .token.attr-name {
+  @apply text-lime-300;
+}
+
+.language-javascript .token.attr-value,
+.language-typescript .token.attr-value,
+.language-jsx .token.attr-value,
+.language-tsx .token.attr-value {
+  @apply text-amber-300;
+}
+
+/* Glitch animations */
+@keyframes glitch-1 {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-5px, 5px);
+  }
+  40% {
+    transform: translate(-5px, -5px);
+  }
+  60% {
+    transform: translate(5px, 5px);
+  }
+  80% {
+    transform: translate(5px, -5px);
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(5px, 5px);
+  }
+  40% {
+    transform: translate(5px, -5px);
+  }
+  60% {
+    transform: translate(-5px, 5px);
+  }
+  80% {
+    transform: translate(-5px, -5px);
+  }
+}
+
+@keyframes glitch-3 {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(3px, -3px);
+  }
+  40% {
+    transform: translate(3px, 3px);
+  }
+  60% {
+    transform: translate(-3px, -3px);
+  }
+  80% {
+    transform: translate(-3px, 3px);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
+  }
+}
+
+.animate-glitch-1 {
+  animation: glitch-1 0.2s infinite;
+}
+
+.animate-glitch-2 {
+  animation: glitch-2 0.3s infinite;
+}
+
+.animate-glitch-3 {
+  animation: glitch-3 0.25s infinite;
+}
+
+.animate-flicker {
+  animation: flicker 0.3s infinite;
+}
+
+/* System error page styles */
+.glitch-line {
+  position: absolute;
+  background: rgba(62, 0, 254, 0.2);
+  height: 1px;
+  width: 100%;
+  transform-origin: left;
+  animation: glitch-line 3s infinite alternate;
+}
+
+@keyframes glitch-line {
+  0% {
+    transform: scaleX(0);
+  }
+  10% {
+    transform: scaleX(1);
+  }
+  90% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/* About page animations */
+@keyframes scan-line {
+  0% {
+    top: -10%;
+  }
+  100% {
+    top: 110%;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 2s linear infinite;
+}
+
+@keyframes data-flow {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.animate-data-flow {
+  animation: data-flow 15s linear infinite;
+}
+
+/* Skill card hover effects */
+.skill-card-hover {
+  transition: all 0.3s ease;
+}
+
+.skill-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.5);
+}
