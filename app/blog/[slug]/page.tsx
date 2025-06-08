@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Calendar, User, Tag } from "lucide-react"
+import { ArrowLeft, Calendar, User, Tag, Folder } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
+import Gallery from "@/components/gallery"
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog"
 
 export async function generateStaticParams() {
@@ -12,10 +13,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  
-  let awaitparams = await params
-  
-  const post = getBlogPostBySlug(awaitparams.slug)
+  const post = getBlogPostBySlug(params.slug)
 
   if (!post) {
     return {
@@ -29,14 +27,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  console.log("Rendering blog post page for slug:", params.slug)
 
   let post = null
   let errorMessage = null
-  let awaitparams = await params
 
   try {
-    post = getBlogPostBySlug(awaitparams.slug)
+    post = getBlogPostBySlug(params.slug)
     console.log("Retrieved blog post:", post ? post.title : "Not found")
 
     if (!post) {
@@ -83,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <header className="mb-8 pb-8 border-b border-neutral-800">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">{post.title}</h1>
 
-            <div className="flex flex-wrap gap-6 text-sm text-neutral-400">
+            <div className="flex flex-wrap gap-6 text-sm text-neutral-400 mb-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-lime-400" />
                 <time dateTime={post.date}>
@@ -98,10 +96,21 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 <User className="h-4 w-4 text-lime-400" />
                 <span>{post.author}</span>
               </div>
+              {post.category && (
+                <div className="flex items-center gap-2">
+                  <Folder className="h-4 w-4 text-lime-400" />
+                  <Link
+                    href={`/blog/category/${post.category.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="hover:text-lime-400 transition-colors"
+                  >
+                    {post.category}
+                  </Link>
+                </div>
+              )}
             </div>
 
             {post.tags && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, tagIndex) => (
                   <div
                     key={tagIndex}
@@ -118,6 +127,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="prose prose-invert prose-lime max-w-none">
             <Markdown content={post.content} />
           </div>
+
+          {/* Gallery Section - Only show if gallery exists */}
+          {post.gallery && post.gallery.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-neutral-800">
+              <Gallery images={post.gallery} title="Article Gallery" />
+            </div>
+          )}
         </article>
       </div>
     </div>

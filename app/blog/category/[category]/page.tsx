@@ -1,22 +1,53 @@
+import { notFound } from "next/navigation"
 import Link from "next/link"
-import { Calendar, User, Tag, Folder } from "lucide-react"
+import { ArrowLeft, Calendar, User, Tag, Folder } from "lucide-react"
 import PageHeader from "@/components/page-header"
 import GridBackground from "@/components/grid-background"
 import CategoryFilter from "@/components/category-filter"
-import { getAllBlogPosts, getBlogCategories } from "@/lib/blog"
+import { getBlogPostsByCategory, getBlogCategories } from "@/lib/blog"
 
-export default async function BlogPage() {
+export async function generateStaticParams() {
+  const categories = await getBlogCategories()
+  return categories.map((category) => ({
+    category: category.slug,
+  }))
+}
+
+export async function generateMetadata({ params }: { params: { category: string } }) {
+  const categories = await getBlogCategories()
+  const category = categories.find((cat) => cat.slug === params.category)
+
+  if (!category) {
+    return {
+      title: "Category Not Found",
+    }
+  }
+
+  return {
+    title: `${category.name} | Blog`,
+    description: `Blog posts in the ${category.name} category`,
+  }
+}
+
+export default async function BlogCategoryPage({ params }: { params: { category: string } }) {
   let posts = []
   let categories = []
+  let categoryName = ""
   let errorMessage = null
 
   try {
-    posts = await getAllBlogPosts()
+    posts = await getBlogPostsByCategory(params.category)
     categories = await getBlogCategories()
-    console.log("Blog page loaded posts:", posts.length)
-    console.log("Blog categories:", categories)
+
+    const category = categories.find((cat) => cat.slug === params.category)
+    if (!category) {
+      notFound()
+    }
+
+    categoryName = category.name
+    console.log(`Blog category page loaded ${posts.length} posts for category: ${categoryName}`)
   } catch (error) {
-    console.error("Error fetching blog posts:", error)
+    console.error("Error fetching blog posts by category:", error)
     errorMessage = "Failed to load blog posts. Please try again later."
   }
 
@@ -24,13 +55,25 @@ export default async function BlogPage() {
     <div className="relative min-h-screen">
       <GridBackground />
       <div className="relative z-10 container py-16 md:py-24">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" /> BACK TO ALL POSTS
+        </Link>
+
         <PageHeader
-          title="BLOG"
-          subtitle="Thoughts, insights, and updates on web development, design, and technology."
+          title={`${categoryName.toUpperCase()} POSTS`}
+          subtitle={`Explore all blog posts in the ${categoryName} category.`}
         />
 
         <div className="mt-16">
-          <CategoryFilter categories={categories} basePath="/blog" title="Categories" />
+          <CategoryFilter
+            categories={categories}
+            currentCategory={params.category}
+            basePath="/blog"
+            title="Categories"
+          />
 
           {errorMessage ? (
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
@@ -39,10 +82,8 @@ export default async function BlogPage() {
             </div>
           ) : posts.length === 0 ? (
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
-              <h3 className="text-xl font-bold mb-4">No blog posts found</h3>
-              <p className="text-neutral-400">
-                Blog posts will appear here once they are added to the content/blog directory.
-              </p>
+              <h3 className="text-xl font-bold mb-4">No posts found</h3>
+              <p className="text-neutral-400">No blog posts found in the {categoryName} category.</p>
             </div>
           ) : (
             <div className="grid gap-12">
@@ -67,17 +108,10 @@ export default async function BlogPage() {
                         <User className="h-4 w-4 text-lime-400" />
                         <span>{post.author}</span>
                       </div>
-                      {post.category && (
-                        <div className="flex items-center gap-2">
-                          <Folder className="h-4 w-4 text-lime-400" />
-                          <Link
-                            href={`/blog/category/${post.category.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="hover:text-lime-400 transition-colors"
-                          >
-                            {post.category}
-                          </Link>
-                        </div>
-                      )}
+                      <div className="flex items-center gap-2">
+                        <Folder className="h-4 w-4 text-lime-400" />
+                        <span>{post.category}</span>
+                      </div>
                     </div>
 
                     <Link href={`/blog/${post.slug}`}>

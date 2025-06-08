@@ -76,47 +76,7 @@ export default function FuturisticBackground() {
       lines.push(line)
     }
 
-    // Add text coordinates
-    const createTextSprite = (text: string, position: THREE.Vector3) => {
-      const canvas = document.createElement("canvas")
-      const context = canvas.getContext("2d")
-      if (!context) return
 
-      canvas.width = 256
-      canvas.height = 128
-
-      context.font = "12px monospace"
-      context.fillStyle = "rgba(163, 230, 53, 0.5)"
-      context.fillText(text, 0, 20)
-      context.fillText("SYSTEM.STATUS", 0, 40)
-      context.fillText("COORDINATES (X,Y)", 0, 60)
-
-      const texture = new THREE.CanvasTexture(canvas)
-
-      const spriteMaterial = new THREE.SpriteMaterial({
-        map: texture,
-        transparent: true,
-        opacity: 0.7,
-      })
-
-      const sprite = new THREE.Sprite(spriteMaterial)
-      sprite.position.copy(position)
-      sprite.scale.set(2, 1, 1)
-
-      scene.add(sprite)
-      return sprite
-    }
-
-    const textSprites = []
-    for (let i = 0; i < 10; i++) {
-      const position = new THREE.Vector3(
-        (Math.random() - 0.5) * 15,
-        (Math.random() - 0.5) * 5,
-        (Math.random() - 0.5) * 15,
-      )
-      const sprite = createTextSprite(`DEV.PATH ${Math.floor(Math.random() * 100)}`, position)
-      if (sprite) textSprites.push(sprite)
-    }
 
     // Animation
     let mouseX = 0

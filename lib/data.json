@@ -1,0 +1,11 @@
+{
+    "info": {
+        "first": "Robert",
+        "last": "Johnson",
+        "age": 20,
+        "email": "me@robbyj.dev",
+        "linkedin": "https://www.linkedin.com/in/robby-johnson//",
+        "github": "https://github.com/RobbiDev",
+        "location": "Greensboro, North Carolina"
+    }
+}

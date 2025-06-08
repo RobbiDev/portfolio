@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
-import FuturisticBackground from "@/components/futuristic-background"
+import FuturisticBackground from "@/components/background"
 import { useRouter } from "next/navigation"
 
 // Enhanced Glitch Text Component

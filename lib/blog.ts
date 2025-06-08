@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import type { GalleryImage, Category } from "./types"
 
 // Define the blog post type
 export interface BlogPost {
@@ -11,6 +12,8 @@ export interface BlogPost {
   content: string
   coverImage?: string
   tags?: string[]
+  category?: string
+  gallery?: GalleryImage[]
 }
 
 // Get all blog post slugs
@@ -71,6 +74,16 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     const blogDirectory = path.join(process.cwd(), "content", "blog")
     console.log("Getting all blog posts from:", blogDirectory)
 
+    // Check if directory exists
+    if (!fs.existsSync(blogDirectory)) {
+      console.warn("Blog directory does not exist:", blogDirectory)
+      // Create the directory structure if it doesn't exist
+      fs.mkdirSync(blogDirectory, { recursive: true })
+
+      // Add sample blog posts if none exist
+      createSampleBlogPosts(blogDirectory)
+    }
+
     const fileNames = fs.readdirSync(blogDirectory)
     console.log("Found blog files for processing:", fileNames)
 
@@ -88,6 +101,39 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     console.error("Error reading blog directory:", error)
     return []
   }
+}
+
+// Get blog posts by category
+export async function getBlogPostsByCategory(category: string): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts()
+  return posts.filter((post) => post.category?.toLowerCase().replace(/\s+/g, "-") === category.toLowerCase())
+}
+
+// Get all blog categories
+export async function getBlogCategories(): Promise<Category[]> {
+  const posts = await getAllBlogPosts()
+  const categoryMap = new Map<string, { name: string; count: number }>()
+
+  posts.forEach((post) => {
+    if (post.category) {
+      const categorySlug = post.category.toLowerCase().replace(/\s+/g, "-")
+      const existing = categoryMap.get(categorySlug)
+      if (existing) {
+        existing.count += 1
+      } else {
+        categoryMap.set(categorySlug, {
+          name: post.category,
+          count: 1,
+        })
+      }
+    }
+  })
+
+  return Array.from(categoryMap.entries()).map(([slug, { name, count }]) => ({
+    name,
+    slug,
+    count,
+  }))
 }
 
 // Helper function to process blog files
@@ -171,6 +217,24 @@ function createSampleBlogPosts(blogDirectory: string): void {
       author: "John Doe",
       excerpt: "Learn how to set up a new project with React and TypeScript for type-safe development.",
       tags: ["React", "TypeScript", "Web Development"],
+      category: "Development",
+      gallery: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Setting up a new React TypeScript project",
+          alt: "React TypeScript project setup screenshot",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "TypeScript configuration file",
+          alt: "TypeScript config file",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Example React component with TypeScript",
+          alt: "React component code example",
+        },
+      ],
       content: `# Getting Started with React and TypeScript
 
 React and TypeScript are a powerful combination for building robust web applications. TypeScript adds static type checking to JavaScript, which can help catch errors early and improve developer productivity.
@@ -184,6 +248,8 @@ npx create-react-app my-app --template typescript
 \`\`\`
 
 This will set up a new React project with TypeScript configuration already in place.
+
+![Project Setup](/placeholder.svg?height=300&width=500&query=React project structure)
 
 ## Basic TypeScript with React
 
@@ -236,6 +302,8 @@ export default Button;
 3. **Improved Refactoring**: Make changes with confidence
 4. **Self-Documenting Code**: Types serve as documentation
 
+![TypeScript Benefits](/placeholder.svg?height=300&width=500&query=TypeScript benefits diagram)
+
 ## Next Steps
 
 Once you have your project set up, you might want to explore:
@@ -254,6 +322,24 @@ Happy coding!`,
       excerpt:
         "Explore key principles and best practices for creating user interfaces that are both beautiful and functional.",
       tags: ["UI/UX", "Design", "User Experience"],
+      category: "Design",
+      gallery: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Core principles of effective UI design",
+          alt: "UI design principles infographic",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Color theory application in UI design",
+          alt: "Color theory examples",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Typography hierarchy examples",
+          alt: "Typography hierarchy demonstration",
+        },
+      ],
       content: `# Designing Effective User Interfaces
 
 Creating user interfaces that are both aesthetically pleasing and highly functional requires a deep understanding of design principles and user psychology.
@@ -288,6 +374,8 @@ Color choices significantly impact how users perceive and interact with your int
   --dark: #34495e;
 }
 \`\`\`
+
+![Color Palette Example](/placeholder.svg?height=200&width=600&query=UI color palette)
 
 ## Typography Guidelines
 
@@ -336,6 +424,24 @@ Remember, great UI design is invisible—it gets out of the user's way and lets 
       excerpt:
         "Discover how Next.js enables server-side rendering for React applications and why it matters for performance and SEO.",
       tags: ["Next.js", "React", "SSR", "Performance"],
+      category: "Development",
+      gallery: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Server-side rendering flow in Next.js",
+          alt: "Next.js SSR diagram",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Comparison between SSR and CSR performance",
+          alt: "SSR vs CSR comparison chart",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Typical Next.js application structure",
+          alt: "Next.js folder structure",
+        },
+      ],
       content: `# Introduction to Server-Side Rendering with Next.js
 
 Next.js has revolutionized how developers build React applications by providing an elegant solution for server-side rendering (SSR), static site generation (SSG), and more.
@@ -458,13 +564,13 @@ Whether you're building a blog, e-commerce site, or complex web application, Nex
     },
   ]
 
+  // Ensure the directory exists
+  if (!fs.existsSync(blogDirectory)) {
+    fs.mkdirSync(blogDirectory, { recursive: true })
+  }
+
   // Create sample blog post files
   try {
-    // Ensure the directory exists
-    if (!fs.existsSync(blogDirectory)) {
-      fs.mkdirSync(blogDirectory, { recursive: true })
-    }
-
     samplePosts.forEach((post, index) => {
       try {
         const { content, ...metadata } = post

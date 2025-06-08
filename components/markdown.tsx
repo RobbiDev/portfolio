@@ -1,6 +1,8 @@
 "use client"
 
-import type React from "react"
+import React from "react"
+
+import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 
@@ -18,25 +20,30 @@ const Markdown: React.FC<MarkdownProps> = ({ content }) => {
         h3: ({ node, ...props }) => <h3 className="text-xl font-bold mt-6 mb-3" {...props} />,
         h4: ({ node, ...props }) => <h4 className="text-lg font-bold mt-4 mb-2" {...props} />,
         p: ({ node, children, ...props }) => {
-          const childArray = Array.isArray(children) ? children : [children]
+          // Check if this paragraph contains only an image
+          const childrenArray = React.Children.toArray(children)
 
-          const onlyText = childArray.every(
-            (child) =>
-              typeof child === "string" ||
-              (typeof child === "object" &&
-                child !== null &&
-                "type" in child &&
-                (child as any).type === "code")
-          )
+          // More robust check for image-only paragraphs
+          const hasOnlyImageContent =
+            childrenArray.every((child) => {
+              if (typeof child === "string") {
+                return child.trim() === ""
+              }
+              if (React.isValidElement(child)) {
+                return child.type === "img"
+              }
+              return false
+            }) && childrenArray.some((child) => React.isValidElement(child) && child.type === "img")
 
-          return onlyText ? (
+          // If it contains only an image (and whitespace), don't wrap in a paragraph
+          if (hasOnlyImageContent) {
+            return <>{children}</>
+          }
+
+          return (
             <p className="mb-4 text-neutral-300" {...props}>
               {children}
             </p>
-          ) : (
-            <div className="mb-4 text-neutral-300" {...props}>
-              {children}
-            </div>
           )
         },
         a: ({ node, ...props }) => <a className="text-lime-400 hover:underline" {...props} />,
@@ -50,7 +57,30 @@ const Markdown: React.FC<MarkdownProps> = ({ content }) => {
         blockquote: ({ node, ...props }) => (
           <blockquote className="border-l-4 border-lime-400 pl-4 italic my-4 text-neutral-400" {...props} />
         ),
-        img: ({ node, ...props }) => <img className="max-w-full h-auto my-6 rounded" {...props} />,
+        img: ({ node, src, alt, ...props }) => {
+          if (!src) return null
+
+          return (
+            <div className="my-6 w-full">
+              <div className="relative w-full h-[400px] bg-neutral-900 border border-neutral-800 rounded overflow-hidden">
+                <Image
+                  src={src || "/placeholder.svg"}
+                  alt={alt || "Image"}
+                  fill
+                  className="object-contain" // Changed from object-cover to object-contain
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                  unoptimized={src.includes("placeholder.svg")}
+                  onError={(e) => {
+                    console.error("Image failed to load:", src)
+                    // Fallback to placeholder if image fails to load
+                    e.currentTarget.src = "/placeholder.svg?height=400&width=800"
+                  }}
+                />
+              </div>
+              {alt && <div className="text-sm text-neutral-400 mt-2 italic text-center">{alt}</div>}
+            </div>
+          )
+        },
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "")
           return !inline ? (

@@ -3,10 +3,9 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { ArrowRight, Code, User, Server, Lightbulb, ExternalLink } from "lucide-react"
+import { ArrowRight, Network, Code, Server, ExternalLink, Shield, Settings, MonitorSpeaker } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 
 // Glitch Text Component for Headings
@@ -246,84 +245,6 @@ const TimelineItem = ({ experience, index }: { experience: any; index: number })
   )
 }
 
-// Interactive Profile Image Component
-const ProfileImage = () => {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <motion.div
-      className="relative aspect-square md:aspect-auto md:h-[500px] bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
-      whileHover={{ borderColor: "rgba(59, 130, 246, 0.5)" }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-    >
-      <Image
-        src="/future-code.png"
-        alt="Developer portrait"
-        fill
-        className={`object-cover transition-all duration-700 ${isHovered ? "scale-110 filter hue-rotate-15" : ""}`}
-      />
-
-      {/* Overlay effects */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-
-      {/* Scan line effect on hover */}
-      {isHovered && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="absolute left-0 right-0 h-[2px] bg-blue-500/50"
-            initial={{ top: "-10%" }}
-            animate={{ top: "110%" }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatType: "loop" }}
-          />
-        </motion.div>
-      )}
-
-      {/* Data readout */}
-      <div className="absolute bottom-4 left-4 right-4 font-mono text-xs text-neutral-400">
-        <div className="flex items-center gap-2">
-          <div className={`h-2 w-2 rounded-full ${isHovered ? "bg-blue-500" : "bg-lime-400"} animate-pulse`}></div>
-          <motion.div
-            animate={isHovered ? { opacity: [1, 0.5, 1] } : {}}
-            transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-          >
-            DEVELOPER PROFILE // {isHovered ? "SCANNING" : "SKILLS OPTIMIZED"}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Data points that appear on hover */}
-      <AnimatePresence>
-        {isHovered && (
-          <>
-            {[1, 2, 3, 4].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute font-mono text-[10px] bg-black/50 border border-blue-500/30 px-1 py-0.5 text-blue-500"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: i * 0.1 }}
-                style={{
-                  top: `${20 + i * 15}%`,
-                  left: `${10 + (i % 2) * 50}%`,
-                }}
-              >
-                DATA_POINT_{i + 1}
-              </motion.div>
-            ))}
-          </>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
-}
-
 export default function AboutPage() {
   const { scrollYProgress } = useScroll()
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.5])
@@ -368,7 +289,7 @@ export default function AboutPage() {
           transition={{ duration: 0.5 }}
           className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 mb-4"
         >
-          ABOUT ME
+          IT PROFESSIONAL
         </motion.div>
 
         <motion.h1
@@ -377,7 +298,7 @@ export default function AboutPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6"
         >
-          <GlitchHeading text="ABOUT ME" />
+          <GlitchHeading text="ROBERT JOHNSON" />
         </motion.h1>
 
         <motion.p
@@ -386,88 +307,183 @@ export default function AboutPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-neutral-400 text-lg max-w-3xl"
         >
-          Learn more about my background, skills, and approach to development.
+          Specializing in networking infrastructure, software engineering, and system control technologies.
         </motion.p>
 
         <div className="grid gap-16 mt-16">
           <motion.div
-            className="grid gap-12 md:grid-cols-2 items-center"
+            className="space-y-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <ProfileImage />
+            {/* Enhanced Hero Section */}
+            <div className="bg-black/40 backdrop-blur-md border border-neutral-800 p-8 md:p-12 relative overflow-hidden">
+              {/* Animated background elements */}
+              <div className="absolute inset-0 opacity-10 pointer-events-none">
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute bg-lime-400/20 rounded-full"
+                    style={{
+                      width: Math.random() * 4 + 1,
+                      height: Math.random() * 4 + 1,
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                      y: [0, -20, 0],
+                      opacity: [0.3, 0.8, 0.3],
+                    }}
+                    transition={{
+                      duration: 3 + Math.random() * 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      delay: Math.random() * 2,
+                    }}
+                  />
+                ))}
+              </div>
 
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
-              >
-                BIOGRAPHY
-              </motion.div>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-3xl md:text-4xl font-bold tracking-tighter"
-              >
-                CRAFTING DIGITAL <span className="text-lime-400">EXPERIENCES</span>
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="text-neutral-400"
-              >
-                I'm a passionate developer with expertise in creating modern, responsive web applications. With a strong
-                foundation in both frontend and backend technologies, I bring ideas to life through clean code and
-                thoughtful design.
-              </motion.p>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="text-neutral-400"
-              >
-                My approach combines technical excellence with creative problem-solving, ensuring that every project I
-                work on delivers exceptional results. I believe in continuous learning and staying up-to-date with the
-                latest technologies and best practices.
-              </motion.p>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="text-neutral-400"
-              >
-                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
-                or sharing my knowledge through writing and mentoring.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <Link
-                  href="/resume.pdf"
-                  className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-lime-400/20 hover:bg-black/50 hover:border-blue-500/50 px-4 py-2 font-medium transition-colors group"
+              <div className="relative z-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 mb-6"
                 >
-                  DOWNLOAD RESUME
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
+                  IT SYSTEMS SPECIALIST
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-3xl md:text-4xl font-bold tracking-tighter mb-6"
+                >
+                  BUILDING RELIABLE <span className="text-lime-400">IT SOLUTIONS</span>
+                </motion.h2>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                      className="text-neutral-400"
+                    >
+                      I'm an IT professional with expertise in network infrastructure, software engineering, and system
+                      control technologies. My focus is on designing and implementing reliable IT solutions that meet
+                      business needs while maintaining security and performance.
+                    </motion.p>
+
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7 }}
+                      className="text-neutral-400"
+                    >
+                      With a background spanning enterprise networking and industrial systems, I bring a comprehensive
+                      approach to IT challenges, combining technical knowledge with practical problem-solving skills.
+                    </motion.p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 }}
+                      className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
+                    >
+                      <Network className="h-6 w-6 text-lime-400" />
+                      <div>
+                        <div className="font-mono text-sm text-lime-400">SPECIALIZATION</div>
+                        <div className="text-xl font-bold">Networking</div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.9 }}
+                      className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
+                    >
+                      <Server className="h-6 w-6 text-lime-400" />
+                      <div>
+                        <div className="font-mono text-sm text-lime-400">EXPERTISE</div>
+                        <div className="text-xl font-bold">System Control</div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1.0 }}
+                      className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
+                    >
+                      <Shield className="h-6 w-6 text-lime-400" />
+                      <div>
+                        <div className="font-mono text-sm text-lime-400">FOCUS</div>
+                        <div className="text-xl font-bold">Security & Reliability</div>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 }}
+                  className="mt-8"
+                >
+                  <Link
+                    href="/resume.pdf"
+                    className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-6 py-3 font-medium transition-colors group"
+                  >
+                    DOWNLOAD RESUME
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Philosophy Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 md:p-12"
+            >
+              <h3 className="text-2xl font-bold mb-6">Professional Approach</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                    <Shield className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold mb-2">Security First</h4>
+                  <p className="text-sm text-neutral-400">
+                    Implementing robust security measures at every layer of the infrastructure.
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                    <Network className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold mb-2">Scalable Design</h4>
+                  <p className="text-sm text-neutral-400">
+                    Building systems that grow with business needs and adapt to changing requirements.
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                    <Settings className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold mb-2">Continuous Improvement</h4>
+                  <p className="text-sm text-neutral-400">
+                    Regularly evaluating and enhancing systems to improve efficiency and performance.
+                  </p>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
 
@@ -485,7 +501,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
             >
-              SKILLS & EXPERTISE
+              TECHNICAL EXPERTISE
             </motion.div>
 
             <motion.h2
@@ -495,7 +511,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl md:text-4xl font-bold tracking-tighter"
             >
-              TECHNICAL <GlitchHeading text="CAPABILITIES" />
+              CORE <GlitchHeading text="COMPETENCIES" />
             </motion.h2>
 
             <motion.div
@@ -506,44 +522,54 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <SkillCard
+                icon={<Network className="h-5 w-5 text-black" />}
+                title="Networking"
+                skills={[
+                  "Cisco & Juniper",
+                  "VLAN & MPLS",
+                  "BGP & OSPF",
+                  "Network Security",
+                  "SD-WAN",
+                  "Troubleshooting",
+                ]}
+              />
+
+              <SkillCard
                 icon={<Code className="h-5 w-5 text-black" />}
-                title="Frontend"
-                skills={["React & Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Redux & Zustand"]}
+                title="Software Engineering"
+                skills={[
+                  "Python & C++",
+                  "System Architecture",
+                  "API Development",
+                  "Database Design",
+                  "Version Control",
+                  "Testing & Debugging",
+                ]}
+              />
+
+              <SkillCard
+                icon={<MonitorSpeaker className="h-5 w-5 text-black" />}
+                title="System Control"
+                skills={[
+                  "SCADA Systems",
+                  "PLC Programming",
+                  "Industrial Protocols",
+                  "Process Automation",
+                  "HMI Development",
+                  "Control Systems",
+                ]}
               />
 
               <SkillCard
                 icon={<Server className="h-5 w-5 text-black" />}
-                title="Backend"
+                title="Infrastructure"
                 skills={[
-                  "Node.js & Express",
-                  "PostgreSQL & MongoDB",
-                  "Prisma & Mongoose",
-                  "GraphQL",
-                  "REST API Design",
-                ]}
-              />
-
-              <SkillCard
-                icon={<User className="h-5 w-5 text-black" />}
-                title="Design"
-                skills={[
-                  "UI/UX Design",
-                  "Figma & Adobe XD",
-                  "Responsive Design",
-                  "Design Systems",
-                  "Accessibility (WCAG)",
-                ]}
-              />
-
-              <SkillCard
-                icon={<Lightbulb className="h-5 w-5 text-black" />}
-                title="Other"
-                skills={[
-                  "Git & GitHub",
-                  "CI/CD Pipelines",
-                  "Docker & Kubernetes",
-                  "AWS & Vercel",
-                  "Testing (Jest, Cypress)",
+                  "VMware & Hyper-V",
+                  "Linux & Windows Server",
+                  "Cloud Services",
+                  "Backup Solutions",
+                  "Monitoring Tools",
+                  "Disaster Recovery",
                 ]}
               />
             </motion.div>
@@ -563,7 +589,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
             >
-              EXPERIENCE
+              PROFESSIONAL EXPERIENCE
             </motion.div>
 
             <motion.h2
@@ -573,7 +599,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl md:text-4xl font-bold tracking-tighter"
             >
-              PROFESSIONAL <GlitchHeading text="JOURNEY" />
+              CAREER <GlitchHeading text="HIGHLIGHTS" />
             </motion.h2>
 
             <div className="space-y-8">
@@ -608,7 +634,8 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+              I'm available to discuss IT projects, infrastructure challenges, or opportunities to optimize your
+              systems.
             </motion.p>
 
             <motion.div
@@ -635,30 +662,50 @@ export default function AboutPage() {
 
 const experiences = [
   {
-    title: "Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    location: "SAN FRANCISCO, CA",
-    period: "2021 - PRESENT",
+    title: "IT & Network/Controls Engineer",
+    company: "Imaflex Inc",
+    location: "THOMASVILLE, NC",
+    period: "MAY 2025 – PRESENT",
     description:
-      "Led the development of the company's flagship product, a SaaS platform for data analytics. Implemented new features, improved performance, and mentored junior developers.",
-    technologies: ["React", "TypeScript", "Next.js", "GraphQL", "Tailwind CSS"],
+      "Manage IT infrastructure and network systems in a manufacturing environment. Support PLC control systems and assist with industrial automation. Troubleshoot production tech issues and lead integration of new control systems.",
+    technologies: [
+      "PLC Systems",
+      "Network Infrastructure",
+      "Industrial Automation",
+      "System Integration",
+      "Troubleshooting",
+    ],
   },
   {
-    title: "Full Stack Developer",
-    company: "Digital Solutions",
-    location: "REMOTE",
-    period: "2018 - 2021",
+    title: "Software Engineering Intern",
+    company: "Virtuollis",
+    location: "REMOTE (ONTARIO, CANADA)",
+    period: "JAN 2024 – APR 2024",
     description:
-      "Developed and maintained multiple client projects, from e-commerce platforms to custom web applications. Worked closely with designers and product managers to deliver high-quality solutions.",
-    technologies: ["Node.js", "Express", "MongoDB", "React", "Redux", "SCSS"],
+      "Assisted in developing IT and printing solutions for client businesses. Helped define software requirements and worked with internet protocol systems. Collaborated on frontend tools for automation and client service apps.",
+    technologies: [
+      "JavaScript",
+      "Internet Protocol (IP)",
+      "Requirement Analysis",
+      "Frontend Development",
+      "Automation Tools",
+    ],
   },
   {
-    title: "Junior Web Developer",
-    company: "Creative Agency",
-    location: "NEW YORK, NY",
-    period: "2016 - 2018",
+    title: "BOH Supervisor & IT Specialist",
+    company: "Chick-fil-A",
+    location: "GRANDOVER VILLAGE, NC",
+    period: "JUN 2023 – NOV 2023",
     description:
-      "Created responsive websites and interactive web applications for various clients. Collaborated with the design team to implement pixel-perfect interfaces.",
-    technologies: ["JavaScript", "HTML", "CSS", "jQuery", "PHP", "WordPress"],
+      "Managed BOH operations and food prep logistics. Handled restaurant IT issues including POS and hardware. Created internal time-tracking systems for kitchen task compliance.",
+    technologies: [
+      "Team Leadership",
+      "Microsoft Word",
+      "Hardware Troubleshooting",
+      "Food Prep Systems",
+      "Time Tracking Tools",
+    ],
   },
-]
+];
+
+

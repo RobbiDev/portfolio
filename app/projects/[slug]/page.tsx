@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink, Github } from "lucide-react"
+import { ArrowLeft, ExternalLink, Github, Folder } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
+import Gallery from "@/components/gallery"
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects"
 
 export async function generateStaticParams() {
@@ -13,10 +14,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-
-  let awaitparams = await params
-
-  const project = getProjectBySlug(awaitparams.slug)
+  const project = getProjectBySlug(params.slug)
 
   if (!project) {
     return {
@@ -30,13 +28,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
+export default function ProjectPage({ params }: { params: { slug: string } }) {
   let project = null
   let errorMessage = null
-  let awaitparams = await params
 
   try {
-    project = getProjectBySlug(awaitparams.slug)
+    project = getProjectBySlug(params.slug)
     console.log("Retrieved project:", project ? project.title : "Not found")
 
     if (!project) {
@@ -83,8 +80,14 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           {/* Project Header */}
           <div className="grid gap-8 md:grid-cols-2 items-center">
             <div className="space-y-6">
-              <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
-                {project.category}
+              <div className="flex items-center gap-2">
+                <Folder className="h-4 w-4 text-lime-400" />
+                <Link
+                  href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 hover:border-lime-400/50 transition-colors"
+                >
+                  {project.category}
+                </Link>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">{project.title}</h1>
               <p className="text-neutral-400 text-lg">{project.summary}</p>
@@ -130,24 +133,17 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 </div>
               )}
 
-              {project.images && project.images.length > 0 && (
-                <div className="space-y-6 mt-12">
-                  <h2 className="text-2xl font-bold">Project Gallery</h2>
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {project.images.map((image, index) => (
-                      <div
-                        key={index}
-                        className="relative aspect-video bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
-                      >
-                        <Image
-                          src={image.url || "/placeholder.svg"}
-                          alt={image.caption || `${project.title} screenshot ${index + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
+              {/* Project Gallery - Show if gallery exists */}
+              {project.gallery && project.gallery.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-neutral-800">
+                  <Gallery images={project.gallery} title="Project Gallery" />
+                </div>
+              )}
+
+              {/* Project Images - Show if images exist but no gallery */}
+              {!project.gallery && project.images && project.images.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-neutral-800">
+                  <Gallery images={project.images} title="Project Images" />
                 </div>
               )}
             </div>
@@ -172,6 +168,15 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                       <p>{project.role}</p>
                     </div>
                   )}
+                  <div>
+                    <h3 className="text-sm font-mono text-neutral-400">CATEGORY</h3>
+                    <Link
+                      href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
+                      className="text-lime-400 hover:text-lime-300 transition-colors"
+                    >
+                      {project.category}
+                    </Link>
+                  </div>
                 </div>
               </div>
 

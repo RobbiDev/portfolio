@@ -1,34 +1,21 @@
 ===
 {
-  "title": "SafelySDS",
+  "title": "KitchenWatch",
   "summary": "SafelySDS is a web-based application built to help businesses store, manage, and access Safety Data Sheets (SDS) in a secure and organized manner.",
   "category": "SOFTWARE DEVELOPMENT",
   "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
-  "coverImage": "/safelysds.png",
+  "coverImage": "/kitchenwatch.jpg",
   "client": "Virtuollis Internal Project",
   "timeline": "January 2025 - March 2025",
-  "role": "Software Engineer Intern",
-  "liveUrl": "https://safelysds.com",
+  "role": "Lead Developer",
+  "liveUrl": "https://safelysds.app",
+  "githubUrl": "https://github.com/username/safelysds",
   "features": [
     "Secure PDF upload and storage",
     "Advanced search with filters",
     "Responsive design",
     "Azure Blob integration",
     "Authentication and role-based access"
-  ],
-  "gallery": [
-    {
-      "url": "/placeholder.svg?height=800&width=1200",
-      "caption": "Main interface showing clean design",
-      "alt": "Project interface",
-      "title": "Main Interface"
-    },
-    {
-      "url": "/placeholder.svg?height=800&width=1200",
-      "caption": "Mobile view of the application",
-      "alt": "Mobile view",
-      "title": "Mobile Experience"
-    }
   ]
 }
 ===
@@ -49,7 +36,8 @@ The system made document retrieval over **4x faster**, eliminated cluttered fili
 - 100% user satisfaction among internal testers
 - Transition-ready for external clients
 
-![Image](../../public/digital-grid-neon.png)
+<img herf="../../public/digital-grid-neon.png"></img>
+
 
 ## Challenges and Solutions
 

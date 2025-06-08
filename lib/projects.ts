@@ -1,6 +1,6 @@
-
 import fs from "fs"
 import path from "path"
+import type { Category, GalleryImage } from "./types"
 
 // Define the project type
 export interface Project {
@@ -17,7 +17,8 @@ export interface Project {
   liveUrl?: string
   githubUrl?: string
   features?: string[]
-  images?: { url: string; caption: string }[]
+  images?: GalleryImage[] // Updated to use GalleryImage type
+  gallery?: GalleryImage[] // Added gallery support
   relatedProjects?: { slug: string; title: string; category: string; summary: string }[]
 }
 
@@ -108,6 +109,37 @@ export async function getAllProjects(): Promise<Project[]> {
   }
 }
 
+// Get projects by category
+export async function getProjectsByCategory(category: string): Promise<Project[]> {
+  const projects = await getAllProjects()
+  return projects.filter((project) => project.category.toLowerCase().replace(/\s+/g, "-") === category.toLowerCase())
+}
+
+// Get all project categories
+export async function getProjectCategories(): Promise<Category[]> {
+  const projects = await getAllProjects()
+  const categoryMap = new Map<string, { name: string; count: number }>()
+
+  projects.forEach((project) => {
+    const categorySlug = project.category.toLowerCase().replace(/\s+/g, "-")
+    const existing = categoryMap.get(categorySlug)
+    if (existing) {
+      existing.count += 1
+    } else {
+      categoryMap.set(categorySlug, {
+        name: project.category,
+        count: 1,
+      })
+    }
+  })
+
+  return Array.from(categoryMap.entries()).map(([slug, { name, count }]) => ({
+    name,
+    slug,
+    count,
+  }))
+}
+
 // Helper function to process project files
 function processProjectFiles(fileNames: string[], projectsDirectory: string): Project[] {
   try {
@@ -196,7 +228,7 @@ function createSampleProjects(projectsDirectory: string): void {
       summary:
         "A modern e-commerce platform with advanced filtering and search capabilities. Built with performance and user experience in mind, this project showcases my ability to create complex, interactive web applications.",
       coverImage: "/dark-minimalist-shop.png",
-      category: "WEB DEVELOPMENT",
+      category: "Web Development",
       technologies: ["React", "Next.js", "Node.js", "Express", "PostgreSQL", "Prisma", "Stripe", "Tailwind CSS"],
       features: [
         "Advanced search and filtering",
@@ -209,6 +241,45 @@ function createSampleProjects(projectsDirectory: string): void {
       role: "Lead Developer",
       liveUrl: "https://example-ecommerce.com",
       githubUrl: "https://github.com/username/ecommerce-platform",
+      images: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Homepage with featured products and search functionality",
+          alt: "E-commerce homepage design",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Product catalog with advanced filtering options",
+          alt: "Product catalog interface",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Shopping cart and checkout process",
+          alt: "Shopping cart interface",
+        },
+      ],
+      gallery: [
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Admin dashboard for inventory management",
+          alt: "Admin dashboard interface",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Mobile app interface showing product browsing",
+          alt: "Mobile app interface",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Sales analytics and reporting dashboard",
+          alt: "Analytics dashboard",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Detailed product page with reviews",
+          alt: "Product detail page",
+        },
+      ],
       content: `# E-Commerce Platform
 
 This project is a full-featured e-commerce platform built with modern web technologies. The goal was to create a fast, responsive, and user-friendly shopping experience that could scale to handle thousands of products and users.
@@ -221,6 +292,8 @@ The main challenge was building a system that could handle complex filtering and
 - Optimized database queries with Prisma
 - Client-side caching strategy for frequent operations
 - Lazy loading and virtualization for product listings
+
+![Architecture Diagram](/placeholder.svg?height=300&width=500&query=ecommerce architecture)
 
 ## Implementation Details
 
@@ -276,16 +349,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 }
 \`\`\`
 
+![Cart Interface](/placeholder.svg?height=300&width=500&query=shopping cart interface)
+
 ## Results
 
-The platform has processed over 10,000 orders since launch, with an average page load time of under 2 seconds. The client reported a 35% increase in conversion rate compared to their previous solution.`,
+The platform has processed over 10,000 orders since launch, with an average page load time of under 2 seconds. The client reported a 35% increase in conversion rate compared to their previous solution.
+
+### Key Metrics
+
+- **Performance**: 95+ Lighthouse score
+- **Conversion Rate**: 35% improvement
+- **Load Time**: Under 2 seconds average
+- **User Satisfaction**: 4.8/5 rating`,
     },
     {
       title: "Portfolio Dashboard",
       summary:
         "Interactive dashboard for tracking and visualizing investment portfolio performance. Features real-time data updates, customizable charts, and comprehensive analytics to help users make informed investment decisions.",
       coverImage: "/financial-dashboard-overview.png",
-      category: "DATA VISUALIZATION",
+      category: "Data Visualization",
       technologies: ["TypeScript", "React", "D3.js", "Firebase", "Node.js", "Express", "MongoDB"],
       features: [
         "Real-time data synchronization",
@@ -297,7 +379,41 @@ The platform has processed over 10,000 orders since launch, with an average page
       timeline: "March 2021 - December 2021",
       role: "Full Stack Developer",
       liveUrl: "https://portfolio-dashboard-demo.com",
-      githubUrl: "https://github.com/username/portfolio-dashboard",
+      // No githubUrl to demonstrate optional button
+      images: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Main dashboard with portfolio overview and key metrics",
+          alt: "Financial dashboard overview",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Interactive performance charts with customizable time ranges",
+          alt: "Performance charts interface",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Asset allocation visualization with drill-down capabilities",
+          alt: "Asset allocation chart",
+        },
+      ],
+      gallery: [
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Risk analysis dashboard showing portfolio volatility",
+          alt: "Risk analysis dashboard",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Investment comparison tool with benchmark indices",
+          alt: "Investment comparison tool",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Dividend tracking and projection calculator",
+          alt: "Dividend tracker interface",
+        },
+      ],
       content: `# Portfolio Dashboard
 
 The Portfolio Dashboard is a comprehensive financial tracking application designed to help investors visualize and analyze their investment portfolios in real-time. This project combines complex data visualization with intuitive user experience to make financial data accessible and actionable.
@@ -311,6 +427,8 @@ The dashboard provides users with a comprehensive view of their investment portf
 - Risk analysis based on modern portfolio theory
 - Dividend tracking and projection
 - Benchmark comparison against major indices
+
+![Dashboard Overview](/placeholder.svg?height=300&width=500&query=portfolio dashboard main view)
 
 ## Technical Implementation
 
@@ -421,6 +539,8 @@ export function usePortfolioData(userId: string) {
 }
 \`\`\`
 
+![Real-time Updates](/placeholder.svg?height=300&width=500&query=real-time data updates)
+
 ## User Impact
 
 The dashboard has helped investors to:
@@ -437,7 +557,7 @@ The client reported that users spend an average of 15 minutes per session analyz
       summary:
         "Cross-platform mobile application for tracking workouts and nutrition. Includes features like custom workout plans, progress tracking, and social sharing to keep users motivated and engaged with their fitness goals.",
       coverImage: "/fitness-dashboard-concept.png",
-      category: "MOBILE DEVELOPMENT",
+      category: "Mobile Development",
       technologies: ["React Native", "Redux", "Node.js", "MongoDB", "Express", "JWT", "Firebase"],
       features: [
         "Personalized workout plans",
@@ -450,6 +570,55 @@ The client reported that users spend an average of 15 minutes per session analyz
       role: "Lead Mobile Developer",
       liveUrl: "https://fitnesstracker-app.com",
       githubUrl: "https://github.com/username/fitness-app",
+      images: [
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Home screen with daily workout summary and quick actions",
+          alt: "Fitness app home screen",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Workout tracking interface with exercise timer and progress",
+          alt: "Workout tracking interface",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Nutrition tracking with barcode scanner and meal logging",
+          alt: "Nutrition tracking interface",
+        },
+        {
+          url: "/placeholder.svg?height=400&width=600",
+          caption: "Progress analytics with charts and achievement tracking",
+          alt: "Fitness analytics dashboard",
+        },
+      ],
+      gallery: [
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "User onboarding flow with fitness goal selection",
+          alt: "Onboarding screens",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Exercise library with video demonstrations",
+          alt: "Exercise library",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Social feed showing friend activities and challenges",
+          alt: "Social feed interface",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Achievement system with badges and rewards",
+          alt: "Achievements screen",
+        },
+        {
+          url: "/placeholder.svg?height=800&width=1200",
+          caption: "Custom workout plan creator interface",
+          alt: "Workout plan creator",
+        },
+      ],
       content: `# Mobile Fitness App
 
 The Mobile Fitness App is a comprehensive health and wellness platform designed to help users track their fitness journey, create personalized workout routines, and monitor their nutrition. Built with React Native, this cross-platform application delivers a native-like experience on both iOS and Android devices.
@@ -463,6 +632,8 @@ The primary goals for this project were:
 3. Implement accurate nutrition tracking and meal recommendations
 4. Build a community feature for motivation and accountability
 5. Ensure data synchronization across devices
+
+![App Screenshots](/placeholder.svg?height=300&width=500&query=fitness app screenshots)
 
 ## Technical Architecture
 
@@ -530,6 +701,8 @@ The app includes an extensive exercise database with over 500 exercises, complet
 - Log custom exercises not in the database
 - View progress over time with detailed charts
 
+![Workout Interface](/placeholder.svg?height=300&width=500&query=workout tracking interface)
+
 ### Nutrition Tracking
 
 The nutrition module includes:
@@ -548,6 +721,8 @@ To keep users motivated, the app includes:
 - Achievement badges
 - Progress sharing
 
+![Social Features](/placeholder.svg?height=300&width=500&query=fitness app social features)
+
 ## Results
 
 Since launching, the app has:
@@ -557,7 +732,13 @@ Since launching, the app has:
 - Processed over 2 million workout sessions
 - Generated over $250,000 in subscription revenue
 
-User feedback has been overwhelmingly positive, with many citing the intuitive interface and personalized workout plans as key differentiators from other fitness apps.`,
+User feedback has been overwhelmingly positive, with many citing the intuitive interface and personalized workout plans as key differentiators from other fitness apps.
+
+### User Testimonials
+
+> "This app has completely transformed my fitness routine. The personalized workouts are exactly what I needed!" - Sarah M.
+
+> "The nutrition tracking is so easy to use. I love the barcode scanner feature!" - Mike R.`,
     },
   ]
 

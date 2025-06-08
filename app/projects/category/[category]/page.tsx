@@ -1,22 +1,54 @@
+import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
+import { ArrowLeft, ExternalLink } from "lucide-react"
+import PageHeader from "@/components/page-header"
 import GridBackground from "@/components/grid-background"
 import CategoryFilter from "@/components/category-filter"
-import { getAllProjects, getProjectCategories } from "@/lib/projects"
+import { getProjectsByCategory, getProjectCategories } from "@/lib/projects"
 
-export default async function ProjectsPage() {
+export async function generateStaticParams() {
+  const categories = await getProjectCategories()
+  return categories.map((category) => ({
+    category: category.slug,
+  }))
+}
+
+export async function generateMetadata({ params }: { params: { category: string } }) {
+  const categories = await getProjectCategories()
+  const category = categories.find((cat) => cat.slug === params.category)
+
+  if (!category) {
+    return {
+      title: "Category Not Found",
+    }
+  }
+
+  return {
+    title: `${category.name} Projects | Portfolio`,
+    description: `Projects in the ${category.name} category`,
+  }
+}
+
+export default async function ProjectCategoryPage({ params }: { params: { category: string } }) {
   let projects = []
   let categories = []
+  let categoryName = ""
   let errorMessage = null
 
   try {
-    projects = await getAllProjects()
+    projects = await getProjectsByCategory(params.category)
     categories = await getProjectCategories()
-    console.log("Projects page loaded projects:", projects.length)
-    console.log("Project categories:", categories)
+
+    const category = categories.find((cat) => cat.slug === params.category)
+    if (!category) {
+      notFound()
+    }
+
+    categoryName = category.name
+    console.log(`Project category page loaded ${projects.length} projects for category: ${categoryName}`)
   } catch (error) {
-    console.error("Error fetching projects:", error)
+    console.error("Error fetching projects by category:", error)
     errorMessage = "Failed to load projects. Please try again later."
   }
 
@@ -24,16 +56,25 @@ export default async function ProjectsPage() {
     <div className="relative min-h-screen">
       <GridBackground />
       <div className="relative z-10 container py-16 md:py-24">
-        <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 mb-4">
-          PROJECTS
-        </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6">PROJECTS</h1>
-        <p className="text-neutral-400 text-lg max-w-3xl">
-          A selection of my most recent work, showcasing my skills and expertise in web development and design.
-        </p>
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" /> BACK TO ALL PROJECTS
+        </Link>
+
+        <PageHeader
+          title={`${categoryName.toUpperCase()} PROJECTS`}
+          subtitle={`Explore all projects in the ${categoryName} category.`}
+        />
 
         <div className="mt-16">
-          <CategoryFilter categories={categories} basePath="/projects" title="Project Categories" />
+          <CategoryFilter
+            categories={categories}
+            currentCategory={params.category}
+            basePath="/projects"
+            title="Project Categories"
+          />
 
           {errorMessage ? (
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
@@ -43,9 +84,7 @@ export default async function ProjectsPage() {
           ) : projects.length === 0 ? (
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
               <h3 className="text-xl font-bold mb-4">No projects found</h3>
-              <p className="text-neutral-400">
-                Projects will appear here once they are added to the content/projects directory.
-              </p>
+              <p className="text-neutral-400">No projects found in the {categoryName} category.</p>
             </div>
           ) : (
             <div className="grid gap-12">
