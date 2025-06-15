@@ -63,7 +63,7 @@ const Markdown: React.FC<MarkdownProps> = ({ content }) => {
 
 
           return (
-            <div className="w-full flex justify-center px-4">
+            <div className="w-full flex justify-center">
               <div className="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl">
                 <Image
                   src={src || "/placeholder.svg"}

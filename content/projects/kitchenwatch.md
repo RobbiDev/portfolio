@@ -2,7 +2,7 @@
 {
   "title": "KitchenWatch",
   "summary": "SafelySDS is a web-based application built to help businesses store, manage, and access Safety Data Sheets (SDS) in a secure and organized manner.",
-  "category": "SOFTWARE DEVELOPMENT",
+  "category": "SOFTWARE",
   "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
   "coverImage": "/kitchenwatch.jpg",
   "client": "Virtuollis Internal Project",
