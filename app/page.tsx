@@ -205,7 +205,7 @@ export default function Home() {
             className="max-w-4xl mx-auto text-center space-y-8"
           >
             <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
-              PORTFOLIO // FULL-STACK DEVELOPER
+              PORTFOLIO // ROBERT (ROBBY) JOHNSON
             </div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -221,8 +221,8 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto"
             >
-              Crafting innovative digital solutions with a focus on clean design, performance, and exceptional user
-              experience.
+              From code to control panels — I build secure, scalable systems across software, networks, and PLCs.  
+Focused on performance, reliability, and making things better.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

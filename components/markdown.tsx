@@ -60,26 +60,33 @@ const Markdown: React.FC<MarkdownProps> = ({ content }) => {
         img: ({ node, src, alt, ...props }) => {
           if (!src) return null
 
+
+
           return (
-            <div className="my-6 w-full">
-              <div className="relative w-full h-[400px] bg-neutral-900 border border-neutral-800 rounded overflow-hidden">
+            <div className="w-full flex justify-center px-4">
+              <div className="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl">
                 <Image
                   src={src || "/placeholder.svg"}
-                  alt={alt || "Image"}
-                  fill
-                  className="object-contain" // Changed from object-cover to object-contain
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-                  unoptimized={src.includes("placeholder.svg")}
+                  alt={alt?.trim() || "Screenshot from SafelySDS interface"}
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto object-contain rounded-md shadow"
+                  quality={100}
+                  priority
                   onError={(e) => {
-                    console.error("Image failed to load:", src)
-                    // Fallback to placeholder if image fails to load
-                    e.currentTarget.src = "/placeholder.svg?height=400&width=800"
+                    console.error("Image failed to load:", src);
+                    e.currentTarget.src = "/placeholder.svg?height=400&width=800";
                   }}
                 />
+                {alt && (
+                  <div className="text-sm text-neutral-400 mt-2 italic text-center">
+                    {alt.trim()}
+                  </div>
+                )}
               </div>
-              {alt && <div className="text-sm text-neutral-400 mt-2 italic text-center">{alt}</div>}
             </div>
-          )
+          );
+
         },
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "")

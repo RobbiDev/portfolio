@@ -108,102 +108,88 @@ export default function Navigation() {
   }, [isMenuOpen])
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled || isMenuOpen ? "bg-black/90 backdrop-blur-sm border-b border-neutral-800" : "bg-transparent"
-      }`}
-    >
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center">
-            <ScrambleText text="robbyj" />
-          </Link>
+    <>
+      <header
+        className={`sticky top-0 z-[70] transition-all duration-300 ${
+          scrolled || isMenuOpen
+            ? "bg-black/90 backdrop-blur-sm border-b border-neutral-800"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center">
+              <ScrambleText text="robbyj" />
+            </Link>
+          </div>
+  
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-6">
+            <NavLink href="/" active={pathname === "/"}>HOME [+]</NavLink>
+            <NavLink href="/projects" active={pathname.startsWith("/projects")}>PROJECTS [+]</NavLink>
+            <NavLink href="/blog" active={pathname.startsWith("/blog")}>BLOG [+]</NavLink>
+            <NavLink href="/about" active={pathname === "/about"}>ABOUT [+]</NavLink>
+            <NavLink href="/contact" active={pathname === "/contact"}>CONTACT [+]</NavLink>
+          </nav>
+  
+          {/* Actions */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/contact"
+              className="hidden md:inline-flex bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 text-sm font-medium transition-colors"
+            >
+              GET IN TOUCH
+            </Link>
+            <button
+              ref={menuButtonRef}
+              onClick={() => {
+                setIsMenuOpen(!isMenuOpen)
+                document.body.style.overflow = !isMenuOpen ? "hidden" : "auto"
+              }}
+              className={`md:hidden p-2 z-[80] transition-colors ${
+                isMenuOpen
+                  ? "bg-lime-400 text-black"
+                  : "bg-black/30 backdrop-blur-sm border border-neutral-800 text-white"
+              }`}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
-        <nav className="hidden md:flex items-center gap-6">
-          <NavLink href="/" active={pathname === "/"}>
-            HOME [+]
-          </NavLink>
-          <NavLink href="/projects" active={pathname.startsWith("/projects")}>
-            PROJECTS [+]
-          </NavLink>
-          <NavLink href="/blog" active={pathname.startsWith("/blog")}>
-            BLOG [+]
-          </NavLink>
-          <NavLink href="/about" active={pathname === "/about"}>
-            ABOUT [+]
-          </NavLink>
-          <NavLink href="/contact" active={pathname === "/contact"}>
-            CONTACT [+]
-          </NavLink>
-        </nav>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 text-sm font-medium transition-colors"
-          >
-            GET IN TOUCH
-          </Link>
-          <button
-            ref={menuButtonRef}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden p-2 z-50 transition-colors ${
-              isMenuOpen
-                ? "bg-lime-400 text-black"
-                : "bg-black/30 backdrop-blur-sm border border-neutral-800 text-white"
-            }`}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu with solid background */}
+      </header>
+  
+      {/* Mobile menu - outside the header so it can layer underneath */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black/95">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black/95"></div>
-          <div className="absolute inset-0 bg-[url('/digital-grid-neon.png')] bg-cover opacity-10"></div>
-          <div className="absolute inset-0 backdrop-blur-sm"></div>
-
-          <div className="relative h-full flex flex-col pt-20">
-            <nav className="container flex-1 flex flex-col gap-4 py-8">
-              <MobileNavLink href="/" active={pathname === "/"}>
-                HOME
-              </MobileNavLink>
-              <MobileNavLink href="/projects" active={pathname.startsWith("/projects")}>
-                PROJECTS
-              </MobileNavLink>
-              <MobileNavLink href="/blog" active={pathname.startsWith("/blog")}>
-                BLOG
-              </MobileNavLink>
-              <MobileNavLink href="/about" active={pathname === "/about"}>
-                ABOUT
-              </MobileNavLink>
-              <MobileNavLink href="/contact" active={pathname === "/contact"}>
-                CONTACT
-              </MobileNavLink>
-
-              <div className="mt-auto mb-8">
-                <Link
-                  href="/contact"
-                  className="inline-flex w-full justify-center bg-lime-400 hover:bg-lime-300 text-black px-4 py-3 font-medium transition-colors"
-                >
-                  GET IN TOUCH
-                </Link>
+        <div className="fixed inset-0 z-[60] bg-black text-white flex flex-col h-screen">
+          <div className="pt-16 px-6 pb-8 flex flex-col flex-grow overflow-y-auto">
+            <MobileNavLink href="/" active={pathname === "/"}>HOME</MobileNavLink>
+            <MobileNavLink href="/projects" active={pathname.startsWith("/projects")}>PROJECTS</MobileNavLink>
+            <MobileNavLink href="/blog" active={pathname.startsWith("/blog")}>BLOG</MobileNavLink>
+            <MobileNavLink href="/about" active={pathname === "/about"}>ABOUT</MobileNavLink>
+            <MobileNavLink href="/contact" active={pathname === "/contact"}>CONTACT</MobileNavLink>
+  
+            <div className="mt-6">
+              <Link
+                href="/contact"
+                className="inline-flex w-full justify-center bg-lime-400 hover:bg-lime-300 text-black px-4 py-3 font-medium transition-colors"
+              >
+                GET IN TOUCH
+              </Link>
+            </div>
+  
+            <div className="mt-auto pt-10 text-xs font-mono text-neutral-500">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-2 w-2 rounded-full bg-lime-400 animate-pulse"></div>
+                DEVELOPER PROFILE // SKILLS OPTIMIZED
               </div>
-
-              <div className="text-xs font-mono text-neutral-500 pb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="h-2 w-2 rounded-full bg-lime-400 animate-pulse"></div>
-                  DEVELOPER PROFILE // SKILLS OPTIMIZED
-                </div>
-              </div>
-            </nav>
+            </div>
           </div>
         </div>
       )}
-    </header>
+    </>
   )
+  
 }
 
 function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {

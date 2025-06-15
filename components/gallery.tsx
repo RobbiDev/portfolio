@@ -182,40 +182,6 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
               style={{ touchAction: "manipulation" }}
             />
 
-            {/* Extra large close button - positioned for easy thumb access */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                closeLightbox()
-              }}
-              className="absolute top-4 right-4 z-30 bg-red-600 hover:bg-red-700 text-white p-4 rounded-full transition-colors shadow-lg"
-              aria-label="Close gallery"
-              style={{
-                minWidth: "60px",
-                minHeight: "60px",
-                touchAction: "manipulation",
-              }}
-            >
-              <X className="h-8 w-8" />
-            </button>
-
-            {/* Secondary close button in top-left for left-handed users */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                closeLightbox()
-              }}
-              className="absolute top-4 left-4 z-30 bg-red-600/80 hover:bg-red-700 text-white p-3 rounded-full transition-colors shadow-lg md:hidden"
-              aria-label="Close gallery"
-              style={{
-                minWidth: "50px",
-                minHeight: "50px",
-                touchAction: "manipulation",
-              }}
-            >
-              <X className="h-6 w-6" />
-            </button>
-
             {/* Navigation buttons - improved for mobile */}
             {images.length > 1 && (
               <>
@@ -255,13 +221,13 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
 
             {/* Image container */}
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center px-20 py-20 z-20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative w-full h-full flex items-center justify-center">
+              <div className="">
                 <Image
                   src={images[selectedImage].url || "/placeholder.svg"}
                   alt={
@@ -283,6 +249,21 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
                   {images[selectedImage].caption && (
                     <p className="text-white/90 text-sm">{images[selectedImage].caption}</p>
                   )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      closeLightbox()
+                    }}
+                    className="absolute top-4 right-4 z-30 bg-lime-400/90 text-black p-3 rounded-full transition-colors shadow-lg md:hidden"
+                    aria-label="Close gallery"
+                    style={{
+                      minWidth: "50px",
+                      minHeight: "50px",
+                      touchAction: "manipulation",
+                    }}
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
                 </div>
               )}
 
@@ -294,13 +275,6 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
               )}
             </motion.div>
 
-            {/* Mobile instructions */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 md:hidden">
-              <div className="bg-black/80 text-white px-4 py-2 rounded-full text-xs font-mono text-center">
-                <div>Tap anywhere to close</div>
-                <div className="text-xs opacity-75">Swipe up/down to close • Swipe left/right to navigate</div>
-              </div>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

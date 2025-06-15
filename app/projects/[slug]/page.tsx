@@ -125,7 +125,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           </div>
 
           {/* Project Details */}
-          <div className="grid gap-12 md:grid-cols-[2fr_1fr]">
+          <div className="grid gap-12 xl:grid-cols-[2fr_1fr]">
             <div className="space-y-8">
               {project.content && (
                 <div className="prose prose-invert prose-lime max-w-none">

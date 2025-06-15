@@ -18,52 +18,75 @@
   ],
   "gallery": [
     {
-      "url": "/placeholder.svg?height=800&width=1200",
+      "url": "/safelysds-home.png",
       "caption": "Main interface showing clean design",
       "alt": "Project interface",
       "title": "Main Interface"
-    },
-    {
-      "url": "/placeholder.svg?height=800&width=1200",
-      "caption": "Mobile view of the application",
-      "alt": "Mobile view",
-      "title": "Mobile Experience"
     }
   ]
 }
 ===
 
-# SafelySDS
+# ✅ SafelySDS – Safety Data Sheet Management System
 
-SafelySDS is a digital solution for managing Safety Data Sheets (SDS) in industries like manufacturing and food service. The goal was to build a platform that’s fast, easy to use, and scalable — helping teams store critical safety documents with confidence.
+**Live Site**: [safelysds.com](https://safelysds.com)  
+**Timeline**: January 2025 – March 2025  
+**Role**: Software Engineer Intern  
+**Client**: Virtuollis (Internal Project)
 
-## Project Overview
+---
 
-Built for internal use at Virtuollis and later expanded into a SaaS platform, SafelySDS allows users to upload, search, and manage SDS documents securely. It was designed with simplicity and clarity in mind, especially for non-technical users who need fast access to information.
+## 🚀 Overview
 
-## Results
+SafelySDS is a web-based platform that simplifies the management of Safety Data Sheets (SDS) for industries like manufacturing and food service. Built to replace outdated, paper-based storage systems, it ensures quick, secure access to critical safety information through an intuitive digital interface.
 
-The system made document retrieval over **4x faster**, eliminated cluttered filing cabinets, and improved compliance readiness for safety audits.
+---
 
-- 50+ SDS files uploaded during beta
-- 100% user satisfaction among internal testers
-- Transition-ready for external clients
+## 🛠️ Tech Stack
 
-![Image](../../public/digital-grid-neon.png)
+- **Frontend**: React, Next.js, TypeScript, Tailwind CSS  
+- **Backend**: Node.js, Prisma, REST API  
+- **Storage**: Azure Blob Storage  
+- **Features**: Role-based authentication, PDF viewer, search and filtering system
 
-## Challenges and Solutions
+---
 
-- **Challenge**: Handling large PDF files across devices  
-  **Solution**: Leveraged Azure Blob Storage with progressive loading
+## 💡 Key Features
 
-- **Challenge**: User-friendly search/filter UX  
-  **Solution**: Custom-built search bar with filter by category, name, and upload date
+- 🔐 Secure PDF upload and Azure Blob Storage integration  
+- 🔍 Instant search with filters (by chemical name, batch, or CAS number)  
+- 📱 Fully responsive UI for mobile/desktop  
+- 🧪 QR code batch manager and emergency first-aid lookup  
+- 🧭 Admin dashboard to manage chemicals and batch info
 
-- **Challenge**: Seamless integration with internal tools  
-  **Solution**: Modular architecture and REST API layer
+---
 
-> Keeping the interface minimal yet powerful helped it stay accessible to all users, especially in fast-paced factory environments.
+## 📸 Screenshots
 
-## Conclusion
+![Main Interface](/safelysds-home.png)  
 
-SafelySDS represents a critical step toward digitizing compliance and document management. Its clean design and reliable backend make it a perfect fit for industries with strict safety regulations — and it lays the foundation for future enhancements like multi-tenant support and offline access.
+
+---
+
+## 📊 Results
+
+- ⏱️ Reduced SDS lookup times by 4x  
+- 🗂️ Replaced cluttered cabinets with digital access  
+- ✅ 100% satisfaction from internal testers  
+- 🚀 Ready for SaaS deployment with multi-client support
+
+---
+
+## 🧩 Challenges & Solutions
+
+| Challenge                                 | Solution                                                |
+|------------------------------------------|---------------------------------------------------------|
+| Handling large PDFs across devices       | Azure Blob with progressive loading                     |
+| UX for non-technical users               | Built a clean UI with category/date filters             |
+| Integration with factory IT infrastructure | Modular REST API and admin-first role management       |
+
+---
+
+## 🧾 Conclusion
+
+SafelySDS modernizes chemical compliance by delivering a secure, fast, and user-friendly SDS management experience. With plans to expand into a full SaaS model, this project sets a strong foundation for safety-oriented digital platforms.
