@@ -80,7 +80,7 @@ const GlitchText = ({ text, onClick }: { text: string; onClick: () => void }) =>
       onClick={onClick}
     >
       {/* Original text */}
-      <span className={isHovering ? "opacity-0" : "text-lime-400"}>{text}</span>
+      <span className={isHovering ? "opacity-0" : "text-[#e21a41]"}>{text}</span>
 
       {/* Glitch layers - only visible on hover */}
       {isHovering && (
@@ -204,7 +204,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-4xl mx-auto text-center space-y-8"
           >
-            <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
+            <div className="inline-block bg-black/30 backdrop-blur-sm border border-[#e21a41] px-3 py-1 text-xs font-mono text-[#e21a41]">
               PORTFOLIO // ROBERT (ROBBY) JOHNSON
             </div>
             <motion.h1
@@ -232,13 +232,13 @@ Focused on performance, reliability, and making things better.
             >
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-6 py-3 font-medium transition-colors"
+                className="inline-flex items-center gap-2 bg-[#e21a41] hover:bg-[#e21a41]/70 text-black px-6 py-3 font-medium transition-colors"
               >
-                VIEW PROJECTS <ArrowRight className="h-4 w-4" />
+                VIEW MY WORK <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-lime-400/20 hover:bg-black/50 px-6 py-3 font-medium transition-colors"
+                className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-[#e21a41]/20 hover:bg-black/50 px-6 py-3 font-medium transition-colors"
               >
                 READ BLOG
               </Link>

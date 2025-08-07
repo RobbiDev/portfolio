@@ -25,7 +25,7 @@ export default function FuturisticBackground() {
     // Grid setup
     const gridSize = 20
     const gridDivisions = 20
-    const gridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0x00ff00, 0x222222)
+    const gridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0xe21a41, 0x222222)
     gridHelper.position.y = -2
     scene.add(gridHelper)
 
@@ -43,7 +43,7 @@ export default function FuturisticBackground() {
 
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.02,
-      color: 0xa3e635,
+      color: 0xe21a41,
       transparent: true,
       opacity: 0.8,
     })
@@ -58,7 +58,7 @@ export default function FuturisticBackground() {
     for (let i = 0; i < linesCount; i++) {
       const lineGeometry = new THREE.BufferGeometry()
       const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0xa3e635,
+        color: 0xe21a41,
         transparent: true,
         opacity: Math.random() * 0.5 + 0.1,
       })

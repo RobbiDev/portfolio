@@ -65,7 +65,7 @@ const ScrambleText = ({ text }: { text: string }) => {
 
   return (
     <span
-      className="font-mono text-lime-400 tracking-wider transition-colors"
+      className="font-mono text-[#e21a41] tracking-wider transition-colors"
       onMouseEnter={startScramble}
       onMouseLeave={stopScramble}
     >
@@ -136,7 +136,7 @@ export default function Navigation() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className="hidden md:inline-flex bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 text-sm font-medium transition-colors"
+              className="hidden md:inline-flex bg-[#e21a41] hover:bg-[#e21a41]/60 text-black px-4 py-2 text-sm font-medium transition-colors"
             >
               GET IN TOUCH
             </Link>
@@ -148,7 +148,7 @@ export default function Navigation() {
               }}
               className={`md:hidden p-2 z-[80] transition-colors ${
                 isMenuOpen
-                  ? "bg-lime-400 text-black"
+                  ? "bg-[#e21a41] text-black"
                   : "bg-black/30 backdrop-blur-sm border border-neutral-800 text-white"
               }`}
               aria-label="Toggle menu"
@@ -172,7 +172,7 @@ export default function Navigation() {
             <div className="mt-6">
               <Link
                 href="/contact"
-                className="inline-flex w-full justify-center bg-lime-400 hover:bg-lime-300 text-black px-4 py-3 font-medium transition-colors"
+                className="inline-flex w-full justify-center bg-[#e21a41] hover:bg-[#e21a41]/60 text-black px-4 py-3 font-medium transition-colors"
               >
                 GET IN TOUCH
               </Link>
@@ -180,7 +180,7 @@ export default function Navigation() {
   
             <div className="mt-auto pt-10 text-xs font-mono text-neutral-500">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-2 w-2 rounded-full bg-lime-400 animate-pulse"></div>
+                <div className="h-2 w-2 rounded-full bg-[#e21a41] animate-pulse"></div>
                 DEVELOPER PROFILE // SKILLS OPTIMIZED
               </div>
             </div>

@@ -17,10 +17,6 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
-  // Handle touch events for mobile swipe gestures
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null)
-  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null)
-
   const closeLightbox = useCallback(() => {
     setIsLightboxOpen(false)
     setSelectedImage(null)
@@ -62,50 +58,6 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
   const openLightbox = (index: number) => {
     setSelectedImage(index)
     setIsLightboxOpen(true)
-  }
-
-  const minSwipeDistance = 50
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null)
-    setTouchStart({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    })
-  }
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY,
-    })
-  }
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-
-    const distanceX = touchStart.x - touchEnd.x
-    const distanceY = touchStart.y - touchEnd.y
-    const isLeftSwipe = distanceX > minSwipeDistance
-    const isRightSwipe = distanceX < -minSwipeDistance
-    const isUpSwipe = distanceY > minSwipeDistance
-    const isDownSwipe = distanceY < -minSwipeDistance
-
-    // If it's primarily a vertical swipe, close the lightbox
-    if (Math.abs(distanceY) > Math.abs(distanceX)) {
-      if (isUpSwipe || isDownSwipe) {
-        closeLightbox()
-        return
-      }
-    }
-
-    // Horizontal swipes for navigation
-    if (isLeftSwipe && images.length > 1) {
-      navigateImage("next")
-    }
-    if (isRightSwipe && images.length > 1) {
-      navigateImage("prev")
-    }
   }
 
   // Prevent body scroll when lightbox is open
@@ -171,9 +123,6 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
             className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
             onKeyDown={handleKeyDown}
             tabIndex={0}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
           >
             {/* Large background overlay that closes on click/tap */}
             <div

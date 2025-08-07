@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
         </p>
 
         <div className="mt-16">
-          <CategoryFilter categories={categories} basePath="/projects" title="Project Categories" />
+          <CategoryFilter categories={categories} basePath="/projects" title="Categories" />
 
           {errorMessage ? (
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">

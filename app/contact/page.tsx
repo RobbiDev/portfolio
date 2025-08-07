@@ -107,6 +107,14 @@ export default function ContactPage() {
       return // User is locked out, don't process submission
     }
 
+    // const response = await fetch('/api/email-handler', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(formData),
+    //     });
+
     setIsSubmitting(true)
 
     // Simulate form submission

@@ -5,9 +5,8 @@
   "category": "SOFTWARE",
   "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
   "coverImage": "/safelysds.png",
-  "client": "Virtuollis Internal Project",
+  "client": "Personal Project",
   "timeline": "January 2025 - March 2025",
-  "role": "Software Engineer Intern",
   "liveUrl": "https://safelysds.com",
   "features": [
     "Secure PDF upload and storage",
@@ -27,16 +26,7 @@
 }
 ===
 
-# ✅ SafelySDS – Safety Data Sheet Management System
-
-**Live Site**: [safelysds.com](https://safelysds.com)  
-**Timeline**: January 2025 – March 2025  
-**Role**: Software Engineer Intern  
-**Client**: Virtuollis (Internal Project)
-
----
-
-## 🚀 Overview
+# 🚀 SafelySDS Overview
 
 SafelySDS is a web-based platform that simplifies the management of Safety Data Sheets (SDS) for industries like manufacturing and food service. Built to replace outdated, paper-based storage systems, it ensures quick, secure access to critical safety information through an intuitive digital interface.
 
@@ -63,7 +53,7 @@ SafelySDS is a web-based platform that simplifies the management of Safety Data 
 
 ## 📸 Screenshots
 
-Screenshots and image are provided down below in the Gallarie!
+Screenshots and images are provided down below in the Gallery!
 
 ---
 

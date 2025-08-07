@@ -446,45 +446,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Philosophy Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 md:p-12"
-            >
-              <h3 className="text-2xl font-bold mb-6">Professional Approach</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                    <Shield className="h-6 w-6" />
-                  </div>
-                  <h4 className="font-bold mb-2">Security First</h4>
-                  <p className="text-sm text-neutral-400">
-                    Implementing robust security measures at every layer of the infrastructure.
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                    <Network className="h-6 w-6" />
-                  </div>
-                  <h4 className="font-bold mb-2">Scalable Design</h4>
-                  <p className="text-sm text-neutral-400">
-                    Building systems that grow with business needs and adapt to changing requirements.
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-lime-400 text-black p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                    <Settings className="h-6 w-6" />
-                  </div>
-                  <h4 className="font-bold mb-2">Continuous Improvement</h4>
-                  <p className="text-sm text-neutral-400">
-                    Regularly evaluating and enhancing systems to improve efficiency and performance.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            
           </motion.div>
 
           <motion.div
@@ -589,7 +551,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
             >
-              PROFESSIONAL EXPERIENCE
+              HIGHLIGHTS
             </motion.div>
 
             <motion.h2
@@ -607,6 +569,23 @@ export default function AboutPage() {
                 <TimelineItem key={index} experience={experience} index={index} />
               ))}
             </div>
+            
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-3xl md:text-4xl font-bold tracking-tighter"
+            >
+              EDUCATIONAL <GlitchHeading text="HIGHLIGHTS" />
+            </motion.h2>
+
+            <div className="space-y-8">
+              {education.map((edu, index) => (
+                <TimelineItem key={index} experience={edu} index={index} />
+              ))}
+            </div>
+
           </motion.div>
 
           {/* Interactive CTA Section */}
@@ -663,7 +642,7 @@ export default function AboutPage() {
 const experiences = [
   {
     title: "IT & Network/Controls Engineer",
-    company: "Imaflex Inc",
+    company: "IMAFLEX USA",
     location: "THOMASVILLE, NC",
     period: "MAY 2025 – PRESENT",
     description:
@@ -678,7 +657,7 @@ const experiences = [
   },
   {
     title: "Software Engineering Intern",
-    company: "Virtuollis",
+    company: "VIRTUOLLIS",
     location: "REMOTE (ONTARIO, CANADA)",
     period: "JAN 2024 – APR 2024",
     description:
@@ -693,7 +672,7 @@ const experiences = [
   },
   {
     title: "BOH Supervisor & IT Specialist",
-    company: "Chick-fil-A",
+    company: "CHICK-FIL-A",
     location: "GRANDOVER VILLAGE, NC",
     period: "JUN 2023 – NOV 2023",
     description:
@@ -708,4 +687,35 @@ const experiences = [
   },
 ];
 
-
+const education = [
+  {
+    title: "IT & Network/Controls Engineer",
+    company: "GUILFORD TECHNICAL COMMUNITY COLLEGE",
+    location: "JAMESTOWN, NC",
+    period: "MAY 2025 – PRESENT",
+    description:
+      "Manage IT infrastructure and network systems in a manufacturing environment. Support PLC control systems and assist with industrial automation. Troubleshoot production tech issues and lead integration of new control systems.",
+    technologies: [
+      "PLC Systems",
+      "Network Infrastructure",
+      "Industrial Automation",
+      "System Integration",
+      "Troubleshooting",
+    ],
+  },
+  {
+    title: "Software Engineering Intern",
+    company: "Virtuollis",
+    location: "JAMESTOWN, NC",
+    period: "JAN 2024 – APR 2024",
+    description:
+      "Assisted in developing IT and printing solutions for client businesses. Helped define software requirements and worked with internet protocol systems. Collaborated on frontend tools for automation and client service apps.",
+    technologies: [
+      "JavaScript",
+      "Internet Protocol (IP)",
+      "Requirement Analysis",
+      "Frontend Development",
+      "Automation Tools",
+    ],
+  }
+];
