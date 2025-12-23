@@ -77,7 +77,7 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
     <>
       <div className="space-y-6">
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-lime-400"></div>
+          <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
           <h3 className="text-xl font-bold">{title}</h3>
         </div>
 
@@ -203,7 +203,7 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
                       e.stopPropagation()
                       closeLightbox()
                     }}
-                    className="absolute top-4 right-4 z-30 bg-lime-400/90 text-black p-3 rounded-full transition-colors shadow-lg md:hidden"
+                    className="absolute top-4 right-4 z-30 bg-pallete-main/90 text-black p-3 rounded-full transition-colors shadow-lg"
                     aria-label="Close gallery"
                     style={{
                       minWidth: "50px",
