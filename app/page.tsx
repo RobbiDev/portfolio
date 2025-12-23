@@ -222,7 +222,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto"
             >
-              From code to control panels — I build secure, scalable systems across software, networks, and PLCs.
+              From networks to control systems — I build secure, scalable systems across software, networks, and PLCs.
               Focused on performance, reliability, and making things better.
             </motion.p>
             <motion.div
