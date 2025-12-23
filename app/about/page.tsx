@@ -578,7 +578,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              Ready to <GlitchHeading text="COLLABORATE" />?
+              Ready to <GlitchHeading text="CONNECT?" />?
             </motion.h3>
 
             <motion.p
@@ -588,8 +588,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              I'm available to discuss IT projects, infrastructure challenges, or opportunities to optimize your
-              systems.
+              I am available for freelance projects, full-time opportunities, or just a friendly chat to expand our networks. Let us collaborate and build something better together.
             </motion.p>
 
             <motion.div
