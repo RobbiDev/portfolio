@@ -55,6 +55,10 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        pallete: {
+          main: "#e21a41",
+          300: "#fca5a5",
+        },
         lime: {
           400: "#a3e635",
           300: "#bef264",

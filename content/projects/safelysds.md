@@ -5,9 +5,8 @@
   "category": "SOFTWARE",
   "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
   "coverImage": "/safelysds.png",
-  "client": "Personal Project",
+  "client": "Personal Project & Imaflex USA",
   "timeline": "January 2025 - March 2025",
-  "liveUrl": "https://safelysds.com",
   "features": [
     "Secure PDF upload and storage",
     "Advanced search with filters",

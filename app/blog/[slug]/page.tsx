@@ -52,7 +52,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="relative z-10 container py-16 md:py-24">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" /> BACK TO BLOG
           </Link>
@@ -72,7 +72,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <div className="relative z-10 container py-16 md:py-24">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> BACK TO BLOG
         </Link>
@@ -83,7 +83,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
             <div className="flex flex-wrap gap-6 text-sm text-neutral-400 mb-4">
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-lime-400" />
+                <Calendar className="h-4 w-4 text-pallete-main" />
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -93,15 +93,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 </time>
               </div>
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-lime-400" />
+                <User className="h-4 w-4 text-pallete-main" />
                 <span>{post.author}</span>
               </div>
               {post.category && (
                 <div className="flex items-center gap-2">
-                  <Folder className="h-4 w-4 text-lime-400" />
+                  <Folder className="h-4 w-4 text-pallete-main" />
                   <Link
                     href={`/blog/category/${post.category.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="hover:text-lime-400 transition-colors"
+                    className="hover:text-pallete-main transition-colors"
                   >
                     {post.category}
                   </Link>
@@ -116,7 +116,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     key={tagIndex}
                     className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
                   >
-                    <Tag className="h-3 w-3 text-lime-400" />
+                    <Tag className="h-3 w-3 text-pallete-main" />
                     {tag}
                   </div>
                 ))}

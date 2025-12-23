@@ -57,7 +57,7 @@ export default async function BlogCategoryPage({ params }: { params: { category:
       <div className="relative z-10 container py-16 md:py-24">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> BACK TO ALL POSTS
         </Link>
@@ -95,7 +95,7 @@ export default async function BlogCategoryPage({ params }: { params: { category:
                   <div className="p-6 md:p-8">
                     <div className="flex flex-wrap gap-4 mb-4 text-sm text-neutral-400">
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-lime-400" />
+                        <Calendar className="h-4 w-4 text-pallete-main" />
                         <time dateTime={post.date}>
                           {new Date(post.date).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -105,17 +105,17 @@ export default async function BlogCategoryPage({ params }: { params: { category:
                         </time>
                       </div>
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-lime-400" />
+                        <User className="h-4 w-4 text-pallete-main" />
                         <span>{post.author}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Folder className="h-4 w-4 text-lime-400" />
+                        <Folder className="h-4 w-4 text-pallete-main" />
                         <span>{post.category}</span>
                       </div>
                     </div>
 
                     <Link href={`/blog/${post.slug}`}>
-                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-lime-400 transition-colors">
+                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-pallete-main transition-colors">
                         {post.title}
                       </h2>
                     </Link>
@@ -129,7 +129,7 @@ export default async function BlogCategoryPage({ params }: { params: { category:
                             key={tagIndex}
                             className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
                           >
-                            <Tag className="h-3 w-3 text-lime-400" />
+                            <Tag className="h-3 w-3 text-pallete-main" />
                             {tag}
                           </div>
                         ))}
@@ -138,7 +138,7 @@ export default async function BlogCategoryPage({ params }: { params: { category:
 
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 font-medium transition-colors"
+                      className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
                     >
                       READ MORE
                     </Link>

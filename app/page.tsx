@@ -204,9 +204,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-4xl mx-auto text-center space-y-8"
           >
-            <div className="inline-block bg-black/30 backdrop-blur-sm border border-[#e21a41] px-3 py-1 text-xs font-mono text-[#e21a41]">
+            <div className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main px-3 py-1 text-xs font-mono text-pallete-main">
               PORTFOLIO // ROBERT (ROBBY) JOHNSON
             </div>
+
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={loaded ? { opacity: 1, y: 0 } : {}}
@@ -221,8 +222,8 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto"
             >
-              From code to control panels — I build secure, scalable systems across software, networks, and PLCs.  
-Focused on performance, reliability, and making things better.
+              From code to control panels — I build secure, scalable systems across software, networks, and PLCs.
+              Focused on performance, reliability, and making things better.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -248,7 +249,7 @@ Focused on performance, reliability, and making things better.
 
       </div>
 
-      
+
     </div>
   )
 }

@@ -163,11 +163,11 @@ export default function ContactPage() {
 
         <div className="grid gap-12 md:grid-cols-2 mt-16">
           <div className="space-y-8">
-            <div className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400">
+            <div className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main">
               GET IN TOUCH
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tighter">
-              LET'S <span className="text-lime-400">CONNECT</span>
+              LET'S <span className="text-pallete-main">CONNECT</span>
             </h2>
             <p className="text-neutral-400">
               Whether you have a project in mind, a question about my work, or just want to say hello, I'd love to hear
@@ -176,18 +176,18 @@ export default function ContactPage() {
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-3">
-                  <Mail className="h-6 w-6 text-lime-400" />
+                  <Mail className="h-6 w-6 text-pallete-main" />
                 </div>
                 <div>
                   <p className="text-sm text-neutral-400">Email</p>
-                  <a href={`mailto:${info.email}`} className="hover:text-lime-400 transition-colors">
+                  <a href={`mailto:${info.email}`} className="hover:text-pallete-main transition-colors">
                     { info.email }
                   </a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-3">
-                  <Linkedin className="h-6 w-6 text-lime-400" />
+                  <Linkedin className="h-6 w-6 text-pallete-main" />
                 </div>
                 <div>
                   <p className="text-sm text-neutral-400">LinkedIn</p>
@@ -195,7 +195,7 @@ export default function ContactPage() {
                     href="https://linkedin.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-lime-400 transition-colors"
+                    className="hover:text-pallete-main transition-colors"
                   >
                     { info.linkedin }
                   </a>
@@ -203,7 +203,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-4">
                 <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-3">
-                  <Github className="h-6 w-6 text-lime-400" />
+                  <Github className="h-6 w-6 text-pallete-main" />
                 </div>
                 <div>
                   <p className="text-sm text-neutral-400">GitHub</p>
@@ -211,7 +211,7 @@ export default function ContactPage() {
                     href="https://github.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-lime-400 transition-colors"
+                    className="hover:text-pallete-main transition-colors"
                   >
                     { info.github }
                   </a>
@@ -227,7 +227,7 @@ export default function ContactPage() {
             {/* Submission Limit Info */}
             <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
               <div className="flex items-center gap-2 mb-3">
-                <Clock className="h-5 w-5 text-lime-400" />
+                <Clock className="h-5 w-5 text-pallete-main" />
                 <h3 className="font-bold text-lg">Submission Limit</h3>
               </div>
               <p className="text-neutral-400 mb-3">
@@ -239,7 +239,7 @@ export default function ContactPage() {
                   <span>Locked: Try again in {timeRemaining}</span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 text-lime-400 font-mono text-sm">
+                <div className="flex items-center gap-2 text-pallete-main font-mono text-sm">
                   <span>Submissions remaining: {submissionsLeft}</span>
                 </div>
               )}
@@ -249,7 +249,7 @@ export default function ContactPage() {
             <h3 className="font-bold text-xl mb-6">SEND A MESSAGE</h3>
             {isSubmitted ? (
               <div className="text-center py-12 space-y-4">
-                <div className="inline-flex items-center justify-center bg-lime-400 text-black p-4 rounded-full mx-auto">
+                <div className="inline-flex items-center justify-center bg-pallete-main text-black p-4 rounded-full mx-auto">
                   <Send className="h-6 w-6" />
                 </div>
                 <h4 className="text-xl font-bold">Message Sent!</h4>
@@ -258,7 +258,7 @@ export default function ContactPage() {
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-lime-400/20 hover:bg-black/50 px-4 py-2 font-medium transition-colors mt-4"
+                  className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-pallete-main/20 hover:bg-black/50 px-4 py-2 font-medium transition-colors mt-4"
                   disabled={isLockedOut}
                 >
                   {isLockedOut ? (
@@ -283,7 +283,7 @@ export default function ContactPage() {
                     value={formState.name}
                     onChange={handleChange}
                     required
-                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-lime-400 focus:outline-none"
+                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-pallete-main focus:outline-none"
                     placeholder="Your name"
                     disabled={isLockedOut}
                   />
@@ -298,7 +298,7 @@ export default function ContactPage() {
                     value={formState.email}
                     onChange={handleChange}
                     required
-                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-lime-400 focus:outline-none"
+                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-pallete-main focus:outline-none"
                     placeholder="Your email"
                     disabled={isLockedOut}
                   />
@@ -313,7 +313,7 @@ export default function ContactPage() {
                     value={formState.message}
                     onChange={handleChange}
                     required
-                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-lime-400 focus:outline-none"
+                    className="w-full bg-black border border-neutral-800 p-3 text-white focus:border-pallete-main focus:outline-none"
                     placeholder="Your message"
                     disabled={isLockedOut}
                   ></textarea>
@@ -328,7 +328,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting || isLockedOut}
-                    className="w-full bg-lime-400 hover:bg-lime-300 text-black py-3 font-medium transition-colors flex items-center justify-center gap-2 disabled:bg-neutral-700 disabled:text-neutral-300 disabled:cursor-not-allowed"
+                    className="w-full bg-pallete-main hover:bg-pallete-main/80 text-black py-3 font-medium transition-colors flex items-center justify-center gap-2 disabled:bg-neutral-700 disabled:text-neutral-300 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>

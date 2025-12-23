@@ -51,7 +51,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         <div className="relative z-10 container py-16 md:py-24">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" /> BACK TO PROJECTS
           </Link>
@@ -71,7 +71,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       <div className="relative z-10 container py-16 md:py-24">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> BACK TO PROJECTS
         </Link>
@@ -81,10 +81,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           <div className="grid gap-8 md:grid-cols-2 items-center">
             <div className="space-y-6">
               <div className="flex items-center gap-2">
-                <Folder className="h-4 w-4 text-lime-400" />
+                <Folder className="h-4 w-4 text-pallete-main" />
                 <Link
                   href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 hover:border-lime-400/50 transition-colors"
+                  className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main hover:border-pallete-main/50 transition-colors"
                 >
                   {project.category}
                 </Link>
@@ -97,7 +97,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 font-medium transition-colors"
+                    className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
                   >
                     VIEW LIVE <ExternalLink className="h-4 w-4" />
                   </Link>
@@ -107,7 +107,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-lime-400/20 hover:bg-black/50 px-4 py-2 font-medium transition-colors"
+                    className="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-pallete-main/20 hover:bg-black/50 px-4 py-2 font-medium transition-colors"
                   >
                     VIEW CODE <Github className="h-4 w-4" />
                   </Link>
@@ -172,7 +172,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                     <h3 className="text-sm font-mono text-neutral-400">CATEGORY</h3>
                     <Link
                       href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="text-lime-400 hover:text-lime-300 transition-colors"
+                      className="text-pallete-main hover:text-pallete-main/80 transition-colors"
                     >
                       {project.category}
                     </Link>
@@ -198,7 +198,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   <ul className="space-y-2">
                     {project.features.map((feature, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-lime-400 mt-2"></div>
+                        <div className="h-2 w-2 rounded-full bg-pallete-main mt-2"></div>
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -217,13 +217,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   <Link
                     key={index}
                     href={`/projects/${relatedProject.slug}`}
-                    className="group bg-black/30 backdrop-blur-sm border border-neutral-800 p-6 hover:border-lime-400/30 transition-colors"
+                    className="group bg-black/30 backdrop-blur-sm border border-neutral-800 p-6 hover:border-pallete-main/30 transition-colors"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="h-2 w-2 rounded-full bg-lime-400"></div>
+                      <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
                       <span className="text-xs font-mono text-neutral-400">{relatedProject.category}</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-lime-400 transition-colors">
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-pallete-main transition-colors">
                       {relatedProject.title}
                     </h3>
                     <p className="text-sm text-neutral-400">{relatedProject.summary}</p>

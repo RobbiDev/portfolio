@@ -58,7 +58,7 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
       <div className="relative z-10 container py-16 md:py-24">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-lime-400 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm font-mono text-neutral-400 hover:text-pallete-main transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> BACK TO ALL PROJECTS
         </Link>
@@ -105,7 +105,7 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Link
                           href={`/projects/${project.slug}`}
-                          className="bg-lime-400 text-black p-2 rounded-full"
+                          className="bg-pallete-main text-black p-2 rounded-full"
                           aria-label={`View ${project.title} project details`}
                         >
                           <ExternalLink className="h-5 w-5" />
@@ -114,7 +114,7 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
                     </div>
                     <div className="flex flex-col justify-center">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="h-2 w-2 rounded-full bg-lime-400"></div>
+                        <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
                         <span className="text-xs font-mono text-neutral-400">{project.category}</span>
                       </div>
                       <h3 className="text-2xl md:text-3xl font-bold mb-4">{project.title}</h3>
@@ -137,7 +137,7 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
                       </div>
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 font-medium transition-colors self-start"
+                        className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors self-start"
                       >
                         VIEW PROJECT <ExternalLink className="h-4 w-4" />
                       </Link>

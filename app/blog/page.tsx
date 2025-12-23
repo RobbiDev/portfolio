@@ -54,7 +54,7 @@ export default async function BlogPage() {
                   <div className="p-6 md:p-8">
                     <div className="flex flex-wrap gap-4 mb-4 text-sm text-neutral-400">
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-lime-400" />
+                        <Calendar className="h-4 w-4 text-pallete-main" />
                         <time dateTime={post.date}>
                           {new Date(post.date).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -64,15 +64,15 @@ export default async function BlogPage() {
                         </time>
                       </div>
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-lime-400" />
+                        <User className="h-4 w-4 text-pallete-main" />
                         <span>{post.author}</span>
                       </div>
                       {post.category && (
                         <div className="flex items-center gap-2">
-                          <Folder className="h-4 w-4 text-lime-400" />
+                          <Folder className="h-4 w-4 text-pallete-main" />
                           <Link
                             href={`/blog/category/${post.category.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="hover:text-lime-400 transition-colors"
+                            className="hover:text-pallete-main transition-colors"
                           >
                             {post.category}
                           </Link>
@@ -81,7 +81,7 @@ export default async function BlogPage() {
                     </div>
 
                     <Link href={`/blog/${post.slug}`}>
-                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-lime-400 transition-colors">
+                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-pallete-main transition-colors">
                         {post.title}
                       </h2>
                     </Link>
@@ -95,7 +95,7 @@ export default async function BlogPage() {
                             key={tagIndex}
                             className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
                           >
-                            <Tag className="h-3 w-3 text-lime-400" />
+                            <Tag className="h-3 w-3 text-pallete-main" />
                             {tag}
                           </div>
                         ))}
@@ -104,7 +104,7 @@ export default async function BlogPage() {
 
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 font-medium transition-colors"
+                      className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
                     >
                       READ MORE
                     </Link>

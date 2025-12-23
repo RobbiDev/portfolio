@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { ArrowRight, Network, Code, Server, ExternalLink, Shield, Settings, MonitorSpeaker } from "lucide-react"
+import { ArrowRight, Network, Code, Server, ExternalLink, Hammer, MonitorSpeaker } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 
 // Glitch Text Component for Headings
@@ -132,7 +132,7 @@ const SkillCard = ({ icon, title, skills }: { icon: React.ReactNode; title: stri
 
       <div className="flex items-center gap-3 mb-4 relative z-10">
         <motion.div
-          className={`bg-lime-400 p-2 rounded-full transition-colors duration-300 ${isHovered ? "bg-blue-500" : ""}`}
+          className={`bg-pallete-main p-2 rounded-full transition-colors duration-300 ${isHovered ? "bg-blue-500" : ""}`}
           animate={isHovered ? { rotate: [0, 5, -5, 0] } : {}}
           transition={{ duration: 0.5 }}
         >
@@ -151,7 +151,7 @@ const SkillCard = ({ icon, title, skills }: { icon: React.ReactNode; title: stri
             transition={{ delay: index * 0.1 }}
           >
             <motion.div
-              className={`h-1 w-1 rounded-full ${isHovered ? "bg-blue-500" : "bg-lime-400"}`}
+              className={`h-1 w-1 rounded-full ${isHovered ? "bg-blue-500" : "bg-pallete-main"}`}
               animate={isHovered ? { scale: [1, 1.5, 1] } : {}}
               transition={{ duration: 0.5, repeat: isHovered ? Number.POSITIVE_INFINITY : 0, repeatType: "reverse" }}
             />
@@ -215,7 +215,7 @@ const TimelineItem = ({ experience, index }: { experience: any; index: number })
         <div className="text-xs font-mono text-neutral-400">{experience.period}</div>
         <div className="font-bold text-lg mt-1">{experience.company}</div>
         <div
-          className={`font-mono text-sm transition-colors duration-300 ${isHovered ? "text-blue-500" : "text-lime-400"}`}
+          className={`font-mono text-sm transition-colors duration-300 ${isHovered ? "text-blue-500" : "text-pallete-main"}`}
         >
           {experience.location}
         </div>
@@ -287,9 +287,9 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 mb-4"
+          className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main mb-4"
         >
-          IT PROFESSIONAL
+          PROFESSIONAL BACKGROUND
         </motion.div>
 
         <motion.h1
@@ -324,7 +324,7 @@ export default function AboutPage() {
                 {Array.from({ length: 20 }).map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute bg-lime-400/20 rounded-full"
+                    className="absolute bg-pallete-main/20 rounded-full"
                     style={{
                       width: Math.random() * 4 + 1,
                       height: Math.random() * 4 + 1,
@@ -349,9 +349,9 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400 mb-6"
+                  className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main mb-6"
                 >
-                  IT SYSTEMS SPECIALIST
+                  GENERAL OVERVIEW
                 </motion.div>
 
                 <motion.h2
@@ -360,7 +360,7 @@ export default function AboutPage() {
                   transition={{ delay: 0.5 }}
                   className="text-3xl md:text-4xl font-bold tracking-tighter mb-6"
                 >
-                  BUILDING RELIABLE <span className="text-lime-400">IT SOLUTIONS</span>
+                  WHO IS <span className="text-pallete-main">ROBERT JOHNSON</span>
                 </motion.h2>
 
                 <div className="grid md:grid-cols-2 gap-8">
@@ -371,19 +371,7 @@ export default function AboutPage() {
                       transition={{ delay: 0.6 }}
                       className="text-neutral-400"
                     >
-                      I'm an IT professional with expertise in network infrastructure, software engineering, and system
-                      control technologies. My focus is on designing and implementing reliable IT solutions that meet
-                      business needs while maintaining security and performance.
-                    </motion.p>
-
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.7 }}
-                      className="text-neutral-400"
-                    >
-                      With a background spanning enterprise networking and industrial systems, I bring a comprehensive
-                      approach to IT challenges, combining technical knowledge with practical problem-solving skills.
+                      I have always been obsessed with how things work and, more importantly, how to make them work even better. I believe everything can always be improved and made better. This is a value I learned at my first job that still drives me today. Currently, I specialize in Network Engineering with a focus on infrastructure and implementation, while also bringing deep experience in designing and managing Industrial Control Systems. I am currently pursuing a Computer Science degree at UNC Charlotte while working in the field at Imaflex USA, where I balance multiple roles which are IT Support, Network Engineer, and Controls/Automation Engineer.
                     </motion.p>
                   </div>
 
@@ -394,23 +382,10 @@ export default function AboutPage() {
                       transition={{ delay: 0.8 }}
                       className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
                     >
-                      <Network className="h-6 w-6 text-lime-400" />
+                      <Network className="h-6 w-6 text-pallete-main" />
                       <div>
-                        <div className="font-mono text-sm text-lime-400">SPECIALIZATION</div>
-                        <div className="text-xl font-bold">Networking</div>
-                      </div>
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.9 }}
-                      className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
-                    >
-                      <Server className="h-6 w-6 text-lime-400" />
-                      <div>
-                        <div className="font-mono text-sm text-lime-400">EXPERTISE</div>
-                        <div className="text-xl font-bold">System Control</div>
+                        <div className="font-mono text-sm text-pallete-main">SPECIALIZATION</div>
+                        <div className="text-xl font-bold">Network Engineering & Controls/Automation</div>
                       </div>
                     </motion.div>
 
@@ -420,10 +395,10 @@ export default function AboutPage() {
                       transition={{ delay: 1.0 }}
                       className="flex items-center gap-3 p-4 bg-black/30 border border-neutral-800"
                     >
-                      <Shield className="h-6 w-6 text-lime-400" />
+                      <Hammer className="h-6 w-6 text-pallete-main" />
                       <div>
-                        <div className="font-mono text-sm text-lime-400">FOCUS</div>
-                        <div className="text-xl font-bold">Security & Reliability</div>
+                        <div className="font-mono text-sm text-pallete-main">FOCUS</div>
+                        <div className="text-xl font-bold">Infrastructure & Implementation</div>
                       </div>
                     </motion.div>
                   </div>
@@ -436,8 +411,8 @@ export default function AboutPage() {
                   className="mt-8"
                 >
                   <Link
-                    href="/resume.pdf"
-                    className="inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-black px-6 py-3 font-medium transition-colors group"
+                    href="@/Robert-Johnson-Resume.pdf"
+                    className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-6 py-3 font-medium transition-colors group"
                   >
                     DOWNLOAD RESUME
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -461,7 +436,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
+              className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main"
             >
               TECHNICAL EXPERTISE
             </motion.div>
@@ -473,7 +448,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl md:text-4xl font-bold tracking-tighter"
             >
-              CORE <GlitchHeading text="COMPETENCIES" />
+              CORE <GlitchHeading text="TECHNICAL SKILLS" />
             </motion.h2>
 
             <motion.div
@@ -485,11 +460,11 @@ export default function AboutPage() {
             >
               <SkillCard
                 icon={<Network className="h-5 w-5 text-black" />}
-                title="Networking"
+                title="Network Engineering"
                 skills={[
-                  "Cisco & Juniper",
+                  "Cisco, Ubiquiti, Fortinet",
                   "VLAN & MPLS",
-                  "BGP & OSPF",
+                  "Routing and Switching",
                   "Network Security",
                   "SD-WAN",
                   "Troubleshooting",
@@ -500,38 +475,38 @@ export default function AboutPage() {
                 icon={<Code className="h-5 w-5 text-black" />}
                 title="Software Engineering"
                 skills={[
-                  "Python & C++",
-                  "System Architecture",
-                  "API Development",
-                  "Database Design",
-                  "Version Control",
-                  "Testing & Debugging",
+                  "Python, JavaScript, Java",
+                  "Backend & Frontend Development",
+                  "RESTful APIs",
+                  "Database Management",
+                  "Version Control (Git)",
+                  "Git Workflow & CI/CD"
                 ]}
               />
 
               <SkillCard
                 icon={<MonitorSpeaker className="h-5 w-5 text-black" />}
-                title="System Control"
+                title="Control Systems"
                 skills={[
-                  "SCADA Systems",
-                  "PLC Programming",
-                  "Industrial Protocols",
-                  "Process Automation",
-                  "HMI Development",
-                  "Control Systems",
+                  "PLC Logic & Programming",
+                  "Industrial Hardware & Wiring",
+                  "System Integration & Monitoring",
+                  "Automation Workflows",
+                  "PLC Troubleshooting",
+                  "Low Voltage Electrial Skills",
                 ]}
               />
 
               <SkillCard
                 icon={<Server className="h-5 w-5 text-black" />}
-                title="Infrastructure"
+                title="Info. Technology"
                 skills={[
-                  "VMware & Hyper-V",
-                  "Linux & Windows Server",
-                  "Cloud Services",
-                  "Backup Solutions",
-                  "Monitoring Tools",
-                  "Disaster Recovery",
+                  "Tier 2 & 3 Support",
+                  "Windows Server & Linux",
+                  "Active Directory",
+                  "Ticketing & Escalation",
+                  "Deployment & Provisioning",
+                  "General IT & Troubleshooting"
                 ]}
               />
             </motion.div>
@@ -549,7 +524,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="inline-block bg-black/30 backdrop-blur-sm border border-lime-400/20 px-3 py-1 text-xs font-mono text-lime-400"
+              className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main"
             >
               HIGHLIGHTS
             </motion.div>
@@ -656,22 +631,7 @@ const experiences = [
     ],
   },
   {
-    title: "Software Engineering Intern",
-    company: "VIRTUOLLIS",
-    location: "REMOTE (ONTARIO, CANADA)",
-    period: "JAN 2024 – APR 2024",
-    description:
-      "Assisted in developing IT and printing solutions for client businesses. Helped define software requirements and worked with internet protocol systems. Collaborated on frontend tools for automation and client service apps.",
-    technologies: [
-      "JavaScript",
-      "Internet Protocol (IP)",
-      "Requirement Analysis",
-      "Frontend Development",
-      "Automation Tools",
-    ],
-  },
-  {
-    title: "BOH Supervisor & IT Specialist",
+    title: "Back of House Supervisor",
     company: "CHICK-FIL-A",
     location: "GRANDOVER VILLAGE, NC",
     period: "JUN 2023 – NOV 2023",
@@ -689,33 +649,33 @@ const experiences = [
 
 const education = [
   {
-    title: "IT & Network/Controls Engineer",
-    company: "GUILFORD TECHNICAL COMMUNITY COLLEGE",
-    location: "JAMESTOWN, NC",
-    period: "MAY 2025 – PRESENT",
+    title: "Bachelor of Science in Computer Science",
+    company: "UNIVERSITY OF NORTH CAROLINA AT CHARLOTTE",
+    location: "CHARLOTTE, NC",
+    period: "JAN 2026 – PRESENT",
     description:
-      "Manage IT infrastructure and network systems in a manufacturing environment. Support PLC control systems and assist with industrial automation. Troubleshoot production tech issues and lead integration of new control systems.",
+      "Currently pursuing a Bachelor of Science in Computer Science with a focus on Networks & Systems. Minioring in Electrial & Computer Engineering. Expected graduation in Jan 2028.",
     technologies: [
-      "PLC Systems",
-      "Network Infrastructure",
-      "Industrial Automation",
-      "System Integration",
-      "Troubleshooting",
+      "Data Structures & Algorithms",
+      "Computer Networks",
+      "Operating Systems",
+      "Database Systems",
+      "Industrial Control Systems",
     ],
   },
   {
-    title: "Software Engineering Intern",
-    company: "Virtuollis",
+    title: "Associate in Science",
+    company: "GUILFORD TECHNICAL COMMUNITY COLLEGE",
     location: "JAMESTOWN, NC",
-    period: "JAN 2024 – APR 2024",
+    period: "AUG 2024 – DEC 2025",
     description:
-      "Assisted in developing IT and printing solutions for client businesses. Helped define software requirements and worked with internet protocol systems. Collaborated on frontend tools for automation and client service apps.",
+      "Completed an Associate in Science degree with a focus on Computer Science and Information Technology. Graduated with GPA of 3.7",
     technologies: [
-      "JavaScript",
-      "Internet Protocol (IP)",
-      "Requirement Analysis",
-      "Frontend Development",
-      "Automation Tools",
+      "Microsoft/Google Suites",
+      "Basic Networking",
+      "Programming Fundamentals",
+      "General IT Skills",
+      "General Education",
     ],
   }
 ];

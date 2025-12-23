@@ -30,12 +30,12 @@ export default function CategoryFilter({
       {/* Mobile filter button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-neutral-800 hover:border-lime-400/30 px-4 py-2 font-medium transition-colors mb-6"
+        className="md:hidden flex items-center gap-2 bg-black/30 backdrop-blur-sm border border-neutral-800 hover:border-pallete-main/30 px-4 py-2 font-medium transition-colors mb-6"
       >
         <Filter className="h-4 w-4" />
         {title}
         {currentCategory && (
-          <span className="bg-lime-400 text-black px-2 py-0.5 text-xs rounded">
+          <span className="bg-pallete-main text-black px-2 py-0.5 text-xs rounded">
             {categories.find((cat) => cat.slug === currentCategory)?.name || currentCategory}
           </span>
         )}
@@ -44,7 +44,7 @@ export default function CategoryFilter({
       {/* Desktop filter */}
       <div className="hidden md:block mb-8">
         <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-lime-400"></div>
+          <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
           {title}
         </h3>
 
@@ -53,8 +53,8 @@ export default function CategoryFilter({
             href={basePath}
             className={`px-3 py-1 text-sm font-medium transition-colors border ${
               !currentCategory
-                ? "bg-lime-400 text-black border-lime-400"
-                : "bg-black/30 text-neutral-300 border-neutral-800 hover:border-lime-400/30 hover:text-lime-400"
+                ? "bg-pallete-main text-black border-pallete-main"
+                : "bg-black/30 text-neutral-300 border-neutral-800 hover:border-pallete-main/30 hover:text-pallete-main"
             }`}
           >
             All
@@ -66,8 +66,8 @@ export default function CategoryFilter({
               href={`${basePath}/category/${category.slug}`}
               className={`px-3 py-1 text-sm font-medium transition-colors border ${
                 currentCategory === category.slug
-                  ? "bg-lime-400 text-black border-lime-400"
-                  : "bg-black/30 text-neutral-300 border-neutral-800 hover:border-lime-400/30 hover:text-lime-400"
+                  ? "bg-pallete-main text-black border-pallete-main"
+                  : "bg-black/30 text-neutral-300 border-neutral-800 hover:border-pallete-main/30 hover:text-pallete-main"
               }`}
             >
               {category.name} ({category.count})
@@ -96,7 +96,7 @@ export default function CategoryFilter({
               href={basePath}
               onClick={() => setIsOpen(false)}
               className={`block px-3 py-2 text-sm font-medium transition-colors ${
-                !currentCategory ? "bg-lime-400 text-black" : "text-neutral-300 hover:text-lime-400"
+                !currentCategory ? "bg-pallete-main text-black" : "text-neutral-300 hover:text-pallete-main"
               }`}
             >
               All
@@ -108,7 +108,7 @@ export default function CategoryFilter({
                 href={`${basePath}/category/${category.slug}`}
                 onClick={() => setIsOpen(false)}
                 className={`block px-3 py-2 text-sm font-medium transition-colors ${
-                  currentCategory === category.slug ? "bg-lime-400 text-black" : "text-neutral-300 hover:text-lime-400"
+                  currentCategory === category.slug ? "bg-pallete-main text-black" : "text-neutral-300 hover:text-pallete-main"
                 }`}
               >
                 {category.name} ({category.count})

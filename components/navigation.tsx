@@ -172,7 +172,7 @@ export default function Navigation() {
             <div className="mt-6">
               <Link
                 href="/contact"
-                className="inline-flex w-full justify-center bg-[#e21a41] hover:bg-[#e21a41]/60 text-black px-4 py-3 font-medium transition-colors"
+                className="inline-flex w-full justify-center bg-pallete-main hover:bg-pallete-main/60 text-black px-4 py-3 font-medium transition-colors"
               >
                 GET IN TOUCH
               </Link>
@@ -180,8 +180,8 @@ export default function Navigation() {
   
             <div className="mt-auto pt-10 text-xs font-mono text-neutral-500">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-2 w-2 rounded-full bg-[#e21a41] animate-pulse"></div>
-                DEVELOPER PROFILE // SKILLS OPTIMIZED
+                <div className="h-2 w-2 rounded-full bg-pallete-main animate-pulse"></div>
+                ROBERT // JOHNSON
               </div>
             </div>
           </div>
@@ -196,7 +196,7 @@ function NavLink({ href, active, children }: { href: string; active: boolean; ch
   return (
     <Link
       href={href}
-      className={`text-sm font-medium transition-colors ${active ? "text-lime-400" : "text-white hover:text-lime-400"}`}
+      className={`text-sm font-medium transition-colors ${active ? "text-pallete-main" : "text-white hover:text-pallete-main"}`}
     >
       {children}
     </Link>
@@ -208,7 +208,7 @@ function MobileNavLink({ href, active, children }: { href: string; active: boole
     <Link
       href={href}
       className={`text-2xl font-bold py-3 border-b border-neutral-800 transition-colors ${
-        active ? "text-lime-400" : "text-white hover:text-lime-400"
+        active ? "text-pallete-main" : "text-white hover:text-pallete-main"
       }`}
     >
       {children}
