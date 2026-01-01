@@ -5,6 +5,12 @@ import GridBackground from "@/components/grid-background"
 import CategoryFilter from "@/components/category-filter"
 import { getAllProjects, getProjectCategories } from "@/lib/projects"
 import Footer from "@/components/footer"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Robert Johnson | Projects",
+  description: "Thoughts, insights, and updates on web development, design, and technology.",
+}
 
 export default async function ProjectsPage() {
   let projects: Awaited<ReturnType<typeof getAllProjects>> = []
