@@ -41,6 +41,10 @@ export const metadata: Metadata = {
     description: "From networks to control-systems — I build secure, scalable systems.",
     images: ['/opengraph-image.png'],
   },
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
   keywords: [
     'Robert Johnson',
     'portfolio',
