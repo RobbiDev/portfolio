@@ -7,6 +7,7 @@ import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, Network, Code, Server, ExternalLink, Hammer, MonitorSpeaker } from "lucide-react"
 import GridBackground from "@/components/grid-background"
+import Footer from "@/components/footer"
 
 // Glitch Text Component for Headings
 const GlitchHeading = ({ text }: { text: string }) => {
@@ -609,6 +610,8 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

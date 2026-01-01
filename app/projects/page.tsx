@@ -4,6 +4,7 @@ import { ExternalLink } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import CategoryFilter from "@/components/category-filter"
 import { getAllProjects, getProjectCategories } from "@/lib/projects"
+import Footer from "@/components/footer"
 
 export default async function ProjectsPage() {
   let projects = []
@@ -110,6 +111,8 @@ export default async function ProjectsPage() {
           )}
         </div>
       </div>
+
+      {/* <Footer /> */}
     </div>
   )
 }

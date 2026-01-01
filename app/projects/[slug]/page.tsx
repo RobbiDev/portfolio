@@ -6,6 +6,7 @@ import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
 import Gallery from "@/components/gallery"
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects"
+import Footer from "@/components/footer"
 
 export async function generateStaticParams() {
   const slugs = getAllProjectSlugs()
@@ -233,8 +234,11 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
             </div>
           )}
+
         </div>
+        
       </div>
+      <Footer />
     </div>
   )
 }
