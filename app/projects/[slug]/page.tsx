@@ -126,7 +126,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
           {/* Project Details */}
           <div className="grid gap-12 xl:grid-cols-[2fr_1fr]">
-            <div className="space-y-8">
+            <div className="space-y-8 order-2 xl:order-1">
+              
               {project.content && (
                 <div className="prose prose-invert prose-lime max-w-none">
                   <Markdown content={project.content} />
@@ -148,7 +149,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               )}
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-8 order-1 xl:order-2">
               <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-6">
                 <h2 className="text-xl font-bold mb-4">Project Details</h2>
                 <div className="space-y-4">
