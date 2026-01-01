@@ -7,8 +7,8 @@ import { getAllProjects, getProjectCategories } from "@/lib/projects"
 import Footer from "@/components/footer"
 
 export default async function ProjectsPage() {
-  let projects = []
-  let categories = []
+  let projects: Awaited<ReturnType<typeof getAllProjects>> = []
+  let categories: Awaited<ReturnType<typeof getProjectCategories>> = []
   let errorMessage = null
 
   try {
