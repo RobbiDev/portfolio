@@ -1,4 +1,5 @@
 import type React from "react"
+import type { Metadata } from "next"
 import { Inter, Space_Mono } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation"
@@ -14,6 +15,43 @@ const spaceMono = Space_Mono({
   variable: "--font-space-mono",
 })
 
+export const metadata: Metadata = {
+  title: "Robert Johnson | Portfolio",
+  description: "Robert Johnson's Portfolio",
+  // Resolves relative image paths to absolute URLs when `metadataBase` is set below
+  openGraph: {
+    title: "Robert Johnson | Portfolio",
+    description: "From networks to control-systems — I build secure, scalable systems.",
+    url: "https://robbyj.com", // Replace with your actual URL
+    siteName: "Robert Johnson Portfolio",
+    images: [
+      {
+        url: "/opengraph-image.png", // Social preview image (see /public/opengraph-image.svg)
+        width: 1200,
+        height: 630,
+        alt: "Robert Johnson Portfolio - Making Things Better",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Robert Johnson | Portfolio',
+    description: "From networks to control-systems — I build secure, scalable systems.",
+    images: ['/opengraph-image.png'],
+  },
+  keywords: [
+    'Robert Johnson',
+    'portfolio',
+    'software engineer',
+    'systems',
+    'networks',
+  ],
+}
+
+export const metadataBase = new URL('https://robbyj.com')
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,38 +59,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        {/* Primary Meta Tags */}
-        <title>Robert Johnson | Portfolio</title>
-        <meta name="title" content="Robert (Robby) Johnson | Portfolio" />
-        <meta name="description" content="Portfolio of Robert (Robby) Johnson. Specialized in software, networks, and PLCs. Building secure, robust systems with a commitment to performance and scalability." />
-        <link rel="icon" type="image/x-icon" href="/images/icon.svg"></link>
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.robbyj.dev/" />
-        <meta property="og:title" content="Robert (Robby) Johnson | Portfolio" />
-        <meta property="og:description" content="Portfolio of Robert (Robby) Johnson. Specialized in software, networks, and PLCs. Building secure, robust systems with a commitment to performance and scalability." />
-        <meta property="og:image" content="/images/thumbnail.png" />
-
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.robbyj.dev/" />
-        <meta property="twitter:title" content="Robert (Robby) Johnson | Portfolio" />
-        <meta property="twitter:description" content="Portfolio of Robert (Robby) Johnson. Specialized in software, networks, and PLCs. Building secure, robust systems with a commitment to performance and scalability." />
-        <meta property="twitter:image" content="/images/thumbnail.png" />
-      </head>
-
       <body className={`${inter.variable} ${spaceMono.variable} font-sans bg-black text-white relative`}>
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navigation />
           <main className="flex-1">{children}</main>
         </div>
       </body>
-
     </html>
   )
 }
-
-
-import './globals.css'
