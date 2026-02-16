@@ -89,6 +89,8 @@ By spending time with the Safety Coordinator, several "red flags" were identifie
 
 To solve this, SafelySDS was designed from the ground up to be accessible, fast, and collaborative—moving the facility beyond just "being compliant" and actually making safety part of the daily workflow.
 
+![Alt text](https://www.robbyj.dev/images/safelysds/thumbnail.png)
+
 ---
 
 ## The Problems & Solutions
