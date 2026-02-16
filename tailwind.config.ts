@@ -20,6 +20,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)"],
         "space-mono": ["var(--font-space-mono)"],
+        marker: ["var(--font-marker)"],
       },
       colors: {
         border: "hsl(var(--border))",

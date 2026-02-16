@@ -88,20 +88,35 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
             </div>
           ) : (
             <div className="grid gap-12">
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
-                >
-                  <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
-                    <div className="w-full h-[250px] md:h-[300px] relative overflow-hidden">
-                      <Image
-                        src={project.coverImage || "/placeholder.svg?height=600&width=800&query=project"}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+              {projects.map((project, index) => {
+                const coverImage = project.coverImage || "/placeholder.svg?height=600&width=800&query=project"
+                const isInlineCover = coverImage.startsWith("data:")
+
+                return (
+                  <div
+                    key={index}
+                    className="group relative bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
+                  >
+                    <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
+                      <div className="w-full h-[250px] md:h-[300px] relative overflow-hidden">
+                        <Image
+                          src={coverImage}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          unoptimized={isInlineCover}
+                        />
+                        {isInlineCover && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div 
+                              className="font-marker text-white px-8 py-4 text-2xl md:text-3xl uppercase"
+                              style={{ backgroundColor: project.coverImageColor || "rgb(16, 16, 16)" }}
+                            >
+                              {project.title}
+                            </div>
+                          </div>
+                        )}
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Link
                           href={`/projects/${project.slug}`}
@@ -115,7 +130,9 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
                     <div className="flex flex-col justify-center">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
-                        <span className="text-xs font-mono text-neutral-400">{project.category}</span>
+                        <span className="text-xs font-mono text-neutral-400">
+                          {project.category.length > 0 ? project.category.join(" / ") : "Uncategorized"}
+                        </span>
                       </div>
                       <h3 className="text-2xl md:text-3xl font-bold mb-4">{project.title}</h3>
                       <p className="text-neutral-400 mb-6">{project.summary}</p>
@@ -143,8 +160,9 @@ export default async function ProjectCategoryPage({ params }: { params: { catego
                       </Link>
                     </div>
                   </div>
-                </div>
-              ))}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

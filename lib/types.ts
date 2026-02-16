@@ -17,9 +17,10 @@ export interface ProjectMetadata {
   demo?: string
   image?: string
   featured?: boolean
-  category: string
+  category: string | string[]
   summary: string
   coverImage: string
+  coverImageColor?: string
   client?: string
   timeline?: string
   role?: string

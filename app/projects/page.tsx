@@ -8,7 +8,7 @@ import Footer from "@/components/footer"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Robert Johnson | Projects",
+  title: "Projects",
   description: "Thoughts, insights, and updates on web development, design, and technology.",
 }
 
@@ -48,28 +48,88 @@ export default async function ProjectsPage() {
               <p className="text-neutral-400">{errorMessage}</p>
             </div>
           ) : projects.length === 0 ? (
-            <div className="bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 text-center">
-              <h3 className="text-xl font-bold mb-4">No projects found</h3>
-              <p className="text-neutral-400">
-                Projects will appear here once they are added to the content/projects directory.
-              </p>
+            <div className="relative overflow-hidden bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 md:p-12">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(163,230,53,0.2),_transparent_55%)]"></div>
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_rgba(59,130,246,0.2),_transparent_60%)]"></div>
+
+              <div className="relative z-10 grid gap-10 md:grid-cols-[1.2fr_0.8fr] items-center">
+                <div>
+                  <div className="text-xs font-mono uppercase tracking-[0.3em] text-pallete-main/80 mb-3">
+                    Project Bay Empty
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-3">No published projects yet</h3>
+                  <p className="text-neutral-400 mb-6">
+                    When new work ships, it will land here with full case studies and visuals.
+                  </p>
+                  <div className="grid gap-3 text-sm font-mono text-neutral-300">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-pallete-main"></span>
+                      <span>Add a markdown file in content/projects.</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-blue-400"></span>
+                      <span>Use the in-dev console to preview drafts.</span>
+                    </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-3 text-sm font-mono">
+                    <Link
+                      href="/system-error"
+                      className="inline-flex items-center gap-2 border border-pallete-main/40 bg-pallete-main/10 px-4 py-2 text-pallete-main transition hover:border-pallete-main/70 hover:bg-pallete-main/20"
+                    >
+                      Open In-Dev Console
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-white/80 transition hover:border-white/30 hover:text-white"
+                    >
+                      Start a Project
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute h-56 w-56 rounded-full border border-pallete-main/30 animate-signal-spin"></div>
+                  <div className="absolute h-40 w-40 rounded-full border border-blue-400/30 animate-signal-spin [animation-duration:20s]"></div>
+                  <div className="absolute h-28 w-28 rounded-full border border-white/10 animate-signal-spin [animation-duration:26s]"></div>
+                  <div className="relative h-28 w-28 rounded-full border border-pallete-main/40 bg-black/60 shadow-[0_0_30px_rgba(163,230,53,0.3)]">
+                    <div className="absolute inset-3 rounded-full border border-blue-300/30 animate-signal-pulse"></div>
+                    <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pallete-main shadow-[0_0_10px_rgba(163,230,53,0.9)]"></div>
+                  </div>
+                  <div className="pointer-events-none absolute -bottom-6 h-16 w-48 rounded-full bg-pallete-main/10 blur-2xl"></div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid gap-12">
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
-                >
-                  <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
-                    <div className="w-full h-[250px] md:h-[300px] relative overflow-hidden">
-                      <Image
-                        src={project.coverImage || "/placeholder.svg?height=600&width=800&query=project"}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+              {projects.map((project, index) => {
+                const coverImage = project.coverImage || "/placeholder.svg?height=600&width=800&query=project"
+                const isInlineCover = coverImage.startsWith("data:")
+
+                return (
+                  <div
+                    key={index}
+                    className="group relative bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
+                  >
+                    <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
+                      <div className="w-full h-[250px] md:h-[300px] relative overflow-hidden">
+                        <Image
+                          src={coverImage}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          unoptimized={isInlineCover}
+                        />
+                        {isInlineCover && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div 
+                              className="font-marker text-white px-8 py-4 text-2xl md:text-3xl uppercase"
+                              style={{ backgroundColor: project.coverImageColor || "rgb(16, 16, 16)" }}
+                            >
+                              {project.title}
+                            </div>
+                          </div>
+                        )}
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <Link
                           href={`/projects/${project.slug}`}
@@ -83,7 +143,9 @@ export default async function ProjectsPage() {
                     <div className="flex flex-col justify-center">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="h-2 w-2 rounded-full bg-pallete-main"></div>
-                        <span className="text-xs font-mono text-neutral-400">{project.category}</span>
+                        <span className="text-xs font-mono text-neutral-400">
+                          {project.category.length > 0 ? project.category.join(" / ") : "Uncategorized"}
+                        </span>
                       </div>
                       <h3 className="text-2xl md:text-3xl font-bold mb-4">{project.title}</h3>
                       <p className="text-neutral-400 mb-6">{project.summary}</p>
@@ -111,8 +173,9 @@ export default async function ProjectsPage() {
                       </Link>
                     </div>
                   </div>
-                </div>
-              ))}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

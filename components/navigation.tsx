@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 
 // Digital scrambling effect component
-const ScrambleText = ({ text }: { text: string }) => {
+const ScrambleText = ({ text, className = "" }: { text: string; className?: string }) => {
   const [displayText, setDisplayText] = useState(text)
   const [isHovering, setIsHovering] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -65,7 +65,7 @@ const ScrambleText = ({ text }: { text: string }) => {
 
   return (
     <span
-      className="font-mono text-[#e21a41] tracking-wider transition-colors"
+      className={`font-mono tracking-wider transition-colors ${className}`}
       onMouseEnter={startScramble}
       onMouseLeave={stopScramble}
     >
@@ -79,6 +79,15 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
   const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const isSystemError = pathname.startsWith("/system-error")
+  const headerAccent = isSystemError ? "text-blue-400" : "text-pallete-main"
+  const headerHover = isSystemError ? "hover:text-blue-300" : "hover:text-pallete-main"
+  const ctaClasses = isSystemError
+    ? "hidden md:inline-flex bg-blue-500 hover:bg-blue-400 text-black px-4 py-2 text-sm font-medium transition-colors"
+    : "hidden md:inline-flex bg-[#e21a41] hover:bg-[#e21a41]/60 text-black px-4 py-2 text-sm font-medium transition-colors"
+  const mobileCtaClasses = isSystemError
+    ? "inline-flex w-full justify-center bg-blue-500 hover:bg-blue-400 text-black px-4 py-3 font-medium transition-colors"
+    : "inline-flex w-full justify-center bg-pallete-main hover:bg-pallete-main/60 text-black px-4 py-3 font-medium transition-colors"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -110,8 +119,8 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={`sticky top-0 z-[70] transition-all duration-300 ${
-          scrolled || isMenuOpen
+        className={`${isSystemError ? "relative" : "sticky top-0"} z-[70] transition-all duration-300 ${
+          scrolled || isMenuOpen || isSystemError
             ? "bg-black/90 backdrop-blur-sm border-b border-neutral-800"
             : "bg-transparent"
         }`}
@@ -119,25 +128,22 @@ export default function Navigation() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center">
-              <ScrambleText text="robbyj" />
+              <ScrambleText text="robbyj" className={isSystemError ? "text-blue-400" : "text-[#e21a41]"} />
             </Link>
           </div>
   
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6">
-            <NavLink href="/" active={pathname === "/"}>HOME [+]</NavLink>
-            <NavLink href="/projects" active={pathname.startsWith("/projects")}>PROJECTS [+]</NavLink>
-            <NavLink href="/blog" active={pathname.startsWith("/blog")}>BLOG [+]</NavLink>
-            <NavLink href="/about" active={pathname === "/about"}>ABOUT [+]</NavLink>
-            <NavLink href="/contact" active={pathname === "/contact"}>CONTACT [+]</NavLink>
+            <NavLink href="/" active={pathname === "/"} accentClassName={headerAccent} hoverClassName={headerHover}>HOME [+]</NavLink>
+            <NavLink href="/projects" active={pathname.startsWith("/projects")} accentClassName={headerAccent} hoverClassName={headerHover}>PROJECTS [+]</NavLink>
+            <NavLink href="/blog" active={pathname.startsWith("/blog")} accentClassName={headerAccent} hoverClassName={headerHover}>BLOG [+]</NavLink>
+            <NavLink href="/about" active={pathname === "/about"} accentClassName={headerAccent} hoverClassName={headerHover}>ABOUT [+]</NavLink>
+            <NavLink href="/contact" active={pathname === "/contact"} accentClassName={headerAccent} hoverClassName={headerHover}>CONTACT [+]</NavLink>
           </nav>
   
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <Link
-              href="/contact"
-              className="hidden md:inline-flex bg-[#e21a41] hover:bg-[#e21a41]/60 text-black px-4 py-2 text-sm font-medium transition-colors"
-            >
+            <Link href="/contact" className={ctaClasses}>
               GET IN TOUCH
             </Link>
             <button
@@ -148,7 +154,9 @@ export default function Navigation() {
               }}
               className={`md:hidden p-2 z-[80] transition-colors ${
                 isMenuOpen
-                  ? "bg-[#e21a41] text-black"
+                  ? isSystemError
+                    ? "bg-blue-500 text-black"
+                    : "bg-[#e21a41] text-black"
                   : "bg-black/30 backdrop-blur-sm border border-neutral-800 text-white"
               }`}
               aria-label="Toggle menu"
@@ -163,17 +171,14 @@ export default function Navigation() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-black text-white flex flex-col h-screen">
           <div className="pt-16 px-6 pb-8 flex flex-col flex-grow overflow-y-auto">
-            <MobileNavLink href="/" active={pathname === "/"}>HOME</MobileNavLink>
-            <MobileNavLink href="/projects" active={pathname.startsWith("/projects")}>PROJECTS</MobileNavLink>
-            <MobileNavLink href="/blog" active={pathname.startsWith("/blog")}>BLOG</MobileNavLink>
-            <MobileNavLink href="/about" active={pathname === "/about"}>ABOUT</MobileNavLink>
-            <MobileNavLink href="/contact" active={pathname === "/contact"}>CONTACT</MobileNavLink>
+            <MobileNavLink href="/" active={pathname === "/"} accentClassName={headerAccent} hoverClassName={headerHover}>HOME</MobileNavLink>
+            <MobileNavLink href="/projects" active={pathname.startsWith("/projects")} accentClassName={headerAccent} hoverClassName={headerHover}>PROJECTS</MobileNavLink>
+            <MobileNavLink href="/blog" active={pathname.startsWith("/blog")} accentClassName={headerAccent} hoverClassName={headerHover}>BLOG</MobileNavLink>
+            <MobileNavLink href="/about" active={pathname === "/about"} accentClassName={headerAccent} hoverClassName={headerHover}>ABOUT</MobileNavLink>
+            <MobileNavLink href="/contact" active={pathname === "/contact"} accentClassName={headerAccent} hoverClassName={headerHover}>CONTACT</MobileNavLink>
   
             <div className="mt-6">
-              <Link
-                href="/contact"
-                className="inline-flex w-full justify-center bg-pallete-main hover:bg-pallete-main/60 text-black px-4 py-3 font-medium transition-colors"
-              >
+              <Link href="/contact" className={mobileCtaClasses}>
                 GET IN TOUCH
               </Link>
             </div>
@@ -192,23 +197,47 @@ export default function Navigation() {
   
 }
 
-function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+function NavLink({
+  href,
+  active,
+  children,
+  accentClassName,
+  hoverClassName,
+}: {
+  href: string
+  active: boolean
+  children: React.ReactNode
+  accentClassName: string
+  hoverClassName: string
+}) {
   return (
     <Link
       href={href}
-      className={`text-sm font-medium transition-colors ${active ? "text-pallete-main" : "text-white hover:text-pallete-main"}`}
+      className={`text-sm font-medium transition-colors ${active ? accentClassName : `text-white ${hoverClassName}`}`}
     >
       {children}
     </Link>
   )
 }
 
-function MobileNavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+function MobileNavLink({
+  href,
+  active,
+  children,
+  accentClassName,
+  hoverClassName,
+}: {
+  href: string
+  active: boolean
+  children: React.ReactNode
+  accentClassName: string
+  hoverClassName: string
+}) {
   return (
     <Link
       href={href}
       className={`text-2xl font-bold py-3 border-b border-neutral-800 transition-colors ${
-        active ? "text-pallete-main" : "text-white hover:text-pallete-main"
+        active ? accentClassName : `text-white ${hoverClassName}`
       }`}
     >
       {children}

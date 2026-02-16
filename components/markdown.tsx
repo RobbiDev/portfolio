@@ -8,9 +8,11 @@ import remarkGfm from "remark-gfm"
 
 interface MarkdownProps {
   content: string
+  blockquoteClassName?: string
 }
 
-const Markdown: React.FC<MarkdownProps> = ({ content }) => {
+const Markdown: React.FC<MarkdownProps> = ({ content, blockquoteClassName }) => {
+  const blockquoteStyles = blockquoteClassName || "border-lime-400 text-neutral-400"
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -55,7 +57,7 @@ const Markdown: React.FC<MarkdownProps> = ({ content }) => {
         ),
         li: ({ node, ordered, checked, ...props }) => <li className="mb-1" {...props} />,
         blockquote: ({ node, ...props }) => (
-          <blockquote className="border-l-4 border-lime-400 pl-4 italic my-4 text-neutral-400" {...props} />
+          <blockquote className={`border-l-4 pl-4 italic my-4 ${blockquoteStyles}`} {...props} />
         ),
         img: ({ node, src, alt, ...props }) => {
           if (!src) return null

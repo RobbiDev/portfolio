@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Inter, Space_Mono } from "next/font/google";
+import { Inter, Space_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navigation";
 
@@ -15,12 +15,18 @@ const spaceMono = Space_Mono({
   variable: "--font-space-mono",
 });
 
+const permanentMarker = Permanent_Marker({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-marker",
+});
+
 export const metadataBase = new URL("https://robbyj.com");
 
 export const metadata: Metadata = {
   title: {
     default: "Robert Johnson | Portfolio",
-    template: "%s | Robert Johnson",
+    template: "Robert Johnson | %s",
   },
   description:
     "From networks to control systems, I build secure, scalable software and infrastructure solutions with a focus on reliability and performance.",
@@ -90,8 +96,9 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${spaceMono.variable} font-sans bg-black text-white relative`}
+        className={`${inter.variable} ${spaceMono.variable} ${permanentMarker.variable} font-sans bg-black text-white relative`}
       >
+        
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navigation />
           <main className="flex-1">{children}</main>

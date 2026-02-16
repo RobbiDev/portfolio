@@ -248,6 +248,71 @@ pre[class*="language-"] {
   }
 }
 
+@keyframes signal-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes signal-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes signal-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes signal-scan {
+  0% {
+    transform: translateX(-40%) skewX(-12deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(60%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-signal-spin {
+    animation: signal-spin 16s linear infinite;
+  }
+
+  .animate-signal-pulse {
+    animation: signal-pulse 2.8s ease-in-out infinite;
+  }
+
+  .animate-signal-orbit {
+    animation: signal-orbit 6s linear infinite;
+  }
+
+  .animate-signal-scan {
+    animation: signal-scan 6s linear infinite;
+  }
+}
+
 .animate-glitch-1 {
   animation: glitch-1 0.2s infinite;
 }

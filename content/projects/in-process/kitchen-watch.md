@@ -1,10 +1,10 @@
 ===
 {
-  "title": "KitchenWatch",
+  "title": "Kitchen Watch",
   "summary": "SafelySDS is a web-based application built to help businesses store, manage, and access Safety Data Sheets (SDS) in a secure and organized manner.",
   "category": "SOFTWARE",
+  "coverImageColor": "#e60e33",
   "technologies": ["Next.js", "Tailwind CSS", "Render", "MongoDB"],
-  "coverImage": "/images/kitchenwatch/thumbnail.jpg",
   "client": "Personal Project & Imaflex USA",
   "timeline": "January 2025 - March 2025",
   "features": [

@@ -1,10 +1,12 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Calendar, User, Tag, Folder } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
 import Gallery from "@/components/gallery"
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog"
+import { getAllInDevSlugs } from "@/lib/in-dev"
+import { findBestSlugMatch } from "@/lib/slug-fallback"
 
 export async function generateStaticParams() {
   const slugs = getAllBlogSlugs()
@@ -38,6 +40,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     console.log("Retrieved blog post:", post ? post.title : "Not found")
 
     if (!post) {
+      const inDevMatch = findBestSlugMatch(params.slug, getAllInDevSlugs())
+      if (inDevMatch) {
+        redirect(`/system-error/${inDevMatch}`)
+      }
       notFound()
     }
   } catch (error) {

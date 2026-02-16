@@ -1,0 +1,79 @@
+/* Terminal-themed markdown styles for system-error pages */
+.system-error-content {
+  color: rgb(96 165 250);
+}
+
+.system-error-content h1,
+.system-error-content h2,
+.system-error-content h3,
+.system-error-content h4,
+.system-error-content h5,
+.system-error-content h6 {
+  color: rgb(59 130 246);
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.system-error-content a {
+  color: rgb(96 165 250);
+  text-decoration: underline;
+}
+
+.system-error-content a:hover {
+  color: rgb(147 197 253);
+}
+
+.system-error-content code {
+  color: rgb(34 211 238);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-family: monospace;
+}
+
+.system-error-content pre {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 1em;
+  overflow-x: auto;
+  border-radius: 0.25em;
+}
+
+.system-error-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.system-error-content strong {
+  color: rgb(59 130 246);
+  font-weight: 600;
+}
+
+.system-error-content blockquote {
+  border-left: 4px solid rgb(59 130 246);
+  padding-left: 1em;
+  color: rgb(96 165 250 / 0.7);
+  margin: 1em 0;
+}
+
+.system-error-content ul,
+.system-error-content ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.system-error-content li {
+  margin: 0.5em 0;
+}
+
+.system-error-content p {
+  margin: 1em 0;
+  line-height: 1.6;
+}
+
+.system-error-content hr {
+  border: none;
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+  margin: 2em 0;
+}

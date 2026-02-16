@@ -4,60 +4,61 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Terminal, ArrowLeft, RefreshCw, ShieldAlert, Database, Code, Cpu } from "lucide-react"
+import { Terminal, ArrowLeft, RefreshCw, Code2, FileText, Clock, Folder } from "lucide-react"
+
+// Define in-dev item type
+interface InDevItem {
+  slug: string
+  title: string
+  type: "project" | "blog"
+  status?: string
+  date?: string
+  category?: string | string[]
+  technologies?: string[]
+}
 
 export default function SystemErrorPage() {
+  const router = useRouter()
   const [bootSequence, setBootSequence] = useState<string[]>([])
   const [commandInput, setCommandInput] = useState("")
-  const [accessGranted, setAccessGranted] = useState(false)
-  const [showSecret, setShowSecret] = useState(false)
+  const [showInDev, setShowInDev] = useState(false)
+  const [inDevItems, setInDevItems] = useState<InDevItem[]>([])
+  const [loading, setLoading] = useState(false)
+  const [bootKey, setBootKey] = useState(0)
+  const pathname = usePathname()
   const terminalRef = useRef<HTMLDivElement>(null)
+  const commandInputRef = useRef<HTMLInputElement>(null)
 
-  // Boot sequence messages
+  // Boot sequence messages - shortened for faster access
   const bootMessages = [
     "SYSTEM INITIALIZATION...",
-    "CHECKING MEMORY INTEGRITY...",
-    "ERROR: MEMORY CORRUPTION DETECTED",
-    "ATTEMPTING RECOVERY SEQUENCE...",
-    "RECOVERY FAILED: CRITICAL SYSTEM FILES CORRUPTED",
-    "INITIATING EMERGENCY PROTOCOL...",
-    "LOADING BACKUP INTERFACE...",
+    "LOADING DEVELOPMENT ENVIRONMENT...",
     "TERMINAL ACCESS ENABLED",
-    "AWAITING AUTHORIZATION...",
+    "Type 'dev' to view in-development projects",
   ]
 
-  // Secret projects data
-  const secretProjects = [
-    {
-      name: "Project Nexus",
-      description: "Quantum computing interface with neural network integration",
-      status: "Phase 2 Development",
-      icon: <Cpu className="h-6 w-6 text-lime-400" />,
-    },
-    {
-      name: "Cipher Protocol",
-      description: "Advanced encryption system using biological markers",
-      status: "Testing",
-      icon: <ShieldAlert className="h-6 w-6 text-lime-400" />,
-    },
-    {
-      name: "Cortex Database",
-      description: "Self-evolving data structure with predictive analytics",
-      status: "Prototype",
-      icon: <Database className="h-6 w-6 text-lime-400" />,
-    },
-    {
-      name: "Synaptic Code",
-      description: "AI-driven code generation with consciousness simulation",
-      status: "Theoretical",
-      icon: <Code className="h-6 w-6 text-lime-400" />,
-    },
-  ]
+  // Fetch in-dev items
+  const fetchInDevItems = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("/api/in-dev")
+      if (response.ok) {
+        const data = await response.json()
+        setInDevItems(data)
+      }
+    } catch (error) {
+      console.error("Failed to fetch in-dev items:", error)
+    }
+    setLoading(false)
+  }
 
-  // Simulate boot sequence
+  // Simulate boot sequence - faster than before
   useEffect(() => {
+    if (bootKey === 0) return
     let currentIndex = 0
+    setBootSequence([])
 
     const interval = setInterval(() => {
       if (currentIndex < bootMessages.length) {
@@ -66,9 +67,44 @@ export default function SystemErrorPage() {
       } else {
         clearInterval(interval)
       }
-    }, 500)
+    }, 300) // Faster boot
 
     return () => clearInterval(interval)
+  }, [bootKey])
+
+  useEffect(() => {
+    if (pathname !== "/system-error") return
+    const shouldAutoDev =
+      typeof window !== "undefined" && sessionStorage.getItem("systemErrorAutoDev") === "1"
+
+    if (shouldAutoDev) {
+      sessionStorage.removeItem("systemErrorAutoDev")
+    } else {
+      setShowInDev(false)
+      setLoading(false)
+      setInDevItems([])
+      setCommandInput("")
+    }
+
+    setBootKey((prev) => prev + 1)
+
+    if (shouldAutoDev) {
+      setTimeout(() => {
+        executeCommand("dev")
+      }, 0)
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow
+    const originalOverscroll = document.body.style.overscrollBehavior
+    document.body.style.overflow = "hidden"
+    document.body.style.overscrollBehavior = "none"
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      document.body.style.overscrollBehavior = originalOverscroll
+    }
   }, [])
 
   // Auto-scroll terminal
@@ -76,48 +112,67 @@ export default function SystemErrorPage() {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight
     }
-  }, [bootSequence, accessGranted])
+  }, [bootSequence, showInDev])
 
-  const handleCommandSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    // Process command
-    const command = commandInput.trim().toLowerCase()
+  const executeCommand = (rawCommand: string) => {
+    const command = rawCommand.trim().toLowerCase()
+    if (!command) return
     setCommandInput("")
-
-    // Add command to terminal output
     setBootSequence((prev) => [...prev, `> ${command}`])
 
-    // Process different commands
     setTimeout(() => {
       if (command === "help") {
-        setBootSequence((prev) => [...prev, "Available commands: help, status, access, clear"])
-      } else if (command === "status") {
         setBootSequence((prev) => [
           ...prev,
-          "SYSTEM STATUS: CRITICAL",
-          "Multiple subsystems offline",
-          "Emergency protocols active",
+          "Available commands:",
+          "  dev    - View in-development projects and blogs",
+          "  clear  - Clear terminal output",
+          "  help   - Show this help message",
         ])
       } else if (command === "clear") {
         setBootSequence([])
-      } else if (command === "access" || command.includes("override")) {
-        setBootSequence((prev) => [
-          ...prev,
-          "Initiating security override...",
-          "Access granted. Welcome, Administrator.",
-        ])
+        setShowInDev(false)
+        setInDevItems([])
+      } else if (command === "dev" || command === "development" || command === "in-dev") {
+        setBootSequence((prev) => [...prev, "Loading in-development items..."])
+        fetchInDevItems()
         setTimeout(() => {
-          setAccessGranted(true)
-        }, 1000)
+          setShowInDev(true)
+        }, 500)
       } else {
-        setBootSequence((prev) => [...prev, `Command not recognized: ${command}`])
+        setBootSequence((prev) => [...prev, `Command not recognized: ${command}`, "Type 'help' for available commands"])
       }
-    }, 300)
+    }, 200)
+  }
+
+  const handleCommandSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    executeCommand(commandInput)
+  }
+
+  const handleQuickCommand = (command: string) => {
+    executeCommand(command)
+    requestAnimationFrame(() => {
+      commandInputRef.current?.focus()
+    })
+  }
+
+  const projectItems = inDevItems.filter((item) => item.type === "project")
+  const blogItems = inDevItems.filter((item) => item.type === "blog")
+
+  const handleRowNavigate = (slug: string) => {
+    router.push(`/system-error/${slug}`)
+  }
+
+  const handleRowKeyDown = (event: React.KeyboardEvent, slug: string) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault()
+      handleRowNavigate(slug)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-black text-blue-500 font-mono flex flex-col">
+    <div className="h-[calc(100dvh-4rem)] bg-black text-blue-500 font-mono overflow-hidden flex flex-col">
       {/* Glitch background effect */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-black"></div>
@@ -140,150 +195,299 @@ export default function SystemErrorPage() {
       </div>
 
       {/* Terminal Interface */}
-      <div className="relative z-10 flex-1 p-4 md:p-8 flex flex-col">
-        <div className="mb-6 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-blue-500 hover:text-blue-400 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            <span>RETURN TO MAIN SYSTEM</span>
-          </Link>
+      <div className="relative z-10 h-full p-4 md:p-8 flex flex-col min-h-0 overflow-hidden">
+        <div className="border border-blue-500/30 bg-black/80 rounded-md overflow-hidden flex flex-col min-h-0 h-full">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-blue-500/30">
+            <Link href="/" className="flex items-center gap-2 text-blue-500 hover:text-blue-400 transition-colors">
+              <ArrowLeft className="h-4 w-4" />
+              <span>RETURN TO MAIN SYSTEM</span>
+            </Link>
 
-          <div className="flex items-center gap-2">
-            <RefreshCw className="h-4 w-4 animate-spin" />
-            <span className="text-xs">SYSTEM RECOVERY IN PROGRESS</span>
-          </div>
-        </div>
-
-        {/* Terminal Window */}
-        <div className="flex-1 border border-blue-500/30 bg-black shadow-lg rounded-md p-4 flex flex-col">
-          <div className="flex items-center gap-2 border-b border-blue-500/30 pb-2 mb-4">
-            <Terminal className="h-5 w-5" />
-            <span>EMERGENCY TERMINAL</span>
-            <div className="ml-auto flex gap-2">
-              <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></div>
-              <div className="h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></div>
+            <div className="flex items-center gap-2">
+              <RefreshCw className="h-4 w-4 animate-spin" />
+              <span className="text-xs">SYSTEM RECOVERY IN PROGRESS</span>
             </div>
           </div>
 
-          {/* Terminal Output */}
-          <div
-            ref={terminalRef}
-            className="flex-1 overflow-auto mb-4 font-mono text-sm"
-            style={{ maxHeight: "calc(100vh - 250px)" }}
-          >
-            {bootSequence.map((line, index) => (
-              <div key={index} className={`mb-1 ${line && line.startsWith(">") ? "text-blue-400" : ""}`}>
-                {line || ""}
+          <div className="flex-1 min-h-0 flex flex-col gap-4 p-4 md:p-6 overflow-hidden">
+          {/* Terminal Window */}
+          <div className="flex-1 min-h-0 border border-blue-500/30 bg-black shadow-lg rounded-md p-4 flex flex-col">
+            <div className="flex items-center gap-2 border-b border-blue-500/30 pb-2 mb-4">
+              <Terminal className="h-5 w-5" />
+              <span>EMERGENCY TERMINAL</span>
+              <div className="ml-auto flex gap-2">
+                <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></div>
+                <div className="h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></div>
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Command Input */}
-          {!accessGranted ? (
+            {/* Terminal Output */}
+            <div ref={terminalRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden mb-4 font-mono text-sm">
+              {bootSequence.map((line, index) => (
+                <div key={index} className={`mb-1 ${line && line.startsWith(">") ? "text-blue-400" : ""}`}>
+                  {line || ""}
+                </div>
+              ))}
+            </div>
+
+            {/* Command Input */}
             <form onSubmit={handleCommandSubmit} className="flex border-t border-blue-500/30 pt-2">
               <span className="mr-2">{">"}</span>
               <input
                 type="text"
                 value={commandInput}
                 onChange={(e) => setCommandInput(e.target.value)}
+                ref={commandInputRef}
                 className="flex-1 bg-transparent outline-none"
-                placeholder="Type 'help' for available commands..."
+                placeholder="Type 'dev' to view in-development items..."
                 autoFocus
               />
             </form>
-          ) : (
-            <div className="text-center">
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                onClick={() => setShowSecret(true)}
-                className="bg-blue-500 text-black px-4 py-2 rounded-sm hover:bg-blue-400 transition-colors"
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => handleQuickCommand("dev")}
+                className="border border-blue-500/30 px-3 py-1 text-blue-400 hover:text-blue-300 hover:border-blue-400 transition-colors"
               >
-                ACCESS CLASSIFIED PROJECTS
-              </motion.button>
+                DEV
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickCommand("help")}
+                className="border border-blue-500/30 px-3 py-1 text-blue-400 hover:text-blue-300 hover:border-blue-400 transition-colors"
+              >
+                HELP
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickCommand("clear")}
+                className="border border-blue-500/30 px-3 py-1 text-blue-400 hover:text-blue-300 hover:border-blue-400 transition-colors"
+              >
+                CLEAR
+              </button>
             </div>
+          </div>
+
+          {/* In-Dev Items Display */}
+          {showInDev && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex-none max-h-[32vh] overflow-auto border border-blue-500/30 bg-black/50 rounded-md p-4 md:p-6"
+            >
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Folder className="h-5 w-5 text-blue-500" />
+                <h2 className="text-blue-500 text-lg md:text-xl font-bold">IN-DEVELOPMENT ITEMS</h2>
+              </div>
+              <button
+                onClick={() => setShowInDev(false)}
+                className="text-blue-500/70 hover:text-blue-500 text-sm"
+              >
+                [CLOSE]
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-8">
+                <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-blue-500" />
+                <p className="text-blue-500/70">Loading...</p>
+              </div>
+            ) : inDevItems.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-blue-500/70">No in-development items found</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-blue-400 text-xs uppercase">
+                    <Code2 className="h-4 w-4" />
+                    Projects
+                  </div>
+                  {projectItems.length === 0 ? (
+                    <p className="text-blue-500/70 text-sm">No in-development projects found</p>
+                  ) : (
+                    <>
+                      <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full table-fixed text-left text-sm">
+                          <colgroup>
+                            <col className="w-[40%]" />
+                            <col className="w-[20%]" />
+                            <col className="w-[25%]" />
+                            <col className="w-[15%]" />
+                          </colgroup>
+                          <thead className="border-b border-blue-500/30">
+                            <tr className="text-blue-500">
+                              <th className="pb-2 px-3">TITLE</th>
+                              <th className="pb-2 px-3">STATUS</th>
+                              <th className="pb-2 px-3">CATEGORY</th>
+                              <th className="pb-2 px-3">ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {projectItems.map((item, index) => (
+                              <motion.tr
+                                key={item.slug}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="border-b border-blue-500/10 hover:bg-blue-500/10 cursor-pointer"
+                                onClick={() => handleRowNavigate(item.slug)}
+                                onKeyDown={(event) => handleRowKeyDown(event, item.slug)}
+                                tabIndex={0}
+                                role="button"
+                              >
+                                <td className="py-3 px-3 text-blue-500">{item.title}</td>
+                                <td className="py-3 px-3">
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="h-3 w-3 text-yellow-500" />
+                                    <span className="text-yellow-500 text-xs">{item.status || "In Progress"}</span>
+                                  </div>
+                                </td>
+                                <td className="py-3 px-3 text-blue-500/70 text-xs">
+                                  {Array.isArray(item.category) ? item.category.join(", ") : item.category || "N/A"}
+                                </td>
+                                <td className="py-3 px-3">
+                                  <span className="text-blue-400 underline text-xs">VIEW</span>
+                                </td>
+                              </motion.tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="md:hidden space-y-3">
+                        {projectItems.map((item, index) => (
+                          <Link key={item.slug} href={`/system-error/${item.slug}`} className="block">
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              className="border border-blue-500/20 bg-black/30 p-4"
+                            >
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <Code2 className="h-4 w-4 text-blue-400" />
+                                  <span className="text-blue-500 uppercase text-xs font-bold">PROJECT</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-3 w-3 text-yellow-500" />
+                                  <span className="text-yellow-500 text-xs">{item.status || "In Progress"}</span>
+                                </div>
+                              </div>
+                              <h3 className="text-blue-500 font-bold mb-2">{item.title}</h3>
+                              {item.category && (
+                                <p className="text-blue-500/70 text-xs mb-3">
+                                  {Array.isArray(item.category) ? item.category.join(", ") : item.category}
+                                </p>
+                              )}
+                              <span className="text-blue-400 underline text-sm">VIEW DETAILS →</span>
+                            </motion.div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-blue-400 text-xs uppercase">
+                    <FileText className="h-4 w-4" />
+                    Blogs
+                  </div>
+                  {blogItems.length === 0 ? (
+                    <p className="text-blue-500/70 text-sm">No in-development blogs found</p>
+                  ) : (
+                    <>
+                      <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full table-fixed text-left text-sm">
+                          <colgroup>
+                            <col className="w-[40%]" />
+                            <col className="w-[20%]" />
+                            <col className="w-[25%]" />
+                            <col className="w-[15%]" />
+                          </colgroup>
+                          <thead className="border-b border-blue-500/30">
+                            <tr className="text-blue-500">
+                              <th className="pb-2 px-3">TITLE</th>
+                              <th className="pb-2 px-3">STATUS</th>
+                              <th className="pb-2 px-3">CATEGORY</th>
+                              <th className="pb-2 px-3">ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {blogItems.map((item, index) => (
+                              <motion.tr
+                                key={item.slug}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="border-b border-blue-500/10 hover:bg-blue-500/10 cursor-pointer"
+                                onClick={() => handleRowNavigate(item.slug)}
+                                onKeyDown={(event) => handleRowKeyDown(event, item.slug)}
+                                tabIndex={0}
+                                role="button"
+                              >
+                                <td className="py-3 px-3 text-blue-500">{item.title}</td>
+                                <td className="py-3 px-3">
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="h-3 w-3 text-yellow-500" />
+                                    <span className="text-yellow-500 text-xs">{item.status || "In Progress"}</span>
+                                  </div>
+                                </td>
+                                <td className="py-3 px-3 text-blue-500/70 text-xs">
+                                  {Array.isArray(item.category) ? item.category.join(", ") : item.category || "N/A"}
+                                </td>
+                                <td className="py-3 px-3">
+                                  <span className="text-blue-400 underline text-xs">VIEW</span>
+                                </td>
+                              </motion.tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="md:hidden space-y-3">
+                        {blogItems.map((item, index) => (
+                          <Link key={item.slug} href={`/system-error/${item.slug}`} className="block">
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              className="border border-blue-500/20 bg-black/30 p-4"
+                            >
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <FileText className="h-4 w-4 text-blue-400" />
+                                  <span className="text-blue-500 uppercase text-xs font-bold">BLOG</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-3 w-3 text-yellow-500" />
+                                  <span className="text-yellow-500 text-xs">{item.status || "In Progress"}</span>
+                                </div>
+                              </div>
+                              <h3 className="text-blue-500 font-bold mb-2">{item.title}</h3>
+                              {item.category && (
+                                <p className="text-blue-500/70 text-xs mb-3">
+                                  {Array.isArray(item.category) ? item.category.join(", ") : item.category}
+                                </p>
+                              )}
+                              <span className="text-blue-400 underline text-sm">VIEW DETAILS →</span>
+                            </motion.div>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+            </motion.div>
           )}
+          </div>
         </div>
       </div>
 
-      {/* Secret Projects Modal */}
-      {showSecret && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="bg-black border border-blue-500/20 shadow-lg p-6 max-w-3xl w-full max-h-[80vh] overflow-auto"
-          >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-blue-500 text-2xl font-bold">CLASSIFIED PROJECTS</h2>
-              <button onClick={() => setShowSecret(false)} className="text-blue-500/70 hover:text-blue-500">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {secretProjects.map((project, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  className="bg-black/50 border border-blue-500/20 shadow-md p-4"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    {project.icon}
-                    <h3 className="font-bold text-blue-500">{project.name}</h3>
-                  </div>
-                  <p className="text-blue-500/70 text-sm mb-3">{project.description}</p>
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-blue-500">STATUS:</span>
-                    <span className="text-blue-500/80">{project.status}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-6 text-center">
-              <p className="text-blue-500/50 text-sm mb-4">
-                These projects are highly experimental and not available for public viewing. Your access has been
-                logged.
-              </p>
-              <button
-                onClick={() => setShowSecret(false)}
-                className="bg-black border border-blue-500 text-blue-500 px-4 py-2 hover:bg-blue-500/10 transition-colors"
-              >
-                CLOSE CLASSIFIED FILES
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
     </div>
-  )
-}
-
-// X icon component
-function X(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
   )
 }

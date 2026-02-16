@@ -1,10 +1,10 @@
 ===
 {
-  "title": "SafelySDS",
+  "title": "Imaflex Website",
   "summary": "SafelySDS is a web-based application built to help businesses store, manage, and access Safety Data Sheets (SDS) in a secure and organized manner.",
   "category": "SOFTWARE",
   "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
-  "coverImageColor": "#5e17eb",
+  "coverImageColor": "#1a5944",
   "client": "Personal Project & Imaflex USA",
   "timeline": "January 2025 - March 2025",
   "features": [
@@ -88,6 +88,8 @@ By spending time with the Safety Coordinator, several "red flags" were identifie
 * **It was geographically stuck:** Because the binder lived in one central location, an employee across the warehouse would have to stop what they were doing and walk across the building just to see what gloves or PPE they needed for a specific chemical.
 
 To solve this, SafelySDS was designed from the ground up to be accessible, fast, and collaborative—moving the facility beyond just "being compliant" and actually making safety part of the daily workflow.
+
+![Alt text](https://www.robbyj.dev/images/safelysds/thumbnail.png)
 
 ---
 

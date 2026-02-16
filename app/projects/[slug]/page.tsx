@@ -1,11 +1,13 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ExternalLink, Github, Folder } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
 import Gallery from "@/components/gallery"
-import { getAllProjectSlugs, getProjectBySlug } from "@/lib/projects"
+import { getAllProjectSlugs, getProjectBySlug, slugifyCategory } from "@/lib/projects"
+import { getAllInDevSlugs } from "@/lib/in-dev"
+import { findBestSlugMatch } from "@/lib/slug-fallback"
 import Footer from "@/components/footer"
 
 export async function generateStaticParams() {
@@ -38,6 +40,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     console.log("Retrieved project:", project ? project.title : "Not found")
 
     if (!project) {
+      const inDevMatch = findBestSlugMatch(params.slug, getAllInDevSlugs())
+      if (inDevMatch) {
+        redirect(`/system-error/${inDevMatch}`)
+      }
       notFound()
     }
   } catch (error) {
@@ -66,6 +72,9 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     )
   }
 
+  const coverImage = project.coverImage || "/placeholder.svg?height=600&width=800&query=project"
+  const isInlineCover = coverImage.startsWith("data:")
+
   return (
     <div className="relative min-h-screen">
       <GridBackground />
@@ -81,14 +90,21 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           {/* Project Header */}
           <div className="grid gap-8 md:grid-cols-2 items-center">
             <div className="space-y-6">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Folder className="h-4 w-4 text-pallete-main" />
-                <Link
-                  href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main hover:border-pallete-main/50 transition-colors"
-                >
-                  {project.category}
-                </Link>
+                {project.category.length > 0 ? (
+                  project.category.map((category) => (
+                    <Link
+                      key={category}
+                      href={`/projects/category/${slugifyCategory(category)}`}
+                      className="inline-block bg-black/30 backdrop-blur-sm border border-pallete-main/20 px-3 py-1 text-xs font-mono text-pallete-main hover:border-pallete-main/50 transition-colors"
+                    >
+                      {category}
+                    </Link>
+                  ))
+                ) : (
+                  <span className="text-xs font-mono text-neutral-400">Uncategorized</span>
+                )}
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">{project.title}</h1>
               <p className="text-neutral-400 text-lg">{project.summary}</p>
@@ -117,11 +133,22 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             </div>
             <div className="relative aspect-video bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden">
               <Image
-                src={project.coverImage || "/placeholder.svg?height=600&width=800&query=project"}
+                src={coverImage}
                 alt={project.title}
                 fill
                 className="object-cover"
+                unoptimized={isInlineCover}
               />
+              {isInlineCover && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div 
+                    className="font-marker text-white px-8 py-4 text-3xl md:text-4xl uppercase"
+                    style={{ backgroundColor: project.coverImageColor || "rgb(16, 16, 16)" }}
+                  >
+                    {project.title}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -131,7 +158,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               
               {project.content && (
                 <div className="prose prose-invert prose-lime max-w-none">
-                  <Markdown content={project.content} />
+                  <Markdown content={project.content} blockquoteClassName="border-[#e21a41] text-[#e21a41]/80" />
                 </div>
               )}
 
@@ -172,12 +199,21 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   )}
                   <div>
                     <h3 className="text-sm font-mono text-neutral-400">CATEGORY</h3>
-                    <Link
-                      href={`/projects/category/${project.category.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="text-pallete-main hover:text-pallete-main/80 transition-colors"
-                    >
-                      {project.category}
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                      {project.category.length > 0 ? (
+                        project.category.map((category) => (
+                          <Link
+                            key={category}
+                            href={`/projects/category/${slugifyCategory(category)}`}
+                            className="text-pallete-main hover:text-pallete-main/80 transition-colors"
+                          >
+                            {category}
+                          </Link>
+                        ))
+                      ) : (
+                        <span className="text-neutral-400">Uncategorized</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
