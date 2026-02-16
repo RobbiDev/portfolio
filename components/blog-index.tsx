@@ -185,7 +185,7 @@ export default function BlogIndex({ posts, categories }: BlogIndexProps) {
               const gradient = getBlogGradientColors(post.blogColor, post.coverImageColor)
               const gradientStyle = gradient
                 ? {
-                    backgroundImage: `radial-gradient(circle at top, ${gradient.top}, transparent 55%), radial-gradient(circle at 20% 80%, ${gradient.bottom}, transparent 60%)`,
+                    backgroundImage: `radial-gradient(circle at top, ${gradient.top.replace("0.2", "0.32")}, transparent 55%), radial-gradient(circle at 20% 80%, ${gradient.bottom.replace("0.18", "0.3")}, transparent 60%)`,
                   }
                 : undefined
               return (
@@ -202,7 +202,7 @@ export default function BlogIndex({ posts, categories }: BlogIndexProps) {
                     {isInline && (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div
-                          className="w-full px-4 py-3 text-center text-sm font-marker text-white"
+                          className="w-full px-4 py-3 text-center text-xl md:text-2xl lg:text-3xl font-marker text-white"
                           style={{ backgroundColor: post.coverImageColor || "rgb(16, 16, 16)" }}
                         >
                           {stripeTitle}
@@ -261,7 +261,7 @@ export default function BlogIndex({ posts, categories }: BlogIndexProps) {
             const stripeTitle = post.title.replace(/-/g, "\u2011")
             const gradientStyle = {
               backgroundImage:
-                "radial-gradient(circle at top, rgba(239,68,68,0.22), transparent 55%), radial-gradient(circle at 20% 80%, rgba(59,130,246,0.2), transparent 60%)",
+                "radial-gradient(circle at top, rgba(239,68,68,0.35), transparent 55%), radial-gradient(circle at 20% 80%, rgba(59,130,246,0.34), transparent 60%)",
             }
               return (
               <article key={post.slug} className="border border-neutral-800 bg-black/30">
@@ -277,7 +277,7 @@ export default function BlogIndex({ posts, categories }: BlogIndexProps) {
                   {isInline && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div
-                        className="w-full px-4 py-2 text-center text-xs md:text-sm font-marker text-white"
+                        className="w-full px-4 py-2 text-center text-xl md:text-2xl lg:text-3xl font-marker text-white"
                         style={{ backgroundColor: post.coverImageColor || "rgb(16, 16, 16)" }}
                       >
                         {stripeTitle}
