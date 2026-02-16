@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Calendar, User, Tag, Folder } from "lucide-react"
+import Image from "next/image"
+import { ArrowLeft, Calendar, Clock, Folder, MapPin, Tag, Users } from "lucide-react"
 import PageHeader from "@/components/page-header"
 import GridBackground from "@/components/grid-background"
 import CategoryFilter from "@/components/category-filter"
-import { getBlogPostsByCategory, getBlogCategories } from "@/lib/blog"
+import { getBlogPostsByCategory, getBlogCategories, type BlogPost } from "@/lib/blog"
+import { slugifyCategory } from "@/lib/blog-utils"
 
 export async function generateStaticParams() {
   const categories = await getBlogCategories()
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: { params: { category: string 
 }
 
 export default async function BlogCategoryPage({ params }: { params: { category: string } }) {
-  let posts = []
+  let posts: BlogPost[] = []
   let categories = []
   let categoryName = ""
   let errorMessage = null
@@ -49,6 +51,13 @@ export default async function BlogCategoryPage({ params }: { params: { category:
   } catch (error) {
     console.error("Error fetching blog posts by category:", error)
     errorMessage = "Failed to load blog posts. Please try again later."
+  }
+
+  const formatAuthors = (post: { authors?: { name: string }[]; author?: string }) => {
+    if (post.authors && post.authors.length > 0) {
+      return post.authors.map((author) => author.name).join(" / ")
+    }
+    return post.author || ""
   }
 
   return (
@@ -86,62 +95,104 @@ export default async function BlogCategoryPage({ params }: { params: { category:
               <p className="text-neutral-400">No blog posts found in the {categoryName} category.</p>
             </div>
           ) : (
-            <div className="grid gap-12">
+            <div className="grid gap-10">
               {posts.map((post, index) => (
                 <article
                   key={index}
                   className="group bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
                 >
-                  <div className="p-6 md:p-8">
-                    <div className="flex flex-wrap gap-4 mb-4 text-sm text-neutral-400">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-pallete-main" />
-                        <time dateTime={post.date}>
-                          {new Date(post.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </time>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-pallete-main" />
-                        <span>{post.author}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Folder className="h-4 w-4 text-pallete-main" />
-                        <span>{post.category}</span>
-                      </div>
+                  <div className="grid gap-6 md:grid-cols-[0.55fr_1fr] p-6 md:p-8 items-center">
+                    <div className="relative aspect-video overflow-hidden border border-neutral-800">
+                      {(() => {
+                        const thumbnail = post.thumbnail || post.coverImage || "/placeholder.svg?height=600&width=800&query=blog"
+                        const isInline = thumbnail.startsWith("data:")
+                        return (
+                          <Image
+                            src={thumbnail}
+                            alt={post.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, 40vw"
+                            unoptimized={isInline}
+                          />
+                        )
+                      })()}
                     </div>
 
-                    <Link href={`/blog/${post.slug}`}>
-                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-pallete-main transition-colors">
-                        {post.title}
-                      </h2>
-                    </Link>
-
-                    <p className="text-neutral-300 mb-6">{post.excerpt}</p>
-
-                    {post.tags && (
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {post.tags.map((tag, tagIndex) => (
-                          <div
-                            key={tagIndex}
-                            className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-3 text-xs font-mono uppercase tracking-[0.3em] text-neutral-400">
+                        {post.category && (
+                          <Link
+                            href={`/blog/category/${slugifyCategory(post.category)}`}
+                            className="inline-flex items-center gap-2 border border-pallete-main/30 px-3 py-1 text-pallete-main"
                           >
-                            <Tag className="h-3 w-3 text-pallete-main" />
-                            {tag}
-                          </div>
-                        ))}
+                            <Folder className="h-4 w-4" />
+                            {post.category}
+                          </Link>
+                        )}
+                        {post.featured && <span className="text-neutral-300">Featured</span>}
                       </div>
-                    )}
 
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
-                    >
-                      READ MORE
-                    </Link>
+                      <Link href={`/blog/${post.slug}`}>
+                        <h2 className="text-2xl md:text-3xl font-bold group-hover:text-pallete-main transition-colors">
+                          {post.title}
+                        </h2>
+                      </Link>
+
+                      {post.excerpt && <p className="text-neutral-300">{post.excerpt}</p>}
+
+                      <div className="flex flex-wrap gap-4 text-sm text-neutral-400">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-pallete-main" />
+                          <time dateTime={post.date}>
+                            {new Date(post.date).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </time>
+                        </div>
+                        {formatAuthors(post) && (
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-pallete-main" />
+                            <span>{formatAuthors(post)}</span>
+                          </div>
+                        )}
+                        {post.location && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-pallete-main" />
+                            <span>{post.location}</span>
+                          </div>
+                        )}
+                        {post.readingTimeMinutes && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-pallete-main" />
+                            <span>{post.readingTimeMinutes} min read</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {post.tags && (
+                        <div className="flex flex-wrap gap-2">
+                          {post.tags.map((tag, tagIndex) => (
+                            <div
+                              key={tagIndex}
+                              className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
+                            >
+                              <Tag className="h-3 w-3 text-pallete-main" />
+                              {tag}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
+                      >
+                        READ MORE
+                      </Link>
+                    </div>
                   </div>
                 </article>
               ))}

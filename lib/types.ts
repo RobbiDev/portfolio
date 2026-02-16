@@ -1,12 +1,19 @@
 export interface BlogPostMetadata {
   title: string
   date: string
-  author: string
+  author?: string
+  authors?: Array<{ name: string; role?: string; email?: string }> | string[]
   excerpt?: string
   link?: string
   tags?: string[]
   category?: string
   gallery?: GalleryImage[]
+  location?: string
+  featured?: boolean
+  blogColor?: string
+  coverImage?: string
+  coverImageColor?: string
+  thumbnail?: string
 }
 
 export interface ProjectMetadata {
@@ -21,6 +28,7 @@ export interface ProjectMetadata {
   summary: string
   coverImage: string
   coverImageColor?: string
+  projectColor?: string
   client?: string
   timeline?: string
   role?: string

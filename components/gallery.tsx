@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react"
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react"
 import type { GalleryImage } from "@/lib/types"
 
 interface GalleryProps {
@@ -126,8 +126,7 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
           >
             {/* Large background overlay that closes on click/tap */}
             <div
-              className="absolute inset-0 w-full h-full cursor-pointer"
-              onClick={closeLightbox}
+              className="absolute inset-0 w-full h-full"
               style={{ touchAction: "manipulation" }}
             />
 
@@ -191,28 +190,28 @@ export default function Gallery({ images, title = "Gallery" }: GalleryProps) {
 
               {/* Image info */}
               {(images[selectedImage].caption || images[selectedImage].title) && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 md:p-6 z-10">
-                  {images[selectedImage].title && (
-                    <h4 className="text-white text-base md:text-lg font-bold mb-2">{images[selectedImage].title}</h4>
-                  )}
-                  {images[selectedImage].caption && (
-                    <p className="text-white/90 text-sm">{images[selectedImage].caption}</p>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      closeLightbox()
-                    }}
-                    className="absolute top-4 right-4 z-30 bg-pallete-main/90 text-black p-3 rounded-full transition-colors shadow-lg"
-                    aria-label="Close gallery"
-                    style={{
-                      minWidth: "50px",
-                      minHeight: "50px",
-                      touchAction: "manipulation",
-                    }}
-                  >
-                    <X className="h-6 w-6" />
-                  </button>
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
+                  <div className="bg-black/80 border border-neutral-800 p-4">
+                    {images[selectedImage].title && (
+                      <h4 className="text-white text-base md:text-lg font-bold mb-2">
+                        {images[selectedImage].title}
+                      </h4>
+                    )}
+                    {images[selectedImage].caption && (
+                      <p className="text-white/90 text-sm">{images[selectedImage].caption}</p>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        closeLightbox()
+                      }}
+                      className="mt-4 w-full bg-pallete-main text-black px-4 py-3 font-mono uppercase tracking-wide transition-colors"
+                      aria-label="Close gallery"
+                      style={{ touchAction: "manipulation" }}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               )}
 

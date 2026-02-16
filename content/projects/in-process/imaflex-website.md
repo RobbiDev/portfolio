@@ -1,6 +1,6 @@
 ===
 {
-  "title": "Kitchen Watch",
+  "title": "Imaflex Website",
   "summary": "",
   "category": "WEB DEVELOPMENT",
   "technologies": ["React.js"],

@@ -5,7 +5,7 @@ import { ArrowLeft, ExternalLink, Github, Folder } from "lucide-react"
 import GridBackground from "@/components/grid-background"
 import Markdown from "@/components/markdown"
 import Gallery from "@/components/gallery"
-import { getAllProjectSlugs, getProjectBySlug, slugifyCategory } from "@/lib/projects"
+import { getAllProjectSlugs, getProjectBySlug, getProjectGradientColors, slugifyCategory } from "@/lib/projects"
 import { getAllInDevSlugs } from "@/lib/in-dev"
 import { findBestSlugMatch } from "@/lib/slug-fallback"
 import Footer from "@/components/footer"
@@ -35,6 +35,12 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   let project = null
   let errorMessage = null
 
+  const isNavigationError = (error: unknown) => {
+    if (!error || typeof error !== "object") return false
+    const digest = (error as { digest?: string }).digest
+    return typeof digest === "string" && (digest.startsWith("NEXT_REDIRECT") || digest.startsWith("NEXT_NOT_FOUND"))
+  }
+
   try {
     project = getProjectBySlug(params.slug)
     console.log("Retrieved project:", project ? project.title : "Not found")
@@ -46,7 +52,11 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       }
       notFound()
     }
+
   } catch (error) {
+    if (isNavigationError(error)) {
+      throw error
+    }
     console.error(`Error fetching project with slug ${params.slug}:`, error)
     errorMessage = "Failed to load project details. Please try again later."
   }
@@ -74,6 +84,16 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   const coverImage = project.coverImage || "/placeholder.svg?height=600&width=800&query=project"
   const isInlineCover = coverImage.startsWith("data:")
+  const primaryCategory = project.category.length > 0 ? project.category[0] : null
+  const gradientColors = getProjectGradientColors(project.projectColor, project.coverImageColor)
+  const gradientStyle = gradientColors
+    ? {
+        backgroundImage: `radial-gradient(circle at top, ${gradientColors.top}, transparent 55%), radial-gradient(circle at 20% 80%, ${gradientColors.bottom}, transparent 60%)`,
+      }
+    : {
+        backgroundImage:
+          "radial-gradient(circle at top, rgba(239,68,68,0.2), transparent 55%), radial-gradient(circle at 20% 80%, rgba(59,130,246,0.18), transparent 60%)",
+      }
 
   return (
     <div className="relative min-h-screen">
@@ -270,6 +290,38 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </div>
             </div>
           )}
+
+          <div className="mt-16 pt-12 border-t border-neutral-800">
+            <div className="relative overflow-hidden bg-black/30 backdrop-blur-sm border border-neutral-800 p-8 md:p-12">
+              <div className="pointer-events-none absolute inset-0" style={gradientStyle}></div>
+
+              <div className="relative z-10 text-center max-w-2xl mx-auto">
+                <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.3em] text-red-200/80 mb-4">
+                  <Folder className="h-4 w-4 text-pallete-main" />
+                  {primaryCategory ? primaryCategory : "Category"}
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-3">Ready for the next project?</h2>
+                <p className="text-neutral-400 mb-6">
+                  Explore more from this category or head back to the full project list.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3 text-sm font-mono">
+                  <Link
+                    href={primaryCategory ? `/projects/category/${slugifyCategory(primaryCategory)}` : "/projects"}
+                    className="inline-flex items-center gap-2 border border-red-400/40 bg-red-500/10 px-4 py-2 text-red-100 transition hover:border-red-300 hover:bg-red-500/20"
+                  >
+                    <Folder className="h-4 w-4" />
+                    {primaryCategory ? `Explore more of ${primaryCategory}` : "Explore more projects"}
+                  </Link>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-white/80 transition hover:border-white/30 hover:text-white"
+                  >
+                    Go back to All Projects
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
         

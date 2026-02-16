@@ -1,11 +1,11 @@
 import Link from "next/link"
 import type { Metadata } from "next"
-import { Calendar, User, Tag, Folder } from "lucide-react"
 import PageHeader from "@/components/page-header"
 import GridBackground from "@/components/grid-background"
-import CategoryFilter from "@/components/category-filter"
 import { getAllBlogPosts, getBlogCategories, type BlogPost } from "@/lib/blog"
 import type { Category } from "@/lib/types"
+import Footer from "@/components/footer"
+import BlogIndex from "@/components/blog-index"
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -37,15 +37,6 @@ export default async function BlogPage(): Promise<JSX.Element> {
     errorMessage = "Failed to load blog posts. Please try again later."
   }
 
-  const formatDate = (isoDate?: string) =>
-    isoDate
-      ? new Date(isoDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-      : ""
-
   return (
     <div className="relative min-h-screen">
       {/* Decorative background for the page */}
@@ -53,15 +44,29 @@ export default async function BlogPage(): Promise<JSX.Element> {
 
       <div className="relative z-10 container py-16 md:py-24">
         {/* Page header / hero */}
-        <PageHeader
-          title="BLOG"
-          subtitle="Thoughts, insights, and updates on web development, design, and technology."
-        />
+        <div className="relative">
+          <PageHeader
+            title="BLOG"
+            subtitle="Thoughts, insights, and updates on web development, design, and technology."
+          />
+          <Link
+            href="/system-error"
+            className="group absolute right-0 top-0 inline-flex items-center gap-2 text-[10px] text-blue-200/20 transition hover:text-blue-100/60"
+            aria-label="Open in-dev console"
+          >
+            <span className="relative inline-flex items-center font-mono">
+              <span className="relative">dev://console</span>
+              <span className="pointer-events-none absolute left-0 top-0 text-blue-200/15 opacity-0 transition group-hover:opacity-100 animate-glitch-1">
+                dev://console
+              </span>
+              <span className="pointer-events-none absolute left-0 top-0 text-blue-200/10 opacity-0 transition group-hover:opacity-100 animate-glitch-2">
+                dev://console
+              </span>
+            </span>
+          </Link>
+        </div>
 
         <div className="mt-16">
-          {/* Category selector (left / top of posts list) */}
-          <CategoryFilter categories={categories} basePath="/blog" title="Categories" />
-
           {/*
             Conditional rendering:
             - Show an error box if loading failed
@@ -90,114 +95,90 @@ export default async function BlogPage(): Promise<JSX.Element> {
                   <div className="grid gap-3 text-sm font-mono text-neutral-300">
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-blue-400"></span>
-                      <span>Add a markdown file in content/blog.</span>
+                      <span>Feed is quiet while new posts are in progress.</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-red-400"></span>
-                      <span>Use the in-dev console for drafts.</span>
+                      <span>Check back soon for notes, experiments, and write-ups.</span>
                     </div>
                   </div>
                   <div className="mt-6 flex flex-wrap gap-3 text-sm font-mono">
                     <Link
-                      href="/system-error"
+                      href="/"
                       className="inline-flex items-center gap-2 border border-blue-400/40 bg-blue-500/10 px-4 py-2 text-blue-100 transition hover:border-blue-300 hover:bg-blue-500/20"
                     >
-                      Open In-Dev Console
+                      Go Home
                     </Link>
                     <Link
                       href="/contact"
                       className="inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-white/80 transition hover:border-white/30 hover:text-white"
                     >
-                      Pitch a Topic
+                      Contact
+                    </Link>
+                    <Link
+                      href="/projects"
+                      className="inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-white/80 transition hover:border-white/30 hover:text-white"
+                    >
+                      See Projects
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-white/80 transition hover:border-white/30 hover:text-white"
+                    >
+                      About
                     </Link>
                   </div>
                 </div>
 
-                <div className="relative flex items-center justify-center">
-                  <div className="absolute h-56 w-56 rounded-full border border-blue-400/30 animate-signal-spin"></div>
-                  <div className="absolute h-40 w-40 rounded-full border border-red-400/30 animate-signal-spin [animation-duration:22s]"></div>
-                  <div className="absolute h-28 w-28 rounded-full border border-white/10 animate-signal-spin [animation-duration:28s]"></div>
-                  <div className="relative h-28 w-28 rounded-full border border-blue-400/40 bg-black/60 shadow-[0_0_30px_rgba(59,130,246,0.35)]">
-                    <div className="absolute inset-3 rounded-full border border-red-300/30 animate-signal-pulse"></div>
-                    <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.9)]"></div>
+                <div className="relative">
+                  <div className="relative overflow-hidden rounded-lg border border-blue-400/30 bg-black/70 p-5 shadow-[0_0_30px_rgba(59,130,246,0.25)]">
+                    <div className="flex items-center justify-between border-b border-blue-400/20 pb-2 text-xs font-mono text-blue-200/80">
+                      <span>MINI TERMINAL</span>
+                      <span className="flex items-center gap-2 text-blue-200/70">
+                        <span className="h-2 w-2 rounded-full bg-blue-300/80"></span>
+                        204
+                      </span>
+                    </div>
+                    <div className="mt-3 space-y-2 text-xs font-mono text-neutral-300/90">
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-300">&gt;</span>
+                        <span>blog feed</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-neutral-400">
+                        <span className="text-blue-300">.</span>
+                        <span>status: empty</span>
+                      </div>
+                    </div>
+                    <div className="mt-4 text-[10px] font-mono uppercase tracking-[0.3em] text-blue-200/60">
+                      <span>LOG STREAM</span>
+                    </div>
+                    <Link
+                      href="/system-error"
+                      className="group absolute bottom-2 right-2 inline-flex items-center gap-2 px-2 py-1 text-[10px] text-blue-200/35 transition hover:text-blue-100/70"
+                      aria-label="Open in-dev console"
+                    >
+                      <span className="relative inline-flex items-center font-mono">
+                        <span className="relative">dev://console</span>
+                        <span className="pointer-events-none absolute left-0 top-0 text-blue-200/20 opacity-0 transition group-hover:opacity-100 animate-glitch-1">
+                          dev://console
+                        </span>
+                        <span className="pointer-events-none absolute left-0 top-0 text-blue-200/15 opacity-0 transition group-hover:opacity-100 animate-glitch-2">
+                          dev://console
+                        </span>
+                      </span>
+                    </Link>
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(59,130,246,0.12),transparent)] opacity-70 animate-signal-scan"></div>
                   </div>
-                  <div className="pointer-events-none absolute -bottom-6 h-16 w-48 rounded-full bg-blue-500/10 blur-2xl"></div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="grid gap-12">
-              {posts.map((post: BlogPost) => (
-                // Each article is one post preview in the grid
-                <article
-                  key={post.slug}
-                  className="group bg-black/30 backdrop-blur-sm border border-neutral-800 overflow-hidden"
-                >
-                  <div className="p-6 md:p-8">
-                    {/* Post meta: date, author, category */}
-                    <div className="flex flex-wrap gap-4 mb-4 text-sm text-neutral-400">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-pallete-main" />
-                        <time dateTime={post.date}>{formatDate(post.date)}</time>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-pallete-main" />
-                        <span>{post.author}</span>
-                      </div>
-
-                      {/* Link to the category page if a category exists */}
-                      {post.category && (
-                        <div className="flex items-center gap-2">
-                          <Folder className="h-4 w-4 text-pallete-main" />
-                          <Link
-                            href={`/blog/category/${post.category.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="hover:text-pallete-main transition-colors"
-                          >
-                            {post.category}
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Title and excerpt */}
-                    <Link href={`/blog/${post.slug}`}>
-                      <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-pallete-main transition-colors">
-                        {post.title}
-                      </h2>
-                    </Link>
-
-                    <p className="text-neutral-300 mb-6">{post.excerpt}</p>
-
-                    {/* Tags (if present) */}
-                    {post.tags && (
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {post.tags.map((tag: string, tagIndex: number) => (
-                          <div
-                            key={tagIndex}
-                            className="flex items-center gap-1 text-xs bg-black/50 border border-neutral-800 px-2 py-1 font-mono"
-                          >
-                            <Tag className="h-3 w-3 text-pallete-main" />
-                            {tag}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Read more link */}
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 bg-pallete-main hover:bg-pallete-main/80 text-black px-4 py-2 font-medium transition-colors"
-                    >
-                      READ MORE
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <BlogIndex posts={posts} categories={categories} />
           )}
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

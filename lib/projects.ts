@@ -10,6 +10,7 @@ export interface Project {
   technologies: string[]
   coverImage: string
   coverImageColor?: string
+  projectColor?: string
   content?: string
   client?: string
   timeline?: string
@@ -59,28 +60,62 @@ function parseHexColor(value: unknown): { r: number; g: number; b: number } | nu
   return { r, g, b }
 }
 
-function mixChannel(channelA: number, channelB: number, weight: number): number {
-  return Math.round(channelA * (1 - weight) + channelB * weight)
-}
-
-function mixColors(
-  colorA: { r: number; g: number; b: number },
-  colorB: { r: number; g: number; b: number },
-  weight: number,
-): { r: number; g: number; b: number } {
-  return {
-    r: mixChannel(colorA.r, colorB.r, weight),
-    g: mixChannel(colorA.g, colorB.g, weight),
-    b: mixChannel(colorA.b, colorB.b, weight),
-  }
-}
-
 function clampChannel(value: number): number {
   return Math.max(0, Math.min(255, value))
 }
 
 function toRgb(color: { r: number; g: number; b: number }): string {
   return `rgb(${clampChannel(color.r)}, ${clampChannel(color.g)}, ${clampChannel(color.b)})`
+}
+
+function toRgba(color: { r: number; g: number; b: number }, alpha: number): string {
+  const safeAlpha = Math.max(0, Math.min(1, alpha))
+  return `rgba(${clampChannel(color.r)}, ${clampChannel(color.g)}, ${clampChannel(color.b)}, ${safeAlpha})`
+}
+
+export function getProjectGradientColors(projectColor?: unknown, coverImageColor?: unknown): {
+  top: string
+  bottom: string
+} | null {
+  const base = parseHexColor(projectColor) ?? parseHexColor(coverImageColor)
+  if (!base) return null
+
+  return {
+    top: toRgba(base, 0.2),
+    bottom: toRgba(base, 0.18),
+  }
+}
+
+const TIMELINE_MONTHS: Record<string, number> = {
+  january: 0,
+  february: 1,
+  march: 2,
+  april: 3,
+  may: 4,
+  june: 5,
+  july: 6,
+  august: 7,
+  september: 8,
+  october: 9,
+  november: 10,
+  december: 11,
+}
+
+function getTimelineEndDate(timeline: unknown): Date | null {
+  if (typeof timeline !== "string") return null
+
+  const parts = timeline.split("-").map((part) => part.trim())
+  const endPart = parts[parts.length - 1] || ""
+  const match = endPart.match(/([A-Za-z]+)\s+(\d{4})/)
+  if (!match) return null
+
+  const month = TIMELINE_MONTHS[match[1].toLowerCase()]
+  if (month === undefined) return null
+
+  const year = Number(match[2])
+  if (!Number.isFinite(year)) return null
+
+  return new Date(year, month, 1)
 }
 
 function getThumbnailGradient(coverImageColor?: unknown): { edge: string; center: string } {
@@ -92,11 +127,9 @@ function getThumbnailGradient(coverImageColor?: unknown): { edge: string; center
     }
   }
 
-  const mixed = mixColors(base, { r: 255, g: 255, b: 255 }, 0.25)
-
   return {
     edge: toRgb(base),
-    center: toRgb(mixed),
+    center: "rgb(255, 255, 255)",
   }
 }
 
@@ -191,6 +224,101 @@ export function getProjectBySlug(slug: string): Project | null {
     } as Project
   } catch (error) {
     console.error(`Error reading project file for slug ${slug}:`, error)
+    return null
+  }
+}
+
+export function getLatestProject(excludeSlug?: string): Project | null {
+  try {
+    const projectsDirectory = path.join(process.cwd(), "content", "projects")
+
+    if (!fs.existsSync(projectsDirectory)) {
+      console.warn("Projects directory does not exist:", projectsDirectory)
+      return null
+    }
+
+    const fileNames = fs.readdirSync(projectsDirectory).filter((fileName) => fileName.endsWith(".md"))
+    const sortedByModified = fileNames
+      .map((fileName) => ({
+        fileName,
+        modifiedTime: fs.statSync(path.join(projectsDirectory, fileName)).mtimeMs,
+      }))
+      .sort((a, b) => b.modifiedTime - a.modifiedTime)
+
+    for (const entry of sortedByModified) {
+      const slug = entry.fileName.replace(/\.md$/, "")
+      if (excludeSlug && slug === excludeSlug) {
+        continue
+      }
+
+      const fullPath = path.join(projectsDirectory, entry.fileName)
+      const fileContents = fs.readFileSync(fullPath, "utf8")
+      const { metadata, content } = parseMarkdownWithMetadata(fileContents)
+
+      return {
+        ...metadata,
+        category: normalizeCategories(metadata.category),
+        coverImage: resolveCoverImage(metadata.coverImage, metadata.title, metadata.coverImageColor),
+        coverImageColor: typeof metadata.coverImageColor === "string" ? metadata.coverImageColor : undefined,
+        content,
+        slug,
+      } as Project
+    }
+
+    return null
+  } catch (error) {
+    console.error("Error reading latest project:", error)
+    return null
+  }
+}
+
+export function getLatestProjectByTimeline(excludeSlug?: string): Project | null {
+  try {
+    const projectsDirectory = path.join(process.cwd(), "content", "projects")
+
+    if (!fs.existsSync(projectsDirectory)) {
+      console.warn("Projects directory does not exist:", projectsDirectory)
+      return null
+    }
+
+    const fileNames = fs.readdirSync(projectsDirectory).filter((fileName) => fileName.endsWith(".md"))
+    const projects = fileNames
+      .map((fileName) => {
+        const slug = fileName.replace(/\.md$/, "")
+        if (excludeSlug && slug === excludeSlug) return null
+
+        const fullPath = path.join(projectsDirectory, fileName)
+        const modifiedTime = fs.statSync(fullPath).mtimeMs
+        const fileContents = fs.readFileSync(fullPath, "utf8")
+        const { metadata, content } = parseMarkdownWithMetadata(fileContents)
+        const timelineDate = getTimelineEndDate(metadata.timeline)
+
+        return {
+          ...metadata,
+          category: normalizeCategories(metadata.category),
+          coverImage: resolveCoverImage(metadata.coverImage, metadata.title, metadata.coverImageColor),
+          coverImageColor: typeof metadata.coverImageColor === "string" ? metadata.coverImageColor : undefined,
+          content,
+          slug,
+          modifiedTime,
+          timelineDate,
+        } as Project & { timelineDate?: Date | null; modifiedTime: number }
+      })
+      .filter((project): project is Project & { timelineDate?: Date | null; modifiedTime: number } => project !== null)
+
+    if (projects.length === 0) return null
+
+    projects.sort((a, b) => {
+      const aTime = a.timelineDate?.getTime() ?? 0
+      const bTime = b.timelineDate?.getTime() ?? 0
+      if (bTime !== aTime) return bTime - aTime
+      return b.modifiedTime - a.modifiedTime
+    })
+
+    const { timelineDate, modifiedTime, ...latest } = projects[0]
+    return latest
+  } catch (error) {
+    console.error("Error reading latest project by timeline:", error)
     return null
   }
 }

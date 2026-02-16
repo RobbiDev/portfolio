@@ -9,10 +9,27 @@ import remarkGfm from "remark-gfm"
 interface MarkdownProps {
   content: string
   blockquoteClassName?: string
+  tone?: "dark" | "light"
 }
 
-const Markdown: React.FC<MarkdownProps> = ({ content, blockquoteClassName }) => {
-  const blockquoteStyles = blockquoteClassName || "border-lime-400 text-neutral-400"
+const Markdown: React.FC<MarkdownProps> = ({ content, blockquoteClassName, tone = "dark" }) => {
+  const isLight = tone === "light"
+  const blockquoteStyles =
+    blockquoteClassName || (isLight ? "border-emerald-600 text-neutral-600" : "border-lime-400 text-neutral-400")
+  const paragraphClassName = isLight ? "mb-4 text-neutral-700" : "mb-4 text-neutral-300"
+  const listClassName = isLight ? "list-disc pl-6 mb-4 text-neutral-700" : "list-disc pl-6 mb-4 text-neutral-300"
+  const orderedListClassName =
+    isLight ? "list-decimal pl-6 mb-4 text-neutral-700" : "list-decimal pl-6 mb-4 text-neutral-300"
+  const linkClassName = isLight ? "text-emerald-700 hover:underline" : "text-lime-400 hover:underline"
+  const inlineCodeClassName = isLight
+    ? "bg-white/70 px-1 py-0.5 rounded font-mono text-sm text-neutral-800"
+    : "bg-black/50 px-1 py-0.5 rounded font-mono text-sm"
+  const blockCodeWrapperClassName = isLight
+    ? "my-6 overflow-auto rounded bg-white/80 border border-neutral-200"
+    : "my-6 overflow-auto rounded bg-black/50 border border-neutral-800"
+  const blockCodeTextClassName = isLight
+    ? "p-4 text-sm font-mono text-neutral-800 overflow-x-auto"
+    : "p-4 text-sm font-mono text-neutral-200 overflow-x-auto"
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -43,18 +60,14 @@ const Markdown: React.FC<MarkdownProps> = ({ content, blockquoteClassName }) => 
           }
 
           return (
-            <p className="mb-4 text-neutral-300" {...props}>
+            <p className={paragraphClassName} {...props}>
               {children}
             </p>
           )
         },
-        a: ({ node, ...props }) => <a className="text-lime-400 hover:underline" {...props} />,
-        ul: ({ node, ordered, className, ...props }) => (
-          <ul className="list-disc pl-6 mb-4 text-neutral-300" {...props} />
-        ),
-        ol: ({ node, ordered, className, ...props }) => (
-          <ol className="list-decimal pl-6 mb-4 text-neutral-300" {...props} />
-        ),
+        a: ({ node, ...props }) => <a className={linkClassName} {...props} />,
+        ul: ({ node, ordered, className, ...props }) => <ul className={listClassName} {...props} />,
+        ol: ({ node, ordered, className, ...props }) => <ol className={orderedListClassName} {...props} />,
         li: ({ node, ordered, checked, ...props }) => <li className="mb-1" {...props} />,
         blockquote: ({ node, ...props }) => (
           <blockquote className={`border-l-4 pl-4 italic my-4 ${blockquoteStyles}`} {...props} />
@@ -93,30 +106,48 @@ const Markdown: React.FC<MarkdownProps> = ({ content, blockquoteClassName }) => 
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "")
           return !inline ? (
-            <div className="my-6 overflow-auto rounded bg-black/50 border border-neutral-800">
-              <pre className="p-4 text-sm font-mono text-neutral-200 overflow-x-auto">
+            <div className={blockCodeWrapperClassName}>
+              <pre className={blockCodeTextClassName}>
                 <code className={className} {...props}>
                   {children}
                 </code>
               </pre>
             </div>
           ) : (
-            <code className="bg-black/50 px-1 py-0.5 rounded font-mono text-sm" {...props}>
+            <code className={inlineCodeClassName} {...props}>
               {children}
             </code>
           )
         },
         table: ({ node, ...props }) => (
           <div className="overflow-x-auto my-6">
-            <table className="min-w-full border border-neutral-800" {...props} />
+            <table
+              className={
+                isLight
+                  ? "min-w-full border border-neutral-200"
+                  : "min-w-full border border-neutral-800"
+              }
+              {...props}
+            />
           </div>
         ),
-        thead: ({ node, ...props }) => <thead className="bg-black/50" {...props} />,
-        th: ({ node, ...props }) => (
-          <th className="px-4 py-2 border border-neutral-800 text-left font-mono text-sm" {...props} />
+        thead: ({ node, ...props }) => (
+          <thead className={isLight ? "bg-neutral-100" : "bg-black/50"} {...props} />
         ),
-        td: ({ node, ...props }) => <td className="px-4 py-2 border border-neutral-800" {...props} />,
-        hr: ({ node, ...props }) => <hr className="my-8 border-neutral-800" {...props} />,
+        th: ({ node, ...props }) => (
+          <th
+            className={
+              isLight
+                ? "px-4 py-2 border border-neutral-200 text-left font-mono text-sm"
+                : "px-4 py-2 border border-neutral-800 text-left font-mono text-sm"
+            }
+            {...props}
+          />
+        ),
+        td: ({ node, ...props }) => (
+          <td className={isLight ? "px-4 py-2 border border-neutral-200" : "px-4 py-2 border border-neutral-800"} {...props} />
+        ),
+        hr: ({ node, ...props }) => <hr className={isLight ? "my-8 border-neutral-200" : "my-8 border-neutral-800"} {...props} />,
       }}
     >
       {content}
