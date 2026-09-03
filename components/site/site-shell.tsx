@@ -10,7 +10,7 @@ import PostReader from "./post-reader"
 import ProjectDetail from "./project-detail"
 import ProjectsPanel from "./projects-panel"
 import WritingPanel from "./writing-panel"
-import { AsteriskIcon, CloseIcon, DiamondIcon } from "./icons"
+import { AsteriskIcon, CloseIcon, StarIcon } from "./icons"
 import { profile } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
@@ -302,7 +302,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
           <div className="learn-row">
             <button className="learn" type="button" onClick={() => setMenuOpen(true)}>
               <span className="lstar">
-                <DiamondIcon />
+                <StarIcon />
               </span>
               <span className="lword">Learn</span>
             </button>
@@ -313,7 +313,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
       <div className="mosaic">
         <div className="mo b">
           <span className="star slow">
-            <AsteriskIcon />
+            <StarIcon />
           </span>
         </div>
         <div className="mo dots" />
@@ -341,7 +341,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         <div className="mo stripes" />
         <div className="mo k">
           <span className="star blue">
-            <AsteriskIcon />
+            <StarIcon />
           </span>
         </div>
         <div className="mo bd">
@@ -363,7 +363,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
       <div className="tpfx" />
 
       <button className={`orb${panel ? " show" : ""}`} type="button" aria-label="Menu" onClick={() => setMenuOpen(true)}>
-        <DiamondIcon />
+        <StarIcon />
       </button>
 
       <nav className={`menu${menuOpen ? " on" : ""}`} aria-hidden={!menuOpen}>

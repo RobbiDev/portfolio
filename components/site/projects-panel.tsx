@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
-import { ArrowRightIcon, DiamondIcon } from "./icons"
+import { ArrowRightIcon, StarIcon } from "./icons"
 import { lineFor, profile } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 
@@ -98,7 +98,7 @@ export default function ProjectsPanel({
             <span className="mb-title">Projects</span>
             <button className="mb-learn" type="button" onClick={onLearn} style={{ marginLeft: "auto" }}>
               <span className="lstar">
-                <DiamondIcon />
+                <StarIcon />
               </span>
               Learn
             </button>

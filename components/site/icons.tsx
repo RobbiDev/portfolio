@@ -35,16 +35,20 @@ function Svg({
   )
 }
 
-/** The house mark: the diamond on the Learn button and the floating menu orb. */
-export function DiamondIcon(props: IconProps) {
+/**
+ * The house mark: the eight-spoked star on the Learn button, the menu orb and
+ * the mosaic band. Drawn rather than set as a glyph, which iOS renders as a
+ * full-colour emoji tile.
+ */
+export function StarIcon(props: IconProps) {
   return (
-    <Svg {...props}>
-      <path d="M12 2 22 12 12 22 2 12Z" />
+    <Svg {...props} strokeWidth={props.strokeWidth ?? 1.7}>
+      <path d="M12 1.6v20.8M1.6 12h20.8M4.65 4.65l14.7 14.7M19.35 4.65 4.65 19.35" />
     </Svg>
   )
 }
 
-/** Six-pointed asterisk — the mosaic band's decorative marks. */
+/** Six-spoked variant, for the mosaic's second mark. */
 export function AsteriskIcon(props: IconProps) {
   return (
     <Svg {...props}>

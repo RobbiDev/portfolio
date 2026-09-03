@@ -81,7 +81,7 @@ export default function ProjectDetail({
               ) : null}
 
               <div className="pv-grid">
-                <div className="stg g3">
+                <div className="pv-text stg g3">
                   {project.summary ? <p className="pv-d">{project.summary}</p> : null}
                   {project.role || project.client ? (
                     <p className="pv-d">
@@ -100,6 +100,26 @@ export default function ProjectDetail({
                     </div>
                   ) : null}
 
+                </div>
+
+                <div className="pv-route stg g4">
+                  {project.features && project.features.length > 0 ? (
+                    <ul className="route">
+                      {project.features.map((feature) => {
+                        // "Title — detail" splits into a stop name and its blurb.
+                        const [head, ...rest] = feature.split(/\s+[—–-]\s+/)
+                        return (
+                          <li key={feature}>
+                            <b>{head}</b>
+                            {rest.join(" — ")}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  ) : null}
+                </div>
+
+                <div className="pv-actions stg g4">
                   <div className="btn-row">
                     {project.liveUrl ? (
                       <a className="btn acc" href={project.liveUrl} target="_blank" rel="noreferrer noopener">
@@ -116,23 +136,6 @@ export default function ProjectDetail({
                       Full Case Study
                     </button>
                   </div>
-                </div>
-
-                <div className="stg g4">
-                  {project.features && project.features.length > 0 ? (
-                    <ul className="route">
-                      {project.features.map((feature) => {
-                        // "Title — detail" splits into a stop name and its blurb.
-                        const [head, ...rest] = feature.split(/\s+[—–-]\s+/)
-                        return (
-                          <li key={feature}>
-                            <b>{head}</b>
-                            {rest.join(" — ")}
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  ) : null}
                 </div>
               </div>
             </>
