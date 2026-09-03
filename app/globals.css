@@ -688,3 +688,15 @@ button.btn {
     padding: 8px 14px;
   }
 }
+
+/* ── postcard grid ────────────────────────────────────────────────────────
+ * `auto-fit` collapses its empty tracks, so a row holding one or two
+ * postcards stretched them across the whole panel — a single card came out
+ * over a thousand pixels wide, with art to match. Capping the track keeps a
+ * postcard postcard-sized however many there are, and the row fills from the
+ * left as more arrive.
+ */
+.pcards {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 380px));
+  justify-content: start;
+}
