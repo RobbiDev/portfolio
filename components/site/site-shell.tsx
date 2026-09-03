@@ -10,6 +10,7 @@ import PostReader from "./post-reader"
 import ProjectDetail from "./project-detail"
 import ProjectsPanel from "./projects-panel"
 import WritingPanel from "./writing-panel"
+import { AsteriskIcon, CloseIcon, DiamondIcon } from "./icons"
 import { profile } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
@@ -23,7 +24,7 @@ const PANEL_LABEL: Record<PanelId, string> = {
   about: "About",
   contact: "Contact",
 }
-const GLYPHS = "ABCDEFGHIKLMNOPRSTUVWX✳✱/·01"
+const GLYPHS = "ABCDEFGHIKLMNOPRSTUVWX/·01"
 
 /** The design's letter-scramble reveal, driven by rAF. */
 function useScramble(word: string, active: boolean, delay: number) {
@@ -300,7 +301,9 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
 
           <div className="learn-row">
             <button className="learn" type="button" onClick={() => setMenuOpen(true)}>
-              <span className="lstar">✳</span>
+              <span className="lstar">
+                <DiamondIcon />
+              </span>
               <span className="lword">Learn</span>
             </button>
           </div>
@@ -309,7 +312,9 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
 
       <div className="mosaic">
         <div className="mo b">
-          <span className="star slow">✳</span>
+          <span className="star slow">
+            <AsteriskIcon />
+          </span>
         </div>
         <div className="mo dots" />
         <div className="mo k">
@@ -335,10 +340,14 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         </div>
         <div className="mo stripes" />
         <div className="mo k">
-          <span className="star blue">✳</span>
+          <span className="star blue">
+            <AsteriskIcon />
+          </span>
         </div>
         <div className="mo bd">
-          <span className="star">✱</span>
+          <span className="star">
+            <AsteriskIcon />
+          </span>
         </div>
       </div>
 
@@ -354,7 +363,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
       <div className="tpfx" />
 
       <button className={`orb${panel ? " show" : ""}`} type="button" aria-label="Menu" onClick={() => setMenuOpen(true)}>
-        ✳
+        <DiamondIcon />
       </button>
 
       <nav className={`menu${menuOpen ? " on" : ""}`} aria-hidden={!menuOpen}>
@@ -364,7 +373,8 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
           <i />
         </span>
         <button className="mclose" type="button" onClick={() => setMenuOpen(false)}>
-          Close ✕
+          Close
+          <CloseIcon />
         </button>
         <div className="menu-body">
           <MenuItem

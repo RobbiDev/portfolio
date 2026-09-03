@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowDownIcon, ArrowLeftIcon, BoltIcon, CloseIcon } from "./icons"
 import { profile, type TimelineEntry } from "@/lib/profile"
 
 type FileKey = "profile" | "exp" | "edu" | "skills" | "resume"
@@ -44,7 +45,8 @@ function FileWindow({
         <div className="fwin-bar">
           {title}
           <button className="xbtn" type="button" onClick={onClose}>
-            ✕ Close
+            <CloseIcon />
+            Close
           </button>
         </div>
         <div className="fwin-body">{children}</div>
@@ -85,7 +87,8 @@ export default function AboutPanel({
                 <span className="cur" />
               </h2>
               <button className="fql" type="button" onClick={() => onToggleDesk(true)}>
-                ⚡ Quick Look
+                <BoltIcon />
+                Quick Look
               </button>
             </div>
             <p className="fx-hint stagger s2">
@@ -119,12 +122,14 @@ export default function AboutPanel({
       {/* Quick Look: the whole resume on one sheet, plus the ID badge. */}
       <div className={`desk${deskOpen ? " on" : ""}`} aria-hidden={!deskOpen}>
         <button className="dnote" type="button" onClick={() => onToggleDesk(false)}>
-          ← Back to files
+          <ArrowLeftIcon />
+          Back to files
         </button>
         <div className="dwrap">
           <div className="dpwrap">
             <a className="dtab" href={profile.resumeUrl} target="_blank" rel="noreferrer noopener">
-              Take a copy ↓
+              Take a copy
+              <ArrowDownIcon />
             </a>
             <div className="dpaper">
               <div className="dp-name">{profile.name}</div>
@@ -257,7 +262,8 @@ export default function AboutPanel({
       <FileWindow id="resume" title="RESUME.pdf · export" open={openFile === "resume"} onClose={() => onOpenFile(null)}>
         <p>Everything above, condensed to one printable page. The fastest way to review the subject.</p>
         <a className="fdl" href={profile.resumeUrl} target="_blank" rel="noreferrer noopener">
-          ↓ Download Resume
+          <ArrowDownIcon />
+          Download Resume
         </a>
       </FileWindow>
     </>

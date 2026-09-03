@@ -7,6 +7,7 @@ import rehypeRaw from "rehype-raw"
 
 import { parseRichMarkdown, type Block, type CalloutVariant } from "@/lib/rich-markdown"
 import { remarkKbd, remarkQuoteCite } from "@/lib/remark-rich"
+import { AlertIcon, InfoIcon, SparkleIcon } from "@/components/site/icons"
 import type { GalleryImage } from "@/lib/types"
 
 const REMARK_PLUGINS = [remarkGfm, remarkKbd, remarkQuoteCite]
@@ -197,12 +198,20 @@ function MarkdownChunk({ value, onOpenImage }: ChunkProps) {
 
 /* ── directive blocks ─────────────────────────────────────────────────────── */
 
-const CALLOUT_ICON: Record<CalloutVariant, string> = { note: "i", tip: "✦", warn: "!", danger: "!" }
+const CALLOUT_ICON: Record<CalloutVariant, React.ComponentType> = {
+  note: InfoIcon,
+  tip: SparkleIcon,
+  warn: AlertIcon,
+  danger: AlertIcon,
+}
 
 function Callout({ variant, title, value }: { variant: CalloutVariant; title?: string; value: string }) {
+  const Icon = CALLOUT_ICON[variant]
   return (
     <div className={`callout callout-${variant}`}>
-      <span className="ic">{CALLOUT_ICON[variant]}</span>
+      <span className="ic">
+        <Icon />
+      </span>
       <div>
         {title ? <strong>{title}</strong> : null} <MarkdownChunk value={value} />
       </div>

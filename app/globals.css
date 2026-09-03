@@ -32,7 +32,6 @@
 .pv-shot,
 .cs-shot,
 .idphoto,
-.gthumb,
 .pc-art,
 .bp .thumb,
 .rj-embed .embed,
@@ -44,16 +43,6 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-}
-
-/* The badge keeps the design's corner placement; it just sits above the art. */
-.gthumb .gm {
-  z-index: 2;
-}
-
-.gthumb .gname {
-  position: relative;
-  z-index: 2;
 }
 
 .pc-art .rj-slot {
@@ -415,6 +404,172 @@
   cursor: not-allowed;
 }
 
+
+/* ── icons ────────────────────────────────────────────────────────────────
+ * Icons inherit colour and scale to the font-size of whatever marker slot
+ * they sit in, so the design's existing sizing rules keep working.
+ */
+.rj-icon {
+  width: 1em;
+  height: 1em;
+  display: block;
+  flex: none;
+}
+
+/* Slots the design sized as text now hold an icon. */
+.learn .lstar,
+.mb-learn .lstar,
+.mo .star,
+.fql,
+.dnote,
+.back2,
+.pv-back,
+.lb-close,
+.lb-btn,
+.xbtn,
+.fdl,
+.dtab,
+.bgo,
+.board-note a,
+.mclose,
+.btn,
+.shipbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb .rj-icon {
+  width: 0.62em;
+  height: 0.62em;
+}
+
+/* The marks that used to be asterisk glyphs keep their spin. */
+.mo .star .rj-icon {
+  stroke-width: 1.6;
+}
+
+.fql .rj-icon,
+.dnote .rj-icon,
+.back2 .rj-icon,
+.pv-back .rj-icon,
+.lb-close .rj-icon,
+.xbtn .rj-icon,
+.fdl .rj-icon,
+.dtab .rj-icon,
+.mclose .rj-icon,
+.btn .rj-icon,
+.bgo .rj-icon,
+.board-note a .rj-icon,
+.shipbtn .rj-icon {
+  width: 1.15em;
+  height: 1.15em;
+  margin-right: -0.1em;
+}
+
+.back2 .rj-icon,
+.pv-back .rj-icon,
+.dnote .rj-icon,
+.fql .rj-icon,
+.xbtn .rj-icon,
+.fdl .rj-icon,
+.mclose .rj-icon {
+  margin-right: 0;
+}
+
+.lb-btn .rj-icon {
+  width: 1em;
+  height: 1em;
+}
+
+/* ── project board plates ─────────────────────────────────────────────────
+ * A project's plate is a flat chip in its line colour rather than a cover
+ * image, so the board reads like a departures board.
+ */
+.gthumb.line-rd { background: #e51636; }
+.gthumb.line-yl { background: #efc31f; }
+.gthumb.line-gr { background: #0fab4b; }
+.gthumb.line-bl { background: #1574c4; }
+
+/* Yellow is the one line that needs dark type to stay legible. */
+.gthumb.line-yl .gname { color: #141416; }
+.gthumb.line-yl .gm { background: #141416; color: #efc31f; }
+
+.gthumb .gname {
+  padding: 0 8%;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ── buttons ──────────────────────────────────────────────────────────────
+ * The design only ever put .btn on anchors, so it never cleared the user
+ * agent's button styling. On a <button> that left a white face under white
+ * type until hover. The variant rules out-specify this, so they still win.
+ */
+button.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+}
+
+/* ── panels scroll vertically only ────────────────────────────────────────
+ * The wake marks park at left:100%, waiting for the ship to sail, so they sat
+ * permanently past the right edge and made the contact panel draggable
+ * sideways on a touch screen. Clipping them at the sea removes the overflow
+ * at its source; the rules below are a guard for anything added later.
+ */
+.sea {
+  overflow: hidden;
+}
+
+.panel-scroll,
+.bp-scroll,
+.cs-scroll,
+.pv-scroll {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+/* ── phones ───────────────────────────────────────────────────────────────
+ * The design put the four cards in one fanned row and hid the fourth below
+ * 760px. Three cards abreast can only grow so far before the card in front
+ * covers its neighbour's label, which left them small. A 2x2 deck fits cards
+ * about 40% larger with every label clear, and brings Contact back onto the
+ * hero instead of hiding it.
+ */
+@media (max-width: 760px) {
+  .fan {
+    display: grid;
+    grid-template-columns: repeat(2, min(42vw, 21svh));
+    justify-content: center;
+    gap: clamp(10px, 3vw, 16px);
+  }
+
+  .fw,
+  .fw.f2,
+  .fw.f4 {
+    margin: 0;
+  }
+
+  .fw.f4 {
+    display: block;
+  }
+
+  .fcard {
+    width: 100%;
+  }
+
+  .fcard.plain .cardname.big {
+    font-size: 5.4vw;
+  }
+
+  /* Gentler angles: a grid cell has no neighbour to fan away from. */
+  .fcard.c1 { transform: rotate(-5deg); }
+  .fcard.c2 { transform: rotate(4deg); }
+  .fcard.c3 { transform: rotate(4deg); }
+  .fcard.c4 { transform: rotate(-5deg); }
+}
+
 /* Respect a reduced-motion preference: keep the layout, drop the theatre. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -423,19 +578,5 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-}
-
-/* ── narrow phones ────────────────────────────────────────────────────────
- * Four fanned cards plus their negative margins run a few pixels wider than
- * a small phone, which clips the last one. Shrink the deck to fit.
- */
-@media (max-width: 520px) {
-  .fcard {
-    width: min(24vw, 20svh);
-  }
-
-  .fcard.plain .cardname.big {
-    font-size: 3.9vw;
   }
 }
