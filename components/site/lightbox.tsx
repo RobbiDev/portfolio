@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { ArrowLeftIcon, ArrowRightIcon, CloseIcon } from "./icons"
 import type { GalleryImage } from "@/lib/types"
 
 export interface LightboxState {
@@ -44,7 +45,8 @@ export default function Lightbox({ state, onClose, onNavigate }: LightboxProps) 
       aria-hidden={!state}
     >
       <button className="lb-close" type="button" onClick={onClose}>
-        Close ✕
+        Close
+        <CloseIcon />
       </button>
       <div className="lb-stage">
         {current ? (
@@ -68,7 +70,7 @@ export default function Lightbox({ state, onClose, onNavigate }: LightboxProps) 
             onClick={() => state && onNavigate((state.index - 1 + count) % count)}
             aria-label="Previous image"
           >
-            ←
+            <ArrowLeftIcon />
           </button>
           <span className="lb-count">
             {(state?.index ?? 0) + 1} / {count}
@@ -79,7 +81,7 @@ export default function Lightbox({ state, onClose, onNavigate }: LightboxProps) 
             onClick={() => state && onNavigate((state.index + 1) % count)}
             aria-label="Next image"
           >
-            →
+            <ArrowRightIcon />
           </button>
         </div>
       ) : null}

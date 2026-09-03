@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { ArrowRightIcon } from "./icons"
 import { profile } from "@/lib/profile"
 
 const STORAGE_KEY = "rj_contact_sends"
@@ -182,7 +183,8 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
                   </div>
 
                   <button className="shipbtn" type="button" onClick={send} disabled={locked || shipping}>
-                    {shipping ? "Loading…" : "Load & ship →"}
+                    {shipping ? "Loading…" : "Load & ship"}
+                    {shipping ? null : <ArrowRightIcon />}
                   </button>
 
                   <div

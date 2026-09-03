@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeftIcon, ArrowRightIcon } from "./icons"
 import { lineFor } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
@@ -28,7 +29,8 @@ export default function ProjectDetail({
       <div className="pv-scroll">
         <div className="pv-in">
           <button className="pv-back stg g1" type="button" onClick={onClose}>
-            ← Back to the board
+            <ArrowLeftIcon />
+            Back to the board
           </button>
 
           {project && line ? (
@@ -101,7 +103,8 @@ export default function ProjectDetail({
                   <div className="btn-row">
                     {project.liveUrl ? (
                       <a className="btn acc" href={project.liveUrl} target="_blank" rel="noreferrer noopener">
-                        Visit Live Product <span>→</span>
+                        Visit Live Product
+                        <ArrowRightIcon />
                       </a>
                     ) : null}
                     {project.githubUrl ? (

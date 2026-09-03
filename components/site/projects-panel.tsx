@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
+import { ArrowRightIcon, DiamondIcon } from "./icons"
 import { lineFor, profile } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 
@@ -96,7 +97,10 @@ export default function ProjectsPanel({
             <span className="mlogo">M</span>
             <span className="mb-title">Projects</span>
             <button className="mb-learn" type="button" onClick={onLearn} style={{ marginLeft: "auto" }}>
-              <span className="lstar">✳</span>Learn
+              <span className="lstar">
+                <DiamondIcon />
+              </span>
+              Learn
             </button>
           </div>
 
@@ -105,16 +109,11 @@ export default function ProjectsPanel({
               const line = lineFor(project.categories)
               return (
                 <button className="brow" type="button" key={project.slug} onClick={() => onOpenProject(project.slug)}>
-                  <span className="gthumb">
-                    {project.coverImage ? (
-                      <span className="rj-slot">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={project.coverImage} alt="" loading="lazy" />
-                      </span>
-                    ) : null}
+                  {/* The board plate is a flat colour chip: the line the
+                      project runs on, with its name set over it. */}
+                  <span className={`gthumb line-${line.dot}`}>
                     <span className="gm">M</span>
-                    {/* Cover art normally carries its own title lockup. */}
-                    {project.coverImage ? null : <span className="gname">{project.title}</span>}
+                    <span className="gname">{project.title}</span>
                   </span>
                   <span className="binfo">
                     <span className="bline">
@@ -127,7 +126,8 @@ export default function ProjectsPanel({
                     <span className="bname">{project.title}</span>
                     <span className="bdest">{project.summary}</span>
                     <span className="bgo">
-                      Board this project <span>→</span>
+                      Board this project
+                      <ArrowRightIcon />
                     </span>
                   </span>
                 </button>
@@ -153,7 +153,8 @@ export default function ProjectsPanel({
           <div className="board-note stagger s3">
             <span>Service updates roll out on GitHub first</span>
             <a href={profile.github} target="_blank" rel="noreferrer noopener">
-              github.com/{profile.githubHandle} →
+              github.com/{profile.githubHandle}
+              <ArrowRightIcon />
             </a>
           </div>
         </div>

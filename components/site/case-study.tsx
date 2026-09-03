@@ -1,6 +1,7 @@
 "use client"
 
 import RichMarkdown from "@/components/rich-markdown"
+import { ArrowLeftIcon, ArrowRightIcon } from "./icons"
 import { lineFor } from "@/lib/profile"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
@@ -30,7 +31,8 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
       <div className="cs-scroll">
         <div className="cs-in">
           <button className="pv-back rv r1" type="button" onClick={onClose}>
-            ← Back to {project?.title ?? "the project"}
+            <ArrowLeftIcon />
+            Back to {project?.title ?? "the project"}
           </button>
 
           {project && line ? (
@@ -117,7 +119,8 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                   <div className="btn-row">
                     {project.liveUrl ? (
                       <a className="btn rd" href={project.liveUrl} target="_blank" rel="noreferrer noopener">
-                        Visit Live Product <span>→</span>
+                        Visit Live Product
+                        <ArrowRightIcon />
                       </a>
                     ) : null}
                     {project.githubUrl ? (
