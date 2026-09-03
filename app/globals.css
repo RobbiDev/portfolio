@@ -1,420 +1,441 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./design.css";
 
-:root {
-  --foreground: 255, 255, 255;
-  --background: 0, 0, 0;
-  --accent: 163, 230, 53;
-  --glitch-blue: 62, 0, 254;
+/* =========================================================================
+ * Site additions on top of the design system.
+ * Everything here exists because the page is driven by markdown and real
+ * content rather than the fixed markup the design shipped with.
+ * ========================================================================= */
+
+/* ── media slots ──────────────────────────────────────────────────────────
+ * The design used a <image-slot> placeholder element; design.css now targets
+ * .rj-slot instead. A slot always fills its frame and crops rather than
+ * stretches, so cover art of any aspect ratio sits correctly.
+ */
+.rj-slot {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
 }
 
-body {
-  color: rgb(var(--foreground));
-  background: rgb(var(--background));
+.rj-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-@layer base {
-  :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-sans;
-  }
-
-  .font-mono {
-    @apply font-space-mono;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Code syntax highlighting */
-code[class*="language-"],
-pre[class*="language-"] {
-  @apply text-neutral-200;
-}
-
-.language-javascript .token.keyword,
-.language-typescript .token.keyword,
-.language-jsx .token.keyword,
-.language-tsx .token.keyword {
-  @apply text-lime-400;
-}
-
-.language-javascript .token.string,
-.language-typescript .token.string,
-.language-jsx .token.string,
-.language-tsx .token.string {
-  @apply text-amber-300;
-}
-
-.language-javascript .token.function,
-.language-typescript .token.function,
-.language-jsx .token.function,
-.language-tsx .token.function {
-  @apply text-blue-400;
-}
-
-.language-javascript .token.comment,
-.language-typescript .token.comment,
-.language-jsx .token.comment,
-.language-tsx .token.comment {
-  @apply text-neutral-500;
-}
-
-.language-javascript .token.number,
-.language-typescript .token.number,
-.language-jsx .token.number,
-.language-tsx .token.number {
-  @apply text-purple-400;
-}
-
-.language-javascript .token.operator,
-.language-typescript .token.operator,
-.language-jsx .token.operator,
-.language-tsx .token.operator {
-  @apply text-neutral-300;
-}
-
-.language-javascript .token.punctuation,
-.language-typescript .token.punctuation,
-.language-jsx .token.punctuation,
-.language-tsx .token.punctuation {
-  @apply text-neutral-400;
-}
-
-.language-javascript .token.boolean,
-.language-typescript .token.boolean,
-.language-jsx .token.boolean,
-.language-tsx .token.boolean {
-  @apply text-orange-400;
-}
-
-.language-javascript .token.property,
-.language-typescript .token.property,
-.language-jsx .token.property,
-.language-tsx .token.property {
-  @apply text-cyan-300;
-}
-
-.language-javascript .token.tag,
-.language-typescript .token.tag,
-.language-jsx .token.tag,
-.language-tsx .token.tag {
-  @apply text-red-400;
-}
-
-.language-javascript .token.attr-name,
-.language-typescript .token.attr-name,
-.language-jsx .token.attr-name,
-.language-tsx .token.attr-name {
-  @apply text-lime-300;
-}
-
-.language-javascript .token.attr-value,
-.language-typescript .token.attr-value,
-.language-jsx .token.attr-value,
-.language-tsx .token.attr-value {
-  @apply text-amber-300;
-}
-
-/* Glitch animations */
-@keyframes glitch-1 {
-  0%,
-  100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-5px, 5px);
-  }
-  40% {
-    transform: translate(-5px, -5px);
-  }
-  60% {
-    transform: translate(5px, 5px);
-  }
-  80% {
-    transform: translate(5px, -5px);
-  }
-}
-
-@keyframes glitch-2 {
-  0%,
-  100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(5px, 5px);
-  }
-  40% {
-    transform: translate(5px, -5px);
-  }
-  60% {
-    transform: translate(-5px, 5px);
-  }
-  80% {
-    transform: translate(-5px, -5px);
-  }
-}
-
-@keyframes glitch-3 {
-  0%,
-  100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(3px, -3px);
-  }
-  40% {
-    transform: translate(3px, 3px);
-  }
-  60% {
-    transform: translate(-3px, -3px);
-  }
-  80% {
-    transform: translate(-3px, 3px);
-  }
-}
-
-@keyframes flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  20% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 0.6;
-  }
-  40% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
-  60% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 0.7;
-  }
-  80% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.9;
-  }
-}
-
-@keyframes signal-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes signal-pulse {
-  0%,
-  100% {
-    transform: scale(0.92);
-    opacity: 0.45;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes signal-orbit {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes signal-scan {
-  0% {
-    transform: translateX(-40%) skewX(-12deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(60%) skewX(-12deg);
-    opacity: 0;
-  }
-}
-
-@layer utilities {
-  .animate-signal-spin {
-    animation: signal-spin 16s linear infinite;
-  }
-
-  .animate-signal-pulse {
-    animation: signal-pulse 2.8s ease-in-out infinite;
-  }
-
-  .animate-signal-orbit {
-    animation: signal-orbit 6s linear infinite;
-  }
-
-  .animate-signal-scan {
-    animation: signal-scan 6s linear infinite;
-  }
-}
-
-.animate-glitch-1 {
-  animation: glitch-1 0.2s infinite;
-}
-
-.animate-glitch-2 {
-  animation: glitch-2 0.3s infinite;
-}
-
-.animate-glitch-3 {
-  animation: glitch-3 0.25s infinite;
-}
-
-.animate-flicker {
-  animation: flicker 0.3s infinite;
-}
-
-.glitch-text {
+/* A slot is absolutely positioned, so every frame that holds one has to be a
+ * containing block. The design only set position on some of them — without
+ * this, an image escapes its frame and covers the whole panel.
+ */
+.pv-shot,
+.cs-shot,
+.idphoto,
+.gthumb,
+.pc-art,
+.bp .thumb,
+.rj-embed .embed,
+.fimg.rj-figure {
   position: relative;
-  display: inline-block;
 }
 
-.glitch-text::before,
-.glitch-text::after {
-  content: attr(data-text);
+.gthumb .rj-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* The badge keeps the design's corner placement; it just sits above the art. */
+.gthumb .gm {
+  z-index: 2;
+}
+
+.gthumb .gname {
+  position: relative;
+  z-index: 2;
+}
+
+.pc-art .rj-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.rj-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── rich markdown ────────────────────────────────────────────────────────
+ * Blog posts (.bp, light/serif) and case studies (.cs, dark) share one
+ * renderer, so the additions below are written for both surfaces.
+ */
+
+/* Case-study prose was only partly specified by the design. */
+.cs article p {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: rgba(242, 241, 236, 0.78);
+  margin: 0 0 18px;
+  text-wrap: pretty;
+}
+
+.cs article h2 {
+  font-family: var(--helv);
+  font-weight: 900;
+  font-size: clamp(20px, 2.4vw, 28px);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 38px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cs article h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(242, 241, 236, 0.28);
+}
+
+.cs article h4 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e51636;
+  margin: 24px 0 10px;
+}
+
+.cs article ol {
+  margin: 0 0 18px;
+  padding-left: 24px;
+}
+
+.cs article a {
+  color: #f2f1ec;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cs article a:hover {
+  color: #e51636;
+}
+
+.cs article code {
+  font-family: var(--mono);
+  font-size: 0.84em;
+  background: rgba(242, 241, 236, 0.1);
+  border: 1px solid rgba(242, 241, 236, 0.18);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.cs article pre {
+  margin: 24px 0;
+  background: #0d0d0f;
+  border: 1px solid rgba(242, 241, 236, 0.16);
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e8e4d8;
+}
+
+.cs article pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.cs article pre .c { color: #7d8f88; }
+.cs article pre .k { color: #e5915c; }
+.cs article pre .s { color: #a8c686; }
+
+.cs article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14.5px;
+  border: 1px solid rgba(242, 241, 236, 0.16);
+}
+
+.cs article th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  background: #1d1d20;
+  color: rgba(242, 241, 236, 0.75);
+  padding: 11px 14px;
+}
+
+.cs article td {
+  padding: 11px 14px;
+  border-top: 1px solid rgba(242, 241, 236, 0.12);
+  color: rgba(242, 241, 236, 0.78);
+}
+
+.cs article hr {
+  border: none;
+  border-top: 1px solid rgba(242, 241, 236, 0.2);
+  margin: 34px 0;
+}
+
+.cs article figure {
+  margin: 24px 0;
+}
+
+.cs article .fimg {
+  border: 1px solid rgba(242, 241, 236, 0.16);
+  background: #1d1d20;
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+}
+
+.cs .chips .chip {
+  border-color: rgba(242, 241, 236, 0.25);
+  color: rgba(242, 241, 236, 0.6);
+}
+
+/* Figures rendered from markdown hold a real image, not a placeholder. */
+.fimg.rj-figure {
+  position: relative;
+  aspect-ratio: auto;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.fimg.rj-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Tables get their own scroller so a wide table never widens the page. */
+.rj-table {
+  overflow-x: auto;
+  margin: 28px 0;
+}
+
+.rj-table table {
+  margin: 0;
+}
+
+/* ── callouts ─────────────────────────────────────────────────────────────
+ * The design shipped one green callout; the variants keep its shape and only
+ * change the accent so a warning still reads as part of the same family.
+ */
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout p:first-child {
+  margin-top: 0;
+}
+
+.bp .callout-tip { background: #e3e9ec; border-color: #1d3a5f; }
+.bp .callout-tip .ic { background: #1d3a5f; }
+.bp .callout-warn { background: #f2e7d5; border-color: #a34a24; }
+.bp .callout-warn .ic { background: #a34a24; }
+.bp .callout-danger { background: #f3dedd; border-color: #b91229; }
+.bp .callout-danger .ic { background: #b91229; }
+
+.cs .callout {
+  margin: 24px 0;
+  padding: 16px 20px;
+  display: flex;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.7;
+  background: #1d1d20;
+  border: 1px solid #4a6741;
+  color: rgba(242, 241, 236, 0.82);
+}
+
+.cs .callout .ic {
+  font-family: var(--helv);
+  font-weight: 900;
+  color: #f2f1ec;
+  background: #4a6741;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.cs .callout-tip { border-color: #1574c4; }
+.cs .callout-tip .ic { background: #1574c4; }
+.cs .callout-warn { border-color: #d78e2e; }
+.cs .callout-warn .ic { background: #d78e2e; }
+.cs .callout-danger { border-color: #e51636; }
+.cs .callout-danger .ic { background: #e51636; }
+
+/* ── embeds ───────────────────────────────────────────────────────────────
+ * Video, iframes and galleries, framed the same way the design frames a shot.
+ */
+.rj-embed {
+  margin: 28px 0;
+}
+
+.rj-embed .embed {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #1e2726;
+  border: 1.5px solid #1e2726;
+  box-shadow: 6px 6px 0 #1e2726;
+}
+
+.rj-embed .embed iframe,
+.rj-embed .embed video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #000;
+}
+
+.cs .rj-embed .embed {
+  background: #1d1d20;
+  border: 1px solid rgba(242, 241, 236, 0.16);
+  box-shadow: none;
+}
+
+.rj-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.rj-gallery-item {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 1.5px solid #1e2726;
+  background: #dcd4c2;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+}
+
+.rj-gallery-item:hover {
+  transform: translate(-2px, -3px);
+  box-shadow: 6px 7px 0 #1e2726;
+}
+
+.rj-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rj-gallery-cap {
   position: absolute;
   left: 0;
-  top: 0;
-  opacity: 0.65;
-  pointer-events: none;
+  right: 0;
+  bottom: 0;
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f7f3ea;
+  background: linear-gradient(180deg, transparent, rgba(30, 39, 38, 0.88));
+  text-align: left;
 }
 
-.glitch-text::before {
-  color: rgb(var(--glitch-blue));
-  transform: translate(1px, -1px);
-  animation: glitch-2 0.6s infinite;
+.cs .rj-gallery-item {
+  border: 1px solid rgba(242, 241, 236, 0.16);
+  background: #1d1d20;
 }
 
-.glitch-text::after {
-  color: #e21a41;
-  transform: translate(-1px, 1px);
-  animation: glitch-3 0.5s infinite;
+.cs .rj-gallery-item:hover {
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
 }
 
-/* System error page styles */
-.glitch-line {
+/* ── lightbox figure ──────────────────────────────────────────────────── */
+.lb-figure {
   position: absolute;
-  background: rgba(62, 0, 254, 0.2);
-  height: 1px;
-  width: 100%;
-  transform-origin: left;
-  animation: glitch-line 3s infinite alternate;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0;
 }
 
-@keyframes glitch-line {
-  0% {
-    transform: scaleX(0);
-  }
-  10% {
-    transform: scaleX(1);
-  }
-  90% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(0);
+.lb-figure img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+}
+
+.lb-figure figcaption {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(242, 241, 236, 0.6);
+  text-align: center;
+  max-width: 60ch;
+}
+
+.lb-figure figcaption b {
+  display: block;
+  color: #f2f1ec;
+  margin-bottom: 4px;
+}
+
+/* ── contact form states ──────────────────────────────────────────────── */
+.shipbtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Respect a reduced-motion preference: keep the layout, drop the theatre. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
-/* About page animations */
-@keyframes scan-line {
-  0% {
-    top: -10%;
+/* ── narrow phones ────────────────────────────────────────────────────────
+ * Four fanned cards plus their negative margins run a few pixels wider than
+ * a small phone, which clips the last one. Shrink the deck to fit.
+ */
+@media (max-width: 520px) {
+  .fcard {
+    width: min(24vw, 20svh);
   }
-  100% {
-    top: 110%;
+
+  .fcard.plain .cardname.big {
+    font-size: 3.9vw;
   }
-}
-
-.animate-scan-line {
-  animation: scan-line 2s linear infinite;
-}
-
-@keyframes data-flow {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-.animate-data-flow {
-  animation: data-flow 15s linear infinite;
-}
-
-/* Skill card hover effects */
-.skill-card-hover {
-  transition: all 0.3s ease;
-}
-
-.skill-card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.5);
 }

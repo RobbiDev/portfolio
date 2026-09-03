@@ -3,7 +3,14 @@
   "title": "SafelySDS",
   "summary": "SafelySDS is a web-based application built to help businesses store, manage, and access Safety Data Sheets (SDS) in a secure and organized manner.",
   "category": "SOFTWARE",
-  "technologies": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Azure Blob Storage", "Prisma"],
+  "technologies": [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Azure Blob Storage",
+    "Prisma"
+  ],
   "coverImageColor": "#5e17eb",
   "client": "Personal Project & Imaflex USA",
   "timeline": "January 2025 - March 2025",
@@ -63,7 +70,10 @@
       "alt": "Admin dashboard with user management and settings",
       "title": "Admin Dashboard Page"
     }
-  ]
+  ],
+  "coverImage": "/images/safelysds/thumbnail.png",
+  "role": "Design & development, end to end",
+  "status": "Live \u00b7 in service since 2026"
 }
 ===
 
