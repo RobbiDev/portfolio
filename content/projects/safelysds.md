@@ -77,6 +77,28 @@
 }
 ===
 
+:::problem The Problem & The Approach
+Safety data sheets live in three-ring binders, shared drives, and email threads.
+When someone on the floor needs hazard information, they need it **immediately**,
+not after a hunt through a filing cabinet. And when an auditor shows up,
+incomplete or out-of-date SDS records become a compliance problem with real
+teeth.
+
+Most tools in this space are enterprise-heavy, priced and designed for safety
+departments, not for the small and mid-size teams that actually handle the
+chemicals.
+
+---
+
+SafelySDS treats the SDS library as a living inventory, not a document dump.
+Every chemical gets a record with hazard classifications; every record gets a
+data sheet; and every physical location gets a **QR code that opens the right
+sheet on any phone**. No login, no app, no searching.
+
+Admins manage documents, locations, and team permissions from one dashboard, so
+the system stays current as inventory changes.
+:::
+
 # SafelySDS Project Outline
 
 SafelySDS is a web based platform built to fix a major safety gap in industrial workplaces. It moves critical safety data out of dusty paper binders and puts it directly into the hands of the people on the floor through a fast, mobile friendly digital system. 

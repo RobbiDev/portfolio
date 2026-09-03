@@ -14,6 +14,12 @@ import type { GalleryImage } from "./types"
  *   ::figure[/images/shot.png]{caption="..." alt="..."}
  *   ::gallery                   the item's own gallery, as a lightbox strip
  *
+ *   :::problem The Problem & The Approach
+ *   the problem, in its own column
+ *   ---                          the column break
+ *   the approach, in the second column
+ *   :::
+ *
  * A bare URL alone on a line is auto-embedded when the host is recognised, so
  * pasting a YouTube link just works.
  */
@@ -25,6 +31,7 @@ export type Block =
   | { type: "video"; src: string; poster?: string; caption?: string }
   | { type: "figure"; src: string; alt?: string; caption?: string }
   | { type: "gallery"; images: GalleryImage[] }
+  | { type: "split"; title?: string; left: string; right: string }
 
 export type CalloutVariant = "note" | "tip" | "warn" | "danger"
 
@@ -100,6 +107,16 @@ const LEAF_DIRECTIVE = /^::([a-z][\w-]*)(?:\[([^\]]*)\])?(?:\{(.*)\})?\s*$/i
 const CALLOUT_OPEN = /^:::\s*([a-z][\w-]*)\s*(?:\[([^\]]*)\]|(.*))?$/i
 
 /**
+ * The two-column block. `problem` is the case study's own "problem, then
+ * approach" spread; `split` / `columns` are the same thing under a neutral
+ * name. A line of three or more dashes inside the block is the column break.
+ */
+const SPLIT_OPEN = /^:::\s*(problem|split|columns)\b\s*(?:\[([^\]]*)\]|([^\[{]*))?\s*$/i
+const NESTED_OPEN = /^:::\s*[a-z]/i
+const COLUMN_BREAK = /^\s*-{3,}\s*$/
+const DEFAULT_SPLIT_TITLE = "The Problem & The Approach"
+
+/**
  * Split a markdown body into renderable blocks. Anything that isn't a
  * directive is passed through untouched so ordinary markdown keeps working.
  */
@@ -133,6 +150,15 @@ export function parseRichMarkdown(source: string, gallery: GalleryImage[] = []):
     }
     if (inFence) {
       buffer.push(line)
+      continue
+    }
+
+    const split = line.match(SPLIT_OPEN)
+    if (split) {
+      flush()
+      const read = readSplit(lines, split, i)
+      blocks.push(read.block)
+      i = read.end
       continue
     }
 
@@ -185,6 +211,92 @@ export function parseRichMarkdown(source: string, gallery: GalleryImage[] = []):
 
   flush()
   return blocks
+}
+
+export type SplitBlock = Extract<Block, { type: "split" }>
+
+/**
+ * Read one `:::problem` block, starting at its opening line. Returns the block
+ * and the index of its closing line, so the caller can carry on from there.
+ */
+function readSplit(lines: string[], open: RegExpMatchArray, start: number): { block: SplitBlock; end: number } {
+  const name = open[1].toLowerCase()
+  const heading = (open[2] ?? open[3] ?? "").trim()
+  // Two buckets: everything before the column break, and everything after it.
+  const columns: string[][] = [[]]
+  let depth = 1
+  let i = start + 1
+
+  for (; i < lines.length; i++) {
+    const inner = lines[i]
+    const trimmed = inner.trim()
+
+    if (trimmed === ":::") {
+      depth--
+      if (depth === 0) break
+    } else if (NESTED_OPEN.test(trimmed)) {
+      depth++
+    }
+
+    // Only the outermost level breaks columns — an hr inside a nested
+    // callout is just an hr.
+    if (depth === 1 && columns.length < 2 && COLUMN_BREAK.test(inner)) {
+      columns.push([])
+    } else {
+      columns[columns.length - 1].push(inner)
+    }
+  }
+
+  return {
+    block: {
+      type: "split",
+      title: heading || (name === "problem" ? DEFAULT_SPLIT_TITLE : undefined),
+      left: columns[0].join("\n").trim(),
+      right: (columns[1] ?? []).join("\n").trim(),
+    },
+    end: i,
+  }
+}
+
+/**
+ * Lift the two-column blocks out of a body. The case study draws them as
+ * numbered sections of its own rather than mid-prose, so it needs the blocks
+ * and the leftover markdown separately.
+ */
+export function extractSplits(source: string): { splits: SplitBlock[]; body: string } {
+  const lines = source.replace(/\r\n?/g, "\n").split("\n")
+  const splits: SplitBlock[] = []
+  const rest: string[] = []
+  let inFence = false
+  let fenceMarker = ""
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+
+    const fence = line.match(/^(\s*)(`{3,}|~{3,})/)
+    if (fence) {
+      if (!inFence) {
+        inFence = true
+        fenceMarker = fence[2][0]
+      } else if (fence[2][0] === fenceMarker) {
+        inFence = false
+      }
+      rest.push(line)
+      continue
+    }
+
+    const split = inFence ? null : line.match(SPLIT_OPEN)
+    if (split) {
+      const read = readSplit(lines, split, i)
+      splits.push(read.block)
+      i = read.end
+      continue
+    }
+
+    rest.push(line)
+  }
+
+  return { splits, body: rest.join("\n").trim() }
 }
 
 function buildLeaf(

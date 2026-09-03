@@ -31,6 +31,19 @@ Beyond that, a few directives expand into the site's own components.
 title, and the body is full markdown. Close with `:::`.
 :::
 
+## Two-column spreads
+
+:::split A heading for the spread
+The left column, in full markdown.
+
+---
+
+The right column, after a line of three or more dashes.
+:::
+
+`:::problem` is the same block with "The Problem & The Approach" as its default
+heading — in a project's case study it becomes a numbered section of its own.
+
 ## Quotes with attribution
 
 A closing line that starts with an em dash becomes the credit under the quote.

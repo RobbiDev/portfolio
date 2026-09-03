@@ -27,6 +27,22 @@ This body is the **case study**: it renders behind the "Full Case Study" button 
 the project's detail panel, using the same rich markdown as blog posts (callouts,
 embeds, galleries, code, tables — see content/blog.template.md for the full list).
 
+A `:::problem` block becomes the two-column spread the case study numbers as a
+section of its own. Three or more dashes on their own line break the columns:
+
+```
+:::problem The Problem & The Approach
+What was wrong, in the left column.
+
+---
+
+What the project does about it, in the right column.
+:::
+```
+
+The heading after `:::problem` is optional and defaults to "The Problem & The
+Approach"; `:::split` and `:::columns` are the same block without that default.
+
 The metadata above drives the rest of the UI:
 
 - `category` picks the transit line (software → red, network → yellow, controls →
