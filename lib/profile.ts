@@ -43,14 +43,14 @@ export const profile = {
 
   experience: [
     {
-      period: "May 2025 → Present",
+      period: "May 2025 – Present",
       place: "Imaflex USA · Thomasville, NC",
       role: "IT & Network/Controls Engineer",
       detail:
         "Manages IT infrastructure and network systems in a manufacturing environment. Supports PLC control systems, troubleshoots production tech issues, and leads integration of new control systems.",
     },
     {
-      period: "Jun 2023 → Nov 2023",
+      period: "Jun 2023 – Nov 2023",
       place: "Chick-fil-A · Grandover Village, NC",
       role: "Back of House Supervisor",
       detail:
@@ -60,14 +60,14 @@ export const profile = {
 
   education: [
     {
-      period: "Jan 2026 → Present",
+      period: "Jan 2026 – Present",
       place: "UNC Charlotte",
       role: "B.S. Computer Science",
       detail:
         "Networks & Systems focus, minoring in Electrical & Computer Engineering. Expected graduation Jan 2028.",
     },
     {
-      period: "Aug 2024 → Dec 2025",
+      period: "Aug 2024 – Dec 2025",
       place: "Guilford Technical CC",
       role: "Associate in Science",
       detail: "Focus on Computer Science and Information Technology. Graduated with a 3.7 GPA.",

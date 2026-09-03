@@ -2,6 +2,7 @@
 
 import RichMarkdown from "@/components/rich-markdown"
 import PostcardArt from "./postcard-art"
+import { ArrowLeftIcon } from "./icons"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
 
@@ -33,7 +34,8 @@ export default function PostReader({ post, index, open, onClose, onOpenImage }: 
       <div className="bp-scroll">
         <div className="bp-in">
           <button className="back2 rv r1" type="button" onClick={onClose}>
-            ← Back to Field Notes
+            <ArrowLeftIcon />
+            Back to Field Notes
           </button>
 
           {post ? (
@@ -67,7 +69,8 @@ export default function PostReader({ post, index, open, onClose, onOpenImage }: 
                   RJ · Field Notes · {post.location || "Greensboro, NC"}
                 </span>
                 <button className="back2" style={{ marginBottom: 0 }} type="button" onClick={onClose}>
-                  ← Back to Field Notes
+                  <ArrowLeftIcon />
+                  Back to Field Notes
                 </button>
               </div>
             </>
