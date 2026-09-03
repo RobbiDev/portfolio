@@ -416,6 +416,14 @@
   flex: none;
 }
 
+/* These read as a line of text, so they stay left-aligned rather than centred. */
+.bgo,
+.board-note a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 /* Slots the design sized as text now hold an icon. */
 .learn .lstar,
 .mb-learn .lstar,
@@ -429,8 +437,6 @@
 .xbtn,
 .fdl,
 .dtab,
-.bgo,
-.board-note a,
 .mclose,
 .btn,
 .shipbtn {
@@ -530,29 +536,45 @@ button.btn {
   overscroll-behavior-x: none;
 }
 
+/* ── project detail layout ────────────────────────────────────────────────
+ * Desktop keeps the design's two columns, with the buttons under the summary
+ * and the route list alongside. On a phone the columns stack, and the route
+ * reads as the substance of the project — so it comes before the buttons
+ * rather than after them.
+ */
+.pv-grid {
+  grid-template-areas:
+    "text route"
+    "actions route";
+  align-content: start;
+}
+
+.pv-text { grid-area: text; }
+.pv-route { grid-area: route; }
+.pv-actions { grid-area: actions; }
+
+@media (max-width: 760px) {
+  .pv-grid {
+    grid-template-areas:
+      "text"
+      "route"
+      "actions";
+  }
+}
+
 /* ── phones ───────────────────────────────────────────────────────────────
- * The design put the four cards in one fanned row and hid the fourth below
- * 760px. Three cards abreast can only grow so far before the card in front
- * covers its neighbour's label, which left them small. A 2x2 deck fits cards
- * about 40% larger with every label clear, and brings Contact back onto the
- * hero instead of hiding it.
+ * The design fanned four overlapping cards in one row and hid the fourth
+ * below 760px. Four abreast will not fit a phone at a readable size, so the
+ * deck folds into two rows — but the cards still overlap each other on both
+ * axes, so it reads as a stack rather than a tidy grid. Each label sits clear
+ * of the card stacked in front of it.
  */
 @media (max-width: 760px) {
   .fan {
     display: grid;
-    grid-template-columns: repeat(2, min(42vw, 21svh));
+    grid-template-columns: repeat(2, min(46vw, 23svh));
     justify-content: center;
-    gap: clamp(10px, 3vw, 16px);
-  }
-
-  .fw,
-  .fw.f2,
-  .fw.f4 {
-    margin: 0;
-  }
-
-  .fw.f4 {
-    display: block;
+    gap: 0;
   }
 
   .fcard {
@@ -560,14 +582,20 @@ button.btn {
   }
 
   .fcard.plain .cardname.big {
-    font-size: 5.4vw;
+    font-size: 5.2vw;
   }
 
-  /* Gentler angles: a grid cell has no neighbour to fan away from. */
+  /* Front to back, so each card's label falls on bare paper. */
+  .fw.f1 { z-index: 4; margin: 0; }
+  .fw.f2 { z-index: 3; margin: 0 0 0 -7vw; }
+  .fw.f3 { z-index: 2; margin: -9vw 0 0; }
+  .fw.f4 { z-index: 1; margin: -9vw 0 0 -7vw; display: block; }
+
+  /* Gentler angles than the desktop fan: the overlap does the work here. */
   .fcard.c1 { transform: rotate(-5deg); }
   .fcard.c2 { transform: rotate(4deg); }
-  .fcard.c3 { transform: rotate(4deg); }
-  .fcard.c4 { transform: rotate(-5deg); }
+  .fcard.c3 { transform: rotate(3deg); }
+  .fcard.c4 { transform: rotate(-4deg); }
 }
 
 /* Respect a reduced-motion preference: keep the layout, drop the theatre. */
