@@ -1,82 +1,68 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Inter, Space_Mono, Permanent_Marker } from "next/font/google";
-import "./globals.css";
-import Navigation from "@/components/navigation";
+import type React from "react"
+import type { Metadata, Viewport } from "next"
+import { Archivo, JetBrains_Mono } from "next/font/google"
 
-const inter = Inter({
+import "./globals.css"
+import { profile } from "@/lib/profile"
+
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
-});
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-display",
+  display: "swap",
+})
 
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-space-mono",
-});
+  weight: ["400", "500", "700"],
+  variable: "--font-mono",
+  display: "swap",
+})
 
-const permanentMarker = Permanent_Marker({
-  weight: ["400"],
-  subsets: ["latin"],
-  variable: "--font-marker",
-});
-
-export const metadataBase = new URL("https://robbyj.com");
+const SITE_URL = "https://robbyj.dev"
 
 export const metadata: Metadata = {
-  title: {
-    default: "Robert Johnson | Portfolio",
-    template: "Robert Johnson | %s",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: "ROBBYJ · Robert Johnson",
   description:
-    "From networks to control systems, I build secure, scalable software and infrastructure solutions with a focus on reliability and performance.",
+    "Robert Johnson builds networks, software, and control systems. Projects, field notes, and a way to get in touch — all on one page.",
   keywords: [
     "Robert Johnson",
     "software engineer",
-    "systems engineer",
-    "networking",
+    "network engineer",
+    "control systems",
+    "industrial automation",
     "portfolio",
   ],
-  alternates: {
-    canonical: "https://robbyj.com",
-  },
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: "Robert Johnson | Portfolio",
-    description:
-      "Secure, scalable systems across software, networks, and control environments.",
-    url: "https://robbyj.com",
-    siteName: "Robert Johnson Portfolio",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Robert Johnson Portfolio",
-      },
-    ],
+    title: "ROBBYJ · Robert Johnson",
+    description: "Networks, software & systems. Projects, field notes, and contact.",
+    url: SITE_URL,
+    siteName: "Robert Johnson",
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Robert Johnson" }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Robert Johnson | Portfolio",
-    description:
-      "Secure, scalable systems across software, networks, and control environments.",
+    title: "ROBBYJ · Robert Johnson",
+    description: "Networks, software & systems.",
     images: ["/opengraph-image.png"],
   },
-  icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
-  },
-};
+  icons: { icon: "/icon.svg", apple: "/icon.svg" },
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#e9e8e3",
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -84,26 +70,18 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Robert Johnson",
-              url: "https://robbyj.com",
-              sameAs: [
-                "https://github.com/RobbiDev",
-                "https://www.linkedin.com/in/robby-johnson",
-              ],
-              jobTitle: "Networks and Systems Engineer",
+              name: profile.name,
+              url: SITE_URL,
+              email: `mailto:${profile.email}`,
+              jobTitle: profile.role,
+              worksFor: { "@type": "Organization", name: profile.employer },
+              address: { "@type": "PostalAddress", addressLocality: "Greensboro", addressRegion: "NC" },
+              sameAs: [profile.github, profile.linkedin],
             }),
           }}
         />
       </head>
-      <body
-        className={`${inter.variable} ${spaceMono.variable} ${permanentMarker.variable} font-sans bg-black text-white relative`}
-      >
-        
-        <div className="relative z-10 flex flex-col min-h-screen">
-          <Navigation />
-          <main className="flex-1">{children}</main>
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
-  );
+  )
 }

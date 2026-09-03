@@ -1,26 +1,13 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next"
 
+/** One page, one entry — panels are hash fragments of the same document. */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: "https://robbyj.dev",
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 1,
     },
-    {
-      url: "https://robbyj.dev/projects",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://robbyj.dev/blog",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://robbyj.dev/about",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://robbyj.dev/contact",
-      lastModified: new Date(),
-    },
-  ];
+  ]
 }
