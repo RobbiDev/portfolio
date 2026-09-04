@@ -287,7 +287,8 @@ export function SplitSection({
   )
 }
 
-function Gallery({
+/** The lightbox strip: every shot in the item's gallery, as a grid. */
+export function Gallery({
   images,
   onOpenImage,
 }: {
