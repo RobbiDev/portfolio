@@ -47,6 +47,39 @@ export default function ProjectDetail({
                 </div>
               </div>
 
+              {stack.length > 0 ? (
+                <div className="pv-shot stg g2" style={{ border: "none", background: "none", aspectRatio: "auto" }}>
+                  <div className="stackwrap">
+                    <div
+                      className="stack"
+                      title="Open highlights"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => onOpenImage(project.gallery, 0)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault()
+                          onOpenImage(project.gallery, 0)
+                        }
+                      }}
+                    >
+                      {stack
+                        .map((image, index) => ({ image, index }))
+                        .reverse()
+                        .map(({ image, index }) => (
+                          <div className="scard" key={image.url}>
+                            <div className="rj-slot">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={image.url} alt={image.alt || image.title || ""} loading="lazy" />
+                            </div>
+                            <span className="rj-sr-only">{index + 1}</span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
               <div className="pv-grid">
                 <div className="pv-text stg g3">
                   {project.summary ? <p className="pv-d">{project.summary}</p> : null}
@@ -104,39 +137,6 @@ export default function ProjectDetail({
                   </div>
                 </div>
               </div>
-
-              {stack.length > 0 ? (
-                <div className="pv-shot stg g4" style={{ border: "none", background: "none", aspectRatio: "auto" }}>
-                  <div className="stackwrap">
-                    <div
-                      className="stack"
-                      title="Open highlights"
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => onOpenImage(project.gallery, 0)}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === " ") {
-                          event.preventDefault()
-                          onOpenImage(project.gallery, 0)
-                        }
-                      }}
-                    >
-                      {stack
-                        .map((image, index) => ({ image, index }))
-                        .reverse()
-                        .map(({ image, index }) => (
-                          <div className="scard" key={image.url}>
-                            <div className="rj-slot">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={image.url} alt={image.alt || image.title || ""} loading="lazy" />
-                            </div>
-                            <span className="rj-sr-only">{index + 1}</span>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
             </>
           ) : null}
         </div>

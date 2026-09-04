@@ -589,11 +589,6 @@ button.btn {
   }
 }
 
-/* The highlights deck closes the panel, so it needs air above it. */
-.pv-in > .pv-shot {
-  margin-top: clamp(30px, 4.5vw, 56px);
-}
-
 /* ── phones ───────────────────────────────────────────────────────────────
  * The design fanned four overlapping cards in one row and hid the fourth
  * below 760px. Four abreast will not fit a phone at a readable size, so the
@@ -699,4 +694,22 @@ button.btn {
 .pcards {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 380px));
   justify-content: start;
+}
+
+/* ── case study plate ─────────────────────────────────────────────────────
+ * The case study opens on the board's own plate — a flat block in the
+ * project's line colour with its name over it — rather than a screenshot.
+ * The shots all live in the gallery that closes the page.
+ */
+.cs-plate {
+  margin-top: clamp(22px, 3vw, 36px);
+  aspect-ratio: 16 / 8;
+}
+
+.cs-plate .gname {
+  font-size: clamp(30px, 5vw, 64px);
+}
+
+.cs .sec .rj-gallery {
+  margin: 0;
 }

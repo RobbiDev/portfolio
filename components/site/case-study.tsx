@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 
-import RichMarkdown, { SplitSection } from "@/components/rich-markdown"
+import RichMarkdown, { Gallery, SplitSection } from "@/components/rich-markdown"
 import { ArrowLeftIcon, ArrowRightIcon } from "./icons"
 import { lineFor } from "@/lib/profile"
 import { extractSplits } from "@/lib/rich-markdown"
@@ -43,6 +43,7 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
   const splitIndexes = splits.map(() => pad(++count))
   const reportIndex = body ? pad(++count) : null
   const linksIndex = project?.liveUrl || project?.githubUrl ? pad(++count) : null
+  const galleryIndex = project?.gallery.length ? pad(++count) : null
 
   return (
     <section className={`cs${open ? " on reveal" : ""}`} aria-hidden={!open}>
@@ -71,29 +72,12 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                 </div>
               </div>
 
-              {project.gallery[0] ? (
-                <div
-                  className="cs-shot rv r3"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => onOpenImage(project.gallery, 0)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault()
-                      onOpenImage(project.gallery, 0)
-                    }
-                  }}
-                >
-                  <div className="rj-slot">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={project.gallery[0].url}
-                      alt={project.gallery[0].alt || project.title}
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              ) : null}
+              {/* The board's own plate opens the case study: the line colour with
+                  the project's name over it, not a screenshot. */}
+              <div className={`cs-plate gthumb line-${line.dot} rv r3`} aria-hidden="true">
+                <span className="gm">M</span>
+                <span className="gname">{project.title}</span>
+              </div>
 
               {dataIndex ? (
                 <div className="sec rv r4">
@@ -154,6 +138,16 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                       </a>
                     ) : null}
                   </div>
+                </div>
+              ) : null}
+
+              {galleryIndex ? (
+                <div className="sec">
+                  <div className="sec-h">
+                    <span>The Gallery</span>
+                    <span>{galleryIndex}</span>
+                  </div>
+                  <Gallery images={project.gallery} onOpenImage={onOpenImage} />
                 </div>
               ) : null}
             </>
