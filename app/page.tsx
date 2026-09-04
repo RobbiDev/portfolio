@@ -1,5 +1,6 @@
 import SiteShell from "@/components/site/site-shell"
 import PointerFx from "@/components/site/pointer-fx"
+import VisitTracker from "@/components/site/visit-tracker"
 import { getPosts, getProjects } from "@/lib/content"
 
 /**
@@ -16,6 +17,7 @@ export default function Home() {
     <>
       <SiteShell projects={projects} posts={posts} />
       <PointerFx />
+      <VisitTracker />
     </>
   )
 }

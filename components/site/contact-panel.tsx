@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { ArrowRightIcon } from "./icons"
 import { profile } from "@/lib/profile"
+import { attributionSummary, track } from "@/lib/analytics"
 
 const STORAGE_KEY = "rj_contact_sends"
 const DAILY_LIMIT = 3
@@ -92,11 +93,14 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        // The email carries where the sender came from, so a message from a
+        // recruiter arrives with its referrer already attached.
+        body: JSON.stringify({ ...form, attribution: attributionSummary() }),
       })
       const payload = await response.json().catch(() => ({}))
       ok = response.ok
       if (!ok) error = payload?.error || "The dock rejected that shipment. Try again later."
+      if (ok) track("contact_send")
     } catch {
       error = "Could not reach the dock. Check your connection and try again."
     }
@@ -215,17 +219,33 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
               </div>
 
               <div className="shipstack">
-                <a className="cbox c-em" href={`mailto:${profile.email}`}>
+                <a
+                  className="cbox c-em"
+                  href={`mailto:${profile.email}`}
+                  onClick={() => track("contact_link", { via: "email" })}
+                >
                   <span className="code">EML-001</span>
                   <span className="ck">Email</span>
                   <span className="cv">{profile.email}</span>
                 </a>
-                <a className="cbox c-li" href={profile.linkedin} target="_blank" rel="noreferrer noopener">
+                <a
+                  className="cbox c-li"
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={() => track("contact_link", { via: "linkedin" })}
+                >
                   <span className="code">LNK-002</span>
                   <span className="ck">LinkedIn</span>
                   <span className="cv">{profile.linkedinHandle}</span>
                 </a>
-                <a className="cbox c-gh" href={profile.github} target="_blank" rel="noreferrer noopener">
+                <a
+                  className="cbox c-gh"
+                  href={profile.github}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={() => track("contact_link", { via: "github" })}
+                >
                   <span className="code">GIT-003</span>
                   <span className="ck">GitHub</span>
                   <span className="cv">{profile.githubHandle}</span>

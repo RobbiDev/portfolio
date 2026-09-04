@@ -8,8 +8,26 @@ import nodemailer from "nodemailer"
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/**
+ * Visit attribution the client collected (source, referrer, tagged link…).
+ * Only these keys are read and each is truncated, because it arrives from the
+ * browser and ends up in the body of an email.
+ */
+const ATTRIBUTION_KEYS = ["source", "channel", "referrer", "landing", "tag", "campaign", "medium", "recruiter"]
+
+function formatAttribution(value: unknown): string {
+  if (!value || typeof value !== "object") return ""
+  const record = value as Record<string, unknown>
+  const lines = ATTRIBUTION_KEYS.flatMap((key) => {
+    const entry = record[key]
+    if (typeof entry !== "string" || !entry.trim()) return []
+    return [`${key}: ${entry.replace(/\s+/g, " ").trim().slice(0, 120)}`]
+  })
+  return lines.length ? `\n\n--- where they came from ---\n${lines.join("\n")}` : ""
+}
+
 export async function POST(request: Request) {
-  let body: { name?: string; email?: string; message?: string }
+  let body: { name?: string; email?: string; message?: string; attribution?: unknown }
   try {
     body = await request.json()
   } catch {
@@ -54,7 +72,7 @@ export async function POST(request: Request) {
       replyTo: email,
       to,
       subject: `Contact form submission from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}${formatAttribution(body.attribution)}`,
     })
 
     await transporter.sendMail({

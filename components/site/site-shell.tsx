@@ -12,6 +12,7 @@ import ProjectsPanel from "./projects-panel"
 import WritingPanel from "./writing-panel"
 import { AsteriskIcon, CloseIcon, StarIcon } from "./icons"
 import { profile } from "@/lib/profile"
+import { track } from "@/lib/analytics"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
 
@@ -141,6 +142,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
     (next: PanelId | "home") => {
       if (busy) return
       setBusy(true)
+      if (next !== "home") track("panel_view", { panel: next })
 
       // Projects gets the transporter effect; everything else gets the wipe.
       const teleport = next === "work"
@@ -191,6 +193,7 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
   /* ── readers, each with the wipe the design gives it ──────────────────── */
 
   const openPost = useCallback((slug: string) => {
+    track("post_view", { post: slug })
     setWipe("writing")
     window.setTimeout(() => {
       setPostSlug(slug)
@@ -410,7 +413,10 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         open={panel === "work"}
         reveal={reveal && panel === "work"}
         pushed={Boolean(projectSlug)}
-        onOpenProject={setProjectSlug}
+        onOpenProject={(slug) => {
+          track("project_view", { project: slug })
+          setProjectSlug(slug)
+        }}
         onLearn={() => setMenuOpen(true)}
       />
 
@@ -446,8 +452,15 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         reveal={reveal && panel === "about"}
         openFile={openFile}
         deskOpen={deskOpen}
-        onOpenFile={setOpenFile}
-        onToggleDesk={setDeskOpen}
+        onOpenFile={(key) => {
+          if (key) track(key === "resume" ? "resume_view" : "file_view", { file: key })
+          setOpenFile(key)
+        }}
+        onToggleDesk={(open) => {
+          // The desk is the whole resume on one sheet — same intent as the file.
+          if (open) track("resume_view", { file: "quick-look" })
+          setDeskOpen(open)
+        }}
         onContact={() => go("contact")}
       />
 
