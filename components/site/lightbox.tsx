@@ -51,8 +51,10 @@ export default function Lightbox({ state, onClose, onNavigate }: LightboxProps) 
       <div className="lb-stage">
         {current ? (
           <figure className="lb-figure">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={current.url} alt={current.alt || current.title || ""} />
+            <div className="lb-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={current.url} alt={current.alt || current.title || ""} />
+            </div>
             {current.caption || current.title ? (
               <figcaption>
                 {current.title ? <b>{current.title}</b> : null}

@@ -1,8 +1,11 @@
 "use client"
 
-import RichMarkdown from "@/components/rich-markdown"
+import { useMemo } from "react"
+
+import RichMarkdown, { SplitSection } from "@/components/rich-markdown"
 import { ArrowLeftIcon, ArrowRightIcon } from "./icons"
 import { lineFor } from "@/lib/profile"
+import { extractSplits } from "@/lib/rich-markdown"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
 
@@ -11,6 +14,11 @@ interface CaseStudyProps {
   open: boolean
   onClose: () => void
   onOpenImage: (images: GalleryImage[], index: number) => void
+}
+
+/** Sections are numbered in the order they appear: 01, 02, 03… */
+function pad(index: number): string {
+  return String(index).padStart(2, "0")
 }
 
 export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseStudyProps) {
@@ -26,29 +34,33 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
       ].filter((stat): stat is { key: string; value: string } => Boolean(stat.value))
     : []
 
+  // The two-column "problem / approach" blocks are lifted out of the body so
+  // they read as sections of the case study rather than as mid-prose asides.
+  const { splits, body } = useMemo(() => extractSplits(project?.content ?? ""), [project?.content])
+
+  let count = 0
+  const dataIndex = stats.length > 0 ? pad(++count) : null
+  const splitIndexes = splits.map(() => pad(++count))
+  const reportIndex = body ? pad(++count) : null
+  const linksIndex = project?.liveUrl || project?.githubUrl ? pad(++count) : null
+
   return (
     <section className={`cs${open ? " on reveal" : ""}`} aria-hidden={!open}>
       <div className="cs-scroll">
         <div className="cs-in">
-          <button className="pv-back rv r1" type="button" onClick={onClose}>
-            <ArrowLeftIcon />
-            Back to {project?.title ?? "the project"}
-          </button>
+          <div className="mb-head rv r1">
+            <span className="mlogo">M</span>
+            <span className="mb-title" style={{ fontFamily: "var(--helv)", fontWeight: 700 }}>
+              Case Study
+            </span>
+            <button className="pv-back mb-back" type="button" onClick={onClose}>
+              <ArrowLeftIcon />
+              Back to {project?.title ?? "the project"}
+            </button>
+          </div>
 
           {project && line ? (
             <>
-              <div className="mb-head rv r1">
-                <span className="mlogo">M</span>
-                <span className="mb-title" style={{ fontFamily: "var(--helv)", fontWeight: 700 }}>
-                  Case Study
-                </span>
-                <span className="mb-sub" style={{ fontFamily: "var(--helv)" }}>
-                  {line.label}
-                  <br />
-                  robbyj.dev
-                </span>
-              </div>
-
               <div className="cs-head rv r2">
                 <span className={`ldot ${line.dot}`} style={{ width: 48, height: 48, fontSize: 19 }}>
                   {line.initial}
@@ -83,11 +95,11 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                 </div>
               ) : null}
 
-              {stats.length > 0 ? (
+              {dataIndex ? (
                 <div className="sec rv r4">
                   <div className="sec-h">
                     <span>Project Data</span>
-                    <span>01</span>
+                    <span>{dataIndex}</span>
                   </div>
                   <div className="stat-grid">
                     {stats.map((stat) => (
@@ -100,21 +112,34 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                 </div>
               ) : null}
 
-              <div className="sec">
-                <div className="sec-h">
-                  <span>Field Report</span>
-                  <span>{stats.length > 0 ? "02" : "01"}</span>
-                </div>
-                <article>
-                  <RichMarkdown content={project.content} gallery={project.gallery} onOpenImage={onOpenImage} />
-                </article>
-              </div>
+              {splits.map((split, index) => (
+                <SplitSection
+                  key={index}
+                  title={split.title}
+                  left={split.left}
+                  right={split.right}
+                  index={splitIndexes[index]}
+                  onOpenImage={onOpenImage}
+                />
+              ))}
 
-              {project.liveUrl || project.githubUrl ? (
+              {reportIndex ? (
+                <div className="sec">
+                  <div className="sec-h">
+                    <span>Field Report</span>
+                    <span>{reportIndex}</span>
+                  </div>
+                  <article>
+                    <RichMarkdown content={body} gallery={project.gallery} onOpenImage={onOpenImage} />
+                  </article>
+                </div>
+              ) : null}
+
+              {linksIndex ? (
                 <div className="sec">
                   <div className="sec-h">
                     <span>Where It&rsquo;s Headed</span>
-                    <span>{stats.length > 0 ? "03" : "02"}</span>
+                    <span>{linksIndex}</span>
                   </div>
                   <div className="btn-row">
                     {project.liveUrl ? (

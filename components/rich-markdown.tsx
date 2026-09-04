@@ -247,6 +247,46 @@ function Video({ src, poster, caption }: { src: string; poster?: string; caption
   )
 }
 
+/**
+ * The design's two-column spread: the problem on the left, the approach on the
+ * right, under a numbered section rule. Each column is its own <article> so it
+ * picks up the surface's prose styles.
+ */
+export function SplitSection({
+  title,
+  left,
+  right,
+  index,
+  onOpenImage,
+}: {
+  title?: string
+  left: string
+  right: string
+  index?: string
+  onOpenImage?: (images: GalleryImage[], index: number) => void
+}) {
+  return (
+    <div className="sec rj-split">
+      {title ? (
+        <div className="sec-h">
+          <span>{title}</span>
+          {index ? <span>{index}</span> : null}
+        </div>
+      ) : null}
+      <div className="two rj-two">
+        <article>
+          <MarkdownChunk value={left} onOpenImage={onOpenImage} />
+        </article>
+        {right ? (
+          <article>
+            <MarkdownChunk value={right} onOpenImage={onOpenImage} />
+          </article>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
 function Gallery({
   images,
   onOpenImage,
@@ -297,6 +337,16 @@ export default function RichMarkdown({ content, gallery = [], onOpenImage }: Ric
             return <Video key={index} src={block.src} poster={block.poster} caption={block.caption} />
           case "gallery":
             return <Gallery key={index} images={block.images} onOpenImage={onOpenImage} />
+          case "split":
+            return (
+              <SplitSection
+                key={index}
+                title={block.title}
+                left={block.left}
+                right={block.right}
+                onOpenImage={onOpenImage}
+              />
+            )
           case "figure":
             return (
               <figure key={index}>
