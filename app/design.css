@@ -734,10 +734,15 @@ a.cbox:hover{transform:translateX(8px);color:#fff;}
 .sea .dockline{max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,56px);}
 @keyframes seasway{from{transform:translateX(-8px);}to{transform:translateX(8px);}}
 @media(max-width:760px){.port-title{font-size:11vw;}.cbox .ck{width:64px;}.deckload{grid-template-columns:1fr;padding:0 10px;align-items:stretch;}.bridge{display:none;}}
-/* cursor */
+/* cursor
+ * The dot and ring have to outrank every overlay on the site — the lightbox
+ * (200) and the wipes (120) included. The native cursor is hidden outright, so
+ * anything that paints over these two leaves the visitor with no pointer at
+ * all: the gallery backdrop is 94% opaque, which turned the cursor into a
+ * smudge behind the image. Keep this number above every other z-index here. */
 body.fine,body.fine *{cursor:none!important;}
-#cur{position:fixed;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;background:var(--acc);z-index:99;pointer-events:none;opacity:0;transition:background .25s,border-radius .3s cubic-bezier(.22,1,.36,1),height .2s,width .2s;}
-#curring{position:fixed;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--acc);z-index:99;pointer-events:none;opacity:0;transition:border-color .25s,border-radius .35s cubic-bezier(.22,1,.36,1);}
+#cur{position:fixed;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;background:var(--acc);z-index:9999;pointer-events:none;opacity:0;transition:background .25s,border-radius .3s cubic-bezier(.22,1,.36,1),height .2s,width .2s;}
+#curring{position:fixed;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--acc);z-index:9999;pointer-events:none;opacity:0;transition:border-color .25s,border-radius .35s cubic-bezier(.22,1,.36,1);}
 body.curtype #cur{border-radius:2px;}
 body.curtype #curring{border-radius:4px;}
 body.curdark #cur{background:#274472;}

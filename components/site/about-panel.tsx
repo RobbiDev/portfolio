@@ -2,6 +2,7 @@
 
 import { ArrowDownIcon, ArrowLeftIcon, BoltIcon, CloseIcon } from "./icons"
 import { profile, type TimelineEntry } from "@/lib/profile"
+import { track } from "@/lib/analytics"
 
 type FileKey = "profile" | "exp" | "edu" | "skills" | "resume"
 
@@ -127,7 +128,13 @@ export default function AboutPanel({
         </button>
         <div className="dwrap">
           <div className="dpwrap">
-            <a className="dtab" href={profile.resumeUrl} target="_blank" rel="noreferrer noopener">
+            <a
+              className="dtab"
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              onClick={() => track("resume_download", { from: "quick-look" })}
+            >
               Take a copy
               <ArrowDownIcon />
             </a>
@@ -261,7 +268,13 @@ export default function AboutPanel({
 
       <FileWindow id="resume" title="RESUME.pdf · export" open={openFile === "resume"} onClose={() => onOpenFile(null)}>
         <p>Everything above, condensed to one printable page. The fastest way to review the subject.</p>
-        <a className="fdl" href={profile.resumeUrl} target="_blank" rel="noreferrer noopener">
+        <a
+          className="fdl"
+          href={profile.resumeUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          onClick={() => track("resume_download", { from: "file" })}
+        >
           <ArrowDownIcon />
           Download Resume
         </a>
