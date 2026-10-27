@@ -76,7 +76,6 @@ function MenuItem({
   const text = useScramble(label, menuOpen, 120 + index * 70)
   return (
     <button className="mitem" type="button" onClick={onSelect}>
-      <span className="idx">{String(index).padStart(2, "0")}</span>
       <span className="word">{text}</span>
     </button>
   )
