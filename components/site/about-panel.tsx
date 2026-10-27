@@ -18,7 +18,8 @@ function LogEntry({ entry }: { entry: TimelineEntry }) {
   return (
     <div className="flog">
       <div className="lt">
-        {entry.period} · {entry.place}
+        <span className="lt-when">{entry.period}</span>
+        <span className="lt-where">{entry.place}</span>
       </div>
       <div className="lr">{entry.role}</div>
       <div className="ld">{entry.detail}</div>
@@ -45,9 +46,8 @@ function FileWindow({
       <div className="fwin">
         <div className="fwin-bar">
           {title}
-          <button className="xbtn" type="button" onClick={onClose}>
+          <button className="xbtn" type="button" onClick={onClose} aria-label="Close">
             <CloseIcon />
-            Close
           </button>
         </div>
         <div className="fwin-body">{children}</div>

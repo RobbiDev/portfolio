@@ -2100,3 +2100,55 @@ button.btn {
     display: none;
   }
 }
+
+/* ── about: readable log entries ──────────────────────────────────────────
+ * The line over each role was 10px spaced capitals in pale grey. It reads as
+ * a sentence now: the dates muted, the place stronger, at a real size.
+ */
+.flog .lt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-family: var(--read);
+  font-size: 13.5px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.flog .lt-when {
+  color: #6b756e;
+}
+
+.flog .lt-where {
+  color: #2f3a35;
+  font-weight: 600;
+}
+
+.flog .lr {
+  margin: 4px 0 6px;
+}
+
+.fgrp {
+  margin: 26px 0 10px;
+  font-family: var(--read);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.fgrp:first-child {
+  margin-top: 0;
+}
+
+/* The one-page desk copy keeps its small print, scaled the same way. */
+.dpaper .flog .lt {
+  font-size: clamp(9.5px, 0.9vw, 11px);
+  gap: 0 8px;
+}
+
+.dpaper .fgrp {
+  margin: 8px 0 5px;
+  font-size: clamp(9.5px, 0.9vw, 11px);
+}
