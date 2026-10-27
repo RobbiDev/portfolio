@@ -45,12 +45,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "That email address doesn't look right." }, { status: 400 })
   }
   if (message.length > 5000) {
-    return NextResponse.json({ error: "That message is too long to ship." }, { status: 400 })
+    return NextResponse.json({ error: "That message is too long." }, { status: 400 })
   }
 
   if (process.env.RECEIVING === "false") {
     return NextResponse.json(
-      { error: "The form is not accepting submissions right now. Please try again later." },
+      { error: "The form is not accepting messages right now." },
       { status: 503 },
     )
   }
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
   if (!user || !pass || !to) {
     console.error("Contact form is not configured: GMAIL_USER, GMAIL_PASS and MY_EMAIL are all required.")
-    return NextResponse.json({ error: "The dock is closed for maintenance. Try email instead." }, { status: 503 })
+    return NextResponse.json({ error: "The form is not set up right now." }, { status: 503 })
   }
 
   const transporter = nodemailer.createTransport({ service: "gmail", auth: { user, pass } })
@@ -85,6 +85,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error("Failed to send contact email:", error)
-    return NextResponse.json({ error: "The shipment didn't make it out. Please try again." }, { status: 502 })
+    return NextResponse.json({ error: "The message didn't go through." }, { status: 502 })
   }
 }
