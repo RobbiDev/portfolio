@@ -1917,3 +1917,51 @@ button.btn {
     font-size: 17px;
   }
 }
+
+/* ── lightbox on phones ───────────────────────────────────────────────────
+ * The photo runs edge to edge and takes all the height the caption and
+ * pager leave, and the close button is just its X.
+ */
+@media (max-width: 760px) {
+  .lb-stage {
+    width: 100vw;
+    aspect-ratio: auto;
+    height: calc(100svh - 170px);
+    max-height: none;
+  }
+
+  .lb {
+    background: #0a0a0b;
+  }
+
+  /* Photo and caption stay together in the middle of the screen. */
+  .lb-img {
+    flex: 0 1 auto;
+  }
+
+  .lb-figure img {
+    max-height: calc(100svh - 300px);
+    box-shadow: none;
+  }
+
+  .lb-figure figcaption {
+    padding: 0 16px;
+  }
+
+  .lb-close {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .lb-close-label {
+    display: none;
+  }
+
+  .lb-close .rj-icon {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+  }
+}
