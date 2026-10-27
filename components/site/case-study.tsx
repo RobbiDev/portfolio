@@ -72,11 +72,18 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
                 </div>
               </div>
 
-              {/* The board's own plate opens the case study: the line colour with
-                  the project's name over it, not a screenshot. */}
+              {/* The board's own plate opens the case study: the cover image, or
+                  the line colour with the project's name over it. */}
               <div className={`cs-plate gthumb line-${line.dot} rv r3`} aria-hidden="true">
+                {project.coverImage ? (
+                  <span className="rj-slot">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={project.coverImage} alt="" />
+                  </span>
+                ) : (
+                  <span className="gname">{project.title}</span>
+                )}
                 <span className="gm">M</span>
-                <span className="gname">{project.title}</span>
               </div>
 
               {dataIndex ? (

@@ -11,7 +11,7 @@
 	"status": "Retired",
 	"githubUrl": "https://github.com/RobbiDev/KitchenWatch",
 	"projectColor": "#E51636",
-	"coverImage": "/images/kitchenwatch/thumbnail.jpg",
+	"coverImage": "/images/kitchenwatch/cover.png",
 	"features": [
 		"Time-sensitive trackers — countdowns for the tasks a kitchen can't afford to miss",
 		"Custom trackers — each store models its own routines",

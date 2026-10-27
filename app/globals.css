@@ -1292,3 +1292,12 @@ button.btn {
     grid-template-columns: 84px minmax(0, 1fr);
   }
 }
+
+/* A cover image fills the plate; the M badge stays on top of it. */
+.gthumb .gm {
+  z-index: 1;
+}
+
+.cs-plate:has(.rj-slot) {
+  aspect-ratio: 16 / 9;
+}
