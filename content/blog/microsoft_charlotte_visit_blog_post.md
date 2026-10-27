@@ -5,6 +5,7 @@
 	"summary": "Twelve years after begging my dad to drive me past the Microsoft campus at age eight, I walked through the front doors leading a delegation of UNC Charlotte students.",
 	"author": "Robert Johnson",
 	"location": "Charlotte, NC",
+	"featured": true,
 	"category": "Blog",
 	"tags": ["Leadership", "Microsoft", "Community", "Career"],
 	"blogColor": "#0078D4",

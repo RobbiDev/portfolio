@@ -747,3 +747,24 @@ button.btn {
   margin: 0;
   opacity: 0.55;
 }
+
+/* ── postcard excerpt ─────────────────────────────────────────────────────
+ * The post's summary under its title. Grid postcards hold it to three lines
+ * so a row of cards keeps an even height; the feature has room for all of it.
+ */
+.pc-x {
+  font-family: var(--helv);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(30, 39, 38, 0.7);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.feature .pc-x {
+  font-size: clamp(14px, 1.3vw, 16px);
+  max-width: 46ch;
+  -webkit-line-clamp: unset;
+}

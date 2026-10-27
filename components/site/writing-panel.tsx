@@ -25,8 +25,10 @@ interface WritingPanelProps {
 }
 
 export default function WritingPanel({ posts, panelRef, open, reveal, onOpenPost }: WritingPanelProps) {
-  // The newest published post takes the "postcard of the month" slot.
-  const feature = posts.find((post) => !post.draft) ?? posts[0] ?? null
+  // A post marked `featured` takes the "postcard of the month" slot; failing
+  // that, the newest published post does.
+  const feature =
+    posts.find((post) => post.featured && !post.draft) ?? posts.find((post) => !post.draft) ?? posts[0] ?? null
   const rest = posts.filter((post) => post !== feature)
 
   return (
@@ -84,6 +86,7 @@ export default function WritingPanel({ posts, panelRef, open, reveal, onOpenPost
               <PostcardArt item={feature} index={0} />
               <div className="pc-body">
                 <h3 className="pc-t">{feature.title}</h3>
+                {feature.summary ? <p className="pc-x">{feature.summary}</p> : null}
                 <div className="pc-meta">
                   <span className={`district ${districtClass(feature)}`}>{feature.categories[0] || "Blog"}</span>
                   <span className="pc-note">{note(feature, true)}</span>
@@ -111,6 +114,7 @@ export default function WritingPanel({ posts, panelRef, open, reveal, onOpenPost
                 <PostcardArt item={post} index={index + 1} />
                 <div className="pc-body">
                   <h3 className="pc-t">{post.title}</h3>
+                {post.summary ? <p className="pc-x">{post.summary}</p> : null}
                   <div className="pc-meta">
                     <span className={`district ${districtClass(post)}`}>{post.categories[0] || "Blog"}</span>
                     <span className="pc-note">{note(post, false)}</span>
