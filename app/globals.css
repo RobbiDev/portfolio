@@ -397,11 +397,10 @@
   flex: none;
   position: relative;
   z-index: 1;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(242, 241, 236, 0.6);
+  font-family: var(--read);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: rgba(242, 241, 236, 0.72);
   text-align: center;
   max-width: 60ch;
 }
@@ -409,7 +408,29 @@
 .lb-figure figcaption b {
   display: block;
   color: #f2f1ec;
+  font-weight: 600;
+  font-size: 15.5px;
   margin-bottom: 4px;
+}
+
+/* ── captions ─────────────────────────────────────────────────────────────
+ * Figure captions in posts read as sentences: the reader's own UI face at a
+ * size you can read, rather than small spaced-out capitals.
+ */
+:root {
+  --read: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.bp figcaption {
+  font-family: var(--read);
+  font-size: 14.5px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(30, 39, 38, 0.68);
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ── icons ────────────────────────────────────────────────────────────────
