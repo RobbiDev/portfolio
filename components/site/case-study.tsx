@@ -2,9 +2,8 @@
 
 import { useMemo } from "react"
 
-import RichMarkdown, { Gallery, SplitSection } from "@/components/rich-markdown"
+import RichMarkdown, { Gallery } from "@/components/rich-markdown"
 import { ArrowLeftIcon, ArrowRightIcon } from "./icons"
-import { lineFor } from "@/lib/profile"
 import { extractSplits } from "@/lib/rich-markdown"
 import type { ContentItem } from "@/lib/content"
 import type { GalleryImage } from "@/lib/types"
@@ -16,146 +15,110 @@ interface CaseStudyProps {
   onOpenImage: (images: GalleryImage[], index: number) => void
 }
 
-/** Sections are numbered in the order they appear: 01, 02, 03… */
-function pad(index: number): string {
-  return String(index).padStart(2, "0")
+/** "SOFTWARE" → "Software": the categories are written in caps for the board. */
+function titleCase(value: string): string {
+  return value.toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
 }
 
+/**
+ * The full case study: a plain reading page. One narrow column, the
+ * project's facts as a short list, then the write-up, links and gallery.
+ */
 export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseStudyProps) {
-  const line = project ? lineFor(project.categories) : null
-  const stats = project
+  const facts = project
     ? [
         { key: "Role", value: project.role },
         { key: "Client", value: project.client },
-        { key: "Type", value: project.categories.join(" · ") },
         { key: "Timeline", value: project.timeline },
-        { key: "Status", value: project.status || (project.draft ? "In development" : "Live") },
-        { key: "Stack", value: project.technologies.slice(0, 4).join(", ") },
-      ].filter((stat): stat is { key: string; value: string } => Boolean(stat.value))
+        { key: "Status", value: project.status || (project.draft ? "In development" : undefined) },
+        { key: "Stack", value: project.technologies.join(", ") },
+      ].filter((fact): fact is { key: string; value: string } => Boolean(fact.value))
     : []
 
   // The two-column "problem / approach" blocks are lifted out of the body so
-  // they read as sections of the case study rather than as mid-prose asides.
+  // they open the write-up as sections of their own.
   const { splits, body } = useMemo(() => extractSplits(project?.content ?? ""), [project?.content])
-
-  let count = 0
-  const dataIndex = stats.length > 0 ? pad(++count) : null
-  const splitIndexes = splits.map(() => pad(++count))
-  const reportIndex = body ? pad(++count) : null
-  const linksIndex = project?.liveUrl || project?.githubUrl ? pad(++count) : null
-  const galleryIndex = project?.gallery.length ? pad(++count) : null
+  const kind = project?.categories.map(titleCase).join(" · ")
 
   return (
     <section className={`cs${open ? " on reveal" : ""}`} aria-hidden={!open}>
       <div className="cs-scroll">
-        <div className="cs-in">
-          <div className="mb-head rv r1">
-            <span className="mlogo">M</span>
-            <span className="mb-title" style={{ fontFamily: "var(--helv)", fontWeight: 700 }}>
-              Case Study
-            </span>
-            <button className="pv-back mb-back" type="button" onClick={onClose}>
-              <ArrowLeftIcon />
-              Back to {project?.title ?? "the project"}
-            </button>
-          </div>
+        <div className="cs-in cs-read">
+          <button className="cs-back rv r1" type="button" onClick={onClose}>
+            <ArrowLeftIcon />
+            Back to {project?.title ?? "the project"}
+          </button>
 
-          {project && line ? (
+          {project ? (
             <>
-              <div className="cs-head rv r2">
-                <span className={`ldot ${line.dot}`} style={{ width: 48, height: 48, fontSize: 19 }}>
-                  {line.initial}
-                </span>
-                <h2 className="cs-title">{project.title}</h2>
-                <div className="pv-tag">
-                  {[line.label, project.timeline, project.status].filter(Boolean).join(" · ")}
-                </div>
-              </div>
+              <header className="cs-header rv r2">
+                <p className="cs-eyebrow">Case study{kind ? ` · ${kind}` : ""}</p>
+                <h2 className="cs-h1">{project.title}</h2>
+                {project.summary ? <p className="cs-lede">{project.summary}</p> : null}
+              </header>
 
-              {/* The board's own plate opens the case study: the cover image, or
-                  the line colour with the project's name over it. */}
-              <div className={`cs-plate gthumb line-${line.dot} rv r3`} aria-hidden="true">
-                {project.coverImage ? (
-                  <span className="rj-slot">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={project.coverImage} alt="" />
-                  </span>
-                ) : (
-                  <span className="gname">{project.title}</span>
-                )}
-                <span className="gm">M</span>
-              </div>
-
-              {dataIndex ? (
-                <div className="sec rv r4">
-                  <div className="sec-h">
-                    <span>Project Data</span>
-                    <span>{dataIndex}</span>
-                  </div>
-                  <div className="stat-grid">
-                    {stats.map((stat) => (
-                      <div className="stat" key={stat.key}>
-                        <div className="k">{stat.key}</div>
-                        <div className="v">{stat.value}</div>
-                      </div>
-                    ))}
-                  </div>
+              {project.coverImage ? (
+                <div className="cs-cover rv r3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={project.coverImage} alt="" />
                 </div>
+              ) : null}
+
+              {facts.length > 0 ? (
+                <dl className="cs-facts rv r3">
+                  {facts.map((fact) => (
+                    <div key={fact.key}>
+                      <dt>{fact.key}</dt>
+                      <dd>{fact.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               ) : null}
 
               {splits.map((split, index) => (
-                <SplitSection
-                  key={index}
-                  title={split.title}
-                  left={split.left}
-                  right={split.right}
-                  index={splitIndexes[index]}
-                  onOpenImage={onOpenImage}
-                />
+                <section className="cs-section rv r4" key={index}>
+                  {split.title ? <h3 className="cs-h2">{split.title}</h3> : null}
+                  <article className="cs-prose">
+                    <RichMarkdown content={split.left} gallery={project.gallery} onOpenImage={onOpenImage} />
+                    {split.right ? (
+                      <RichMarkdown content={split.right} gallery={project.gallery} onOpenImage={onOpenImage} />
+                    ) : null}
+                  </article>
+                </section>
               ))}
 
-              {reportIndex ? (
-                <div className="sec">
-                  <div className="sec-h">
-                    <span>Field Report</span>
-                    <span>{reportIndex}</span>
-                  </div>
-                  <article>
+              {body ? (
+                <section className="cs-section">
+                  <article className="cs-prose">
                     <RichMarkdown content={body} gallery={project.gallery} onOpenImage={onOpenImage} />
                   </article>
-                </div>
+                </section>
               ) : null}
 
-              {linksIndex ? (
-                <div className="sec">
-                  <div className="sec-h">
-                    <span>Where It&rsquo;s Headed</span>
-                    <span>{linksIndex}</span>
-                  </div>
-                  <div className="btn-row">
+              {project.liveUrl || project.githubUrl ? (
+                <section className="cs-section">
+                  <h3 className="cs-h2">Links</h3>
+                  <div className="cs-links">
                     {project.liveUrl ? (
-                      <a className="btn rd" href={project.liveUrl} target="_blank" rel="noreferrer noopener">
-                        Visit Live Product
+                      <a className="cs-btn primary" href={project.liveUrl} target="_blank" rel="noreferrer noopener">
+                        Visit the live site
                         <ArrowRightIcon />
                       </a>
                     ) : null}
                     {project.githubUrl ? (
-                      <a className="btn ghost" href={project.githubUrl} target="_blank" rel="noreferrer noopener">
+                      <a className="cs-btn" href={project.githubUrl} target="_blank" rel="noreferrer noopener">
                         Source on GitHub
                       </a>
                     ) : null}
                   </div>
-                </div>
+                </section>
               ) : null}
 
-              {galleryIndex ? (
-                <div className="sec">
-                  <div className="sec-h">
-                    <span>The Gallery</span>
-                    <span>{galleryIndex}</span>
-                  </div>
+              {project.gallery.length ? (
+                <section className="cs-section">
+                  <h3 className="cs-h2">Gallery</h3>
                   <Gallery images={project.gallery} onOpenImage={onOpenImage} />
-                </div>
+                </section>
               ) : null}
             </>
           ) : null}
