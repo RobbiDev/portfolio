@@ -44,8 +44,8 @@ export default function Lightbox({ state, onClose, onNavigate }: LightboxProps) 
       }}
       aria-hidden={!state}
     >
-      <button className="lb-close" type="button" onClick={onClose}>
-        Close
+      <button className="lb-close" type="button" onClick={onClose} aria-label="Close">
+        <span className="lb-close-label">Close</span>
         <CloseIcon />
       </button>
       <div className="lb-stage">
