@@ -114,6 +114,14 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
   )
   const postIndex = useMemo(() => posts.findIndex((item) => item.slug === postSlug), [posts, postSlug])
   const post = postIndex >= 0 ? posts[postIndex] : null
+  const postProject = useMemo(
+    () => (post?.project ? projects.find((item) => item.slug === post.project) ?? null : null),
+    [projects, post],
+  )
+  const projectPosts = useMemo(
+    () => (project ? posts.filter((item) => item.project === project.slug && !item.draft) : []),
+    [posts, project],
+  )
 
   /* ── body classes the stylesheet keys off ─────────────────────────────── */
   const [bodyFx, setBodyFx] = useState<"none" | "opening" | "tp">("none")
@@ -223,6 +231,27 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
       setWipe("none")
     }, 480)
   }, [])
+
+  /* Posts and projects link to each other across panels: move to the other
+   * panel first, then open the item once that transition has settled. */
+  const openProjectFrom = useCallback(
+    (slug: string) => {
+      go("work")
+      window.setTimeout(() => {
+        track("project_view", { project: slug })
+        setProjectSlug(slug)
+      }, 760)
+    },
+    [go],
+  )
+
+  const openPostFrom = useCallback(
+    (slug: string) => {
+      go("writing")
+      window.setTimeout(() => openPost(slug), 620)
+    },
+    [go, openPost],
+  )
 
   const openImage = useCallback((images: GalleryImage[], index: number) => {
     if (images.length === 0) return
@@ -358,8 +387,8 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
       <div className={`navwipe${wipe === "nav" ? " go" : ""}`} />
       <div className={`wwipe${wipe === "writing" ? " go" : ""}`}>
         <span className="wstamp">
-          <span>Field</span>
-          <span>Notes</span>
+          <span>My</span>
+          <span>Writing</span>
         </span>
       </div>
       <div className="tpfx" />
@@ -425,6 +454,8 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         onClose={() => setProjectSlug(null)}
         onOpenCaseStudy={openCaseStudy}
         onOpenImage={openImage}
+        posts={projectPosts}
+        onOpenPost={openPostFrom}
       />
 
       <CaseStudy project={project} open={caseStudyOpen} onClose={closeCaseStudy} onOpenImage={openImage} />
@@ -439,10 +470,12 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
 
       <PostReader
         post={post}
+        project={postProject}
         index={Math.max(0, postIndex)}
         open={Boolean(postSlug)}
         onClose={closePost}
         onOpenImage={openImage}
+        onOpenProject={openProjectFrom}
       />
 
       <AboutPanel

@@ -9,7 +9,15 @@
 	"category": "Blog",
 	"tags": ["Leadership", "Microsoft", "Community", "Career"],
 	"blogColor": "#0078D4",
-	"coverImage": "/images/blog/full-circle/cover.jpg"
+	"coverImage": "/images/blog/full-circle/cover.jpg",
+	"gallery": [
+		{ "url": "/images/blog/full-circle/microsoft2.jpg", "title": "Back at the sign", "caption": "Twelve years after my first visit at age eight, back at the Microsoft Charlotte sign.", "alt": "Robby standing by the Microsoft Charlotte campus sign" },
+		{ "url": "/images/blog/full-circle/microsoft1.jpg", "title": "Arrival", "caption": "Microsoft Learn at UNCC and Girls Who Code arriving at the Microsoft Charlotte campus.", "alt": "The student group outside the Microsoft campus" },
+		{ "url": "/images/blog/full-circle/microsoft3.jpg", "title": "Inside", "caption": "Good vibes inside the building with our student leadership and attendees.", "alt": "Student leaders posing inside the Microsoft office" },
+		{ "url": "/images/blog/full-circle/microsoft5.jpg", "title": "The full delegation", "caption": "The full delegation alongside Segun Akinyemi and the Microsoft Charlotte panel.", "alt": "Full group photo with the Microsoft Charlotte team" },
+		{ "url": "/images/blog/full-circle/microsoft4.jpg", "title": "Wrapping up", "caption": "Wrapping up an unforgettable day at Microsoft Charlotte.", "alt": "The group inside the Microsoft Charlotte office" },
+		{ "url": "/images/blog/full-circle/cover.jpg", "title": "Thank you, Microsoft", "caption": "One last photo before the bus ride home.", "alt": "The whole group in front of the Microsoft backdrop" }
+	]
 }
 ===
 
@@ -35,9 +43,8 @@ We also had the privilege of sitting down and talking with a panel of profession
 
 ![Full group photo with the Microsoft Charlotte team](/images/blog/full-circle/microsoft5.jpg "The full delegation alongside Segun Akinyemi and the Microsoft Charlotte panel.")
 
-:::tip Takeaway
-"Certifications give you curriculum. Projects get you hired." — Segun Akinyemi
-:::
+> Certifications give you curriculum. Projects get you hired.
+> — Segun Akinyemi
 
 ## What I Learned
 

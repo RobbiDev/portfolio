@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "ROBBYJ · Robert Johnson",
   description:
-    "Robert Johnson builds networks, software, and control systems. Projects, field notes, and a way to get in touch — all on one page.",
+    "Robert Johnson builds networks, software, and control systems. Projects, writing, and a way to get in touch — all on one page.",
   keywords: [
     "Robert Johnson",
     "software engineer",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   alternates: { canonical: SITE_URL },
   openGraph: {
     title: "ROBBYJ · Robert Johnson",
-    description: "Networks, software & systems. Projects, field notes, and contact.",
+    description: "Networks, software & systems. Projects, writing, and contact.",
     url: SITE_URL,
     siteName: "Robert Johnson",
     images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Robert Johnson" }],

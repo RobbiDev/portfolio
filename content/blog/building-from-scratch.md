@@ -7,7 +7,8 @@
 	"location": "Charlotte, NC",
 	"category": "Blog",
 	"tags": ["Leadership", "Community", "UNCC", "Microsoft"],
-	"blogColor": "#004B87"
+	"blogColor": "#004B87",
+	"project": "microsoft-learn-website"
 }
 ===
 
