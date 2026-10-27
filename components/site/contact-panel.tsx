@@ -266,6 +266,70 @@ function InfoRow({ item, index }: { item: (typeof INFO)[number]; index: number }
   )
 }
 
+/** Robby's local time, ticking while the panel is open. Rendered only after
+ * mount, since the server's clock and timezone aren't the visitor's. */
+function useLocalTime(active: boolean): string | null {
+  const [time, setTime] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!active) return
+    const format = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short",
+    })
+    const tick = () => setTime(format.format(new Date()))
+    tick()
+    const interval = window.setInterval(tick, 15_000)
+    return () => window.clearInterval(interval)
+  }, [active])
+
+  return time
+}
+
+function StatusCard({ active }: { active: boolean }) {
+  const time = useLocalTime(active)
+  const [now] = profile.experience
+  const [school] = profile.education
+
+  return (
+    <div className="say-status">
+      <p className="say-open">
+        <i className="say-dot" />
+        {profile.status}
+      </p>
+      <dl>
+        <div>
+          <dt>now</dt>
+          <dd>
+            {now.role} · {now.place.split(" · ")[0]}
+          </dd>
+        </div>
+        <div>
+          <dt>studying</dt>
+          <dd>
+            {school.role} · {school.place}
+          </dd>
+        </div>
+        <div>
+          <dt>local time</dt>
+          <dd>{time ?? "—"} · Greensboro</dd>
+        </div>
+      </dl>
+      <a
+        className="say-resume"
+        href={profile.resumeUrl}
+        target="_blank"
+        rel="noreferrer noopener"
+        onClick={() => track("resume_view", { file: "contact" })}
+      >
+        résumé <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  )
+}
+
 interface ContactPanelProps {
   panelRef: React.RefObject<HTMLDivElement>
   open: boolean
@@ -455,7 +519,7 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
                 </div>
               </div>
 
-              <div className={`say-field${errors.message ? " bad" : ""}`}>
+              <div className={`say-field grow${errors.message ? " bad" : ""}`}>
                 <label htmlFor="say-message">
                   message
                   <span>
@@ -477,7 +541,7 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
 
               <div className="say-slots" aria-live="polite">
                 <span>
-                  transmissions left today: <b>{lock.left}</b>
+                  submissions left today: <b>{lock.left}</b>
                 </span>
                 <span className="say-pips">
                   {Array.from({ length: MAX_PER_DAY }, (_, index) => (
@@ -540,6 +604,7 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
             {INFO.map((item, index) => (
               <InfoRow key={item.label} item={item} index={index} />
             ))}
+            <StatusCard active={open} />
           </aside>
         </div>
       </div>
