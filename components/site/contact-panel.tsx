@@ -24,6 +24,13 @@ const INFO = [
 ]
 const TILTS = ["-.6deg", ".5deg", "-.3deg", ".7deg", "-.4deg"]
 
+/** The video the background's hidden quote comes from. Autoplay only works
+ * muted; the player's controls let a visitor turn the sound on. */
+const VIDEO_ID = "scyA9cnbja4"
+const VIDEO_SRC =
+  `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
+  `?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&playsinline=1&rel=0&modestbranding=1`
+
 const GLYPHS = "₿$€¥£¢₩₽₹ƒ₴₦₱₲₵₸Ð₭∆#%&@¶§ΞΦΨ".split("")
 const QUOTE = "you are now less valuable than the data you produce"
 
@@ -317,6 +324,18 @@ function StatusCard({ active }: { active: boolean }) {
           <dd>{time ?? "—"} · Greensboro</dd>
         </div>
       </dl>
+      <div className="say-video">
+        {/* Only mounted while the panel is open, so it never plays unseen. */}
+        {active ? (
+          <iframe
+            src={VIDEO_SRC}
+            title="Watch Dogs: the video behind the quote"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+            loading="lazy"
+          />
+        ) : null}
+      </div>
       <a
         className="say-resume"
         href={profile.resumeUrl}
