@@ -1111,6 +1111,40 @@ button.btn {
   pointer-events: none;
 }
 
+/* Covers the player while YouTube's own overlay is up. */
+.say-video-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--say-void);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.say-video-cover.off {
+  opacity: 0;
+}
+
+.say-video-cover span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--say-dim);
+  animation: say-blink 1.4s steps(2, start) infinite;
+}
+
+.say-video-cover.off span {
+  animation: none;
+}
+
+@keyframes say-blink {
+  to { visibility: hidden; }
+}
+
 .say-sound {
   position: absolute;
   left: 12px;
@@ -1999,37 +2033,64 @@ button.btn {
 }
 
 @media (max-width: 760px) {
+  /* One dock: a frosted capsule that holds "Back" and wraps the orb with an
+   * even 4px rim, so the two read as a single control. */
   .orb-back {
     position: fixed;
     z-index: 84;
-    right: calc(clamp(16px, 3vw, 32px) + 27px);
-    bottom: calc(clamp(16px, 3vw, 32px) + env(safe-area-inset-bottom));
-    height: 54px;
+    right: calc(clamp(16px, 3vw, 32px) - 4px);
+    bottom: calc(clamp(16px, 3vw, 32px) - 4px + env(safe-area-inset-bottom));
+    height: 62px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 40px 0 20px;
-    border: 1px solid rgba(242, 241, 236, 0.22);
+    gap: 10px;
+    padding: 0 76px 0 20px;
+    border: 1px solid rgba(242, 241, 236, 0.14);
     border-radius: 999px;
-    background: #141416;
+    background: rgba(20, 20, 22, 0.82);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
     color: #f2f1ec;
     font-family: var(--read);
     font-size: 15px;
-    font-weight: 500;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     cursor: pointer;
-    animation: orb-back-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease, background 0.2s;
+    animation: orb-back-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .orb-back:active {
+    transform: scale(0.97);
+    background: rgba(32, 32, 36, 0.9);
   }
 
   .orb-back .rj-icon {
-    width: 1.05em;
-    height: 1.05em;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .orb-back:active .rj-icon {
+    transform: translateX(-3px);
+  }
+
+  /* The orb sits inside the dock: no ring of its own, no lift. */
+  .orb-back + .orb {
+    border-color: transparent;
+    box-shadow: none;
   }
 
   @keyframes orb-back-in {
     from {
       opacity: 0;
-      transform: translateX(24px);
+      clip-path: inset(0 0 0 calc(100% - 62px) round 999px);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0 round 999px);
     }
   }
 
