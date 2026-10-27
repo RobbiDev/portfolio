@@ -2,14 +2,12 @@
 {
 	"title": "Microsoft Learn at UNCC Website",
 	"date": "2026-09-09",
-	"summary": "The website for Microsoft Learn at UNCC, the student tech organization I co-founded: TODO: what it does for members.",
+	"summary": "The website for Microsoft Learn at UNCC, the student tech organization I co-founded at UNC Charlotte.",
 	"category": ["SOFTWARE"],
-	"technologies": ["TODO"],
 	"role": "Co-founder · design & development",
 	"client": "Microsoft Learn at UNCC",
-	"timeline": "TODO: Fall 2026 - Present",
-	"status": "TODO",
-	"liveUrl": "https://example.com",
+	"timeline": "2026 - Present",
+	"status": "In development",
 	"githubUrl": "https://github.com/RobbiDev/Microsoft-Learn-Website",
 	"projectColor": "#0078D4",
 	"features": [
@@ -22,8 +20,8 @@
 
 <!--
 STARTER: background comes from the "Building From Scratch" and "Full Circle at Microsoft" posts.
-Set the real "liveUrl" (or delete it), the stack, and add screenshots.
-When it's ready, move this file up to content/projects/ to publish it.
+Add "liveUrl" once the site is up, add "technologies", and add screenshots.
+Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach

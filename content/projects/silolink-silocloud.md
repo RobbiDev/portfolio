@@ -2,29 +2,30 @@
 {
 	"title": "SiloLink & SiloCloud",
 	"date": "2025-03-01",
-	"summary": "TODO: one or two sentences on what SiloLink and SiloCloud do, who uses them, and the result.",
+	"summary": "Connecting the silos at Imaflex USA to the network and the cloud, so material levels and status are visible from anywhere.",
 	"category": ["SOFTWARE", "AUTOMATION"],
 	"technologies": ["SQL", "Express.js", "TypeScript", "Tailwind CSS"],
 	"role": "Design & development, end to end",
 	"client": "Personal Project & Imaflex USA",
 	"timeline": "January 2025 - March 2025",
-	"status": "TODO",
+	"status": "In development",
 	"githubUrl": "https://github.com/RobbiDev/SiloLink-SiloCloud",
 	"projectColor": "#5170ff",
 	"coverImage": "/images/silo-sync/thumbnail.png",
 	"features": [
-		"SiloLink — TODO: what it does",
-		"SiloCloud — TODO: what it does"
+		"SiloLink — the link between the silos and the network",
+		"SiloCloud — the cloud view of every silo"
 	],
 	"gallery": []
 }
 ===
 
 <!--
-STARTER: renamed from the old "Silo Sync" draft (same tech, client, timeline and thumbnail).
+STARTER: the summary and features are placeholder guesses; replace them.
+Renamed from the old "Silo Sync" draft (same tech, client, timeline and thumbnail).
 If SiloLink/SiloCloud is a different project from Silo Sync, say so and I'll split them.
 The GitHub repo only has a README so far; push the code or remove "githubUrl".
-When it's ready, move this file up to content/projects/ to publish it.
+Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach
@@ -61,7 +62,7 @@ The integration problem that took longest, and what fixed it.
 
 | Measure | Before | After |
 | --- | --- | --- |
-| TODO | TODO | TODO |
+| — | — | — |
 
 ## What I'd Do Differently
 

@@ -28,7 +28,7 @@
 STARTER: facts here come from the KitchenWatch README and the "Shipping KitchenWatch" post.
 CHECK: timeline, status (is it still running?), and whether "Retired" is right.
 ADD: screenshots to public/images/kitchenwatch/ and list them in "gallery".
-When it's ready, move this file up to content/projects/ to publish it.
+Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach
@@ -86,7 +86,7 @@ how the app recovers when the connection drops, how the year-over-year analytics
 
 | Measure | Before | After |
 | --- | --- | --- |
-| TODO | TODO | TODO |
+| — | — | — |
 
 ## What I'd Do Differently
 
