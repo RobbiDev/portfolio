@@ -1988,3 +1988,54 @@ button.btn {
     margin: 0;
   }
 }
+
+/* ── back pill on the orb ─────────────────────────────────────────────────
+ * Phones only: on a case study, post or project the way back is a pill that
+ * runs out from behind the menu orb, so both controls sit under the thumb.
+ * The pages' own back buttons at the top step aside while it is there.
+ */
+.orb-back {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .orb-back {
+    position: fixed;
+    z-index: 84;
+    right: calc(clamp(16px, 3vw, 32px) + 27px);
+    bottom: calc(clamp(16px, 3vw, 32px) + env(safe-area-inset-bottom));
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 40px 0 20px;
+    border: 1px solid rgba(242, 241, 236, 0.22);
+    border-radius: 999px;
+    background: #141416;
+    color: #f2f1ec;
+    font-family: var(--read);
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    animation: orb-back-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .orb-back .rj-icon {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  @keyframes orb-back-in {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+  }
+
+  .cs-bar .cs-back,
+  .bp-in > .back2,
+  .pv-back {
+    display: none;
+  }
+}
