@@ -143,7 +143,6 @@ export default function CaseStudy({ project, open, onClose, onOpenImage }: CaseS
             <>
               <header className="cs-header rv r2">
                 <p className="cs-eyebrow">
-                  <i aria-hidden="true" />
                   Case study{kind ? ` · ${kind}` : ""}
                 </p>
                 <h2 className="cs-h1">{project.title}</h2>

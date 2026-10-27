@@ -1575,19 +1575,9 @@ button.btn {
 }
 
 .cs-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin: 0 0 14px;
   font-size: 14px;
   color: var(--cs-muted);
-}
-
-.cs-eyebrow i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--cs-accent, #f2f1ec);
 }
 
 /* Contents beside the write-up on wide screens; one column below that. */

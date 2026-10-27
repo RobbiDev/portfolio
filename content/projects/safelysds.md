@@ -13,7 +13,7 @@
   ],
   "coverImageColor": "#5e17eb",
   "client": "Personal Project & Imaflex USA",
-  "timeline": "January 2025 - March 2025",
+  "timeline": "March 2025 - Present",
   "features": [
     "Secure PDF upload and storage",
     "Advanced search with filters",

@@ -1,36 +1,49 @@
 ===
 {
 	"title": "Plate Inventory System",
-	"date": "2026-09-09",
-	"summary": "An inventory system for tracking plates: where each one is, and whether it is ready for the next job.",
+	"date": "2026-08-01",
+	"summary": "A search kiosk and checkout system for production plates at Imaflex USA, built on Microsoft Power Platform. Setup changeovers are 35% faster, and misplaced tooling orders are gone.",
 	"category": ["SOFTWARE"],
+	"technologies": ["Microsoft Power Platform"],
 	"role": "Design & development, end to end",
-	"timeline": "2026 - Present",
-	"status": "In development",
+	"client": "Imaflex USA",
+	"timeline": "August 2026 - Present",
+	"status": "Live · in daily production use",
 	"githubUrl": "https://github.com/RobbiDev/Plate-Inventory-System",
 	"projectColor": "#2e8f5a",
 	"features": [
-		"Feature one — what it does and why it matters"
+		"Search kiosk — a digital library of every plate, searchable on the floor",
+		"Relational database — one record per plate, built on Microsoft Power Platform",
+		"Checkout system — plates are checked in and out, tied to a physical shelf-numbering scheme",
+		"Results — 35% faster setup changeovers, and no more misplaced tooling orders"
 	],
 	"gallery": []
 }
 ===
 
 <!--
-STARTER: the GitHub repo only has a README so far, so everything here is a prompt.
-The summary is a placeholder guess; replace it. Add "technologies" and "client".
+Facts here come from the résumé (Sep 2026). Still to do: the sections below the
+problem/approach. The GitHub repo only has a README so far; push the code or remove
+"githubUrl".
 Add a thumbnail at public/images/plate-inventory-system/thumbnail.png and set "coverImage".
 Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach
-**The problem.** What are the plates, where do they live, and how were they tracked
-before? What went wrong: lost plates, duplicates, time spent searching?
+**The problem.** Every production job needs the right plates, and finding them was
+slowing changeovers down. Plates and tooling orders went missing because nothing
+tracked where each one was or who had it.
+
+<!-- Add what the plates are, how many there are, and how they were tracked before. -->
 
 ---
 
-**The approach.** What you built and why, and what you ruled out (a spreadsheet, an
-off-the-shelf inventory tool).
+**The approach.** A digital library search kiosk on the floor, backed by a
+relational database in **Microsoft Power Platform**, plus a checkout system tied to
+a physical shelf-numbering scheme, so every plate's location is known for its whole
+life.
+
+The result: **35% faster setup changeovers** and **no more misplaced tooling orders**.
 :::
 
 ## Context
