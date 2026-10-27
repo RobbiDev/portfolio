@@ -32,7 +32,7 @@ const VIDEO_ID = "scyA9cnbja4"
 const VIDEO_SRC =
   `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
   `?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&playsinline=1&rel=0&modestbranding=1` +
-  `&controls=0&disablekb=1&fs=0&iv_load_policy=3&enablejsapi=1`
+  `&controls=0&disablekb=1&fs=0&iv_load_policy=3&cc_load_policy=0&enablejsapi=1`
 
 const GLYPHS = "₿$€¥£¢₩₽₹ƒ₴₦₱₲₵₸Ð₭∆#%&@¶§ΞΦΨ".split("")
 const QUOTE = "you are now less valuable than the data you produce"
@@ -292,28 +292,89 @@ function useWideScreen(): boolean {
   return wide
 }
 
+/** How long YouTube's start-of-play overlay (title, channel, buttons, logo)
+ * stays up once playback begins; the cover lifts after it has faded. */
+const OVERLAY_MS = 3500
+/** If the player never reports that it is playing, show it anyway. */
+const FALLBACK_MS = 8000
+const PLAYING = 1
+
 /** The video under the contact rows, on wider screens only. It is mounted
  * only while the panel is open, so it never plays unseen. */
 function VideoCard({ active }: { active: boolean }) {
   const wide = useWideScreen()
   const frameRef = useRef<HTMLIFrameElement>(null)
   const [muted, setMuted] = useState(true)
+  const [revealed, setRevealed] = useState(false)
 
-  // Every mount starts muted, matching the player.
+  const mounted = active && wide
+
+  const send = useCallback((func: string, args: unknown[] = []) => {
+    frameRef.current?.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args }), "*")
+  }, [])
+
+  // Every mount starts muted and covered, matching a fresh player.
   useEffect(() => {
-    if (!active) setMuted(true)
-  }, [active])
+    if (!mounted) {
+      setMuted(true)
+      setRevealed(false)
+    }
+  }, [mounted])
+
+  // YouTube draws its own overlay whenever playback starts, including on
+  // each loop, and an embed can't switch it off. So the video stays under a
+  // cover until it has been playing long enough for that overlay to fade,
+  // and the cover returns whenever the player stops playing.
+  useEffect(() => {
+    if (!mounted) return
+    let revealTimer: number | undefined
+    let lastState: number | null = null
+
+    const onState = (state: number) => {
+      if (state === lastState) return
+      lastState = state
+      window.clearTimeout(revealTimer)
+      if (state === PLAYING) {
+        send("unloadModule", ["captions"])
+        revealTimer = window.setTimeout(() => setRevealed(true), OVERLAY_MS)
+      } else {
+        setRevealed(false)
+      }
+    }
+
+    const onMessage = (event: MessageEvent) => {
+      if (event.source !== frameRef.current?.contentWindow) return
+      let data: { event?: string; info?: unknown } | null = null
+      try {
+        data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
+      } catch {
+        return
+      }
+      if (data?.event === "onStateChange" && typeof data.info === "number") onState(data.info)
+      const info = data?.event === "infoDelivery" ? (data.info as { playerState?: unknown } | undefined) : undefined
+      if (typeof info?.playerState === "number") onState(info.playerState)
+    }
+
+    window.addEventListener("message", onMessage)
+    const fallback = window.setTimeout(() => setRevealed(true), FALLBACK_MS)
+    return () => {
+      window.removeEventListener("message", onMessage)
+      window.clearTimeout(revealTimer)
+      window.clearTimeout(fallback)
+    }
+  }, [mounted, send])
+
+  // Ask the player to report its state once it has loaded.
+  const onFrameLoad = () => {
+    frameRef.current?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: "say-video" }), "*")
+    send("addEventListener", ["onStateChange"])
+  }
 
   const toggleSound = () => {
     const next = !muted
-    frameRef.current?.contentWindow?.postMessage(
-      JSON.stringify({ event: "command", func: next ? "mute" : "unMute", args: [] }),
-      "*",
-    )
+    send(next ? "mute" : "unMute")
     setMuted(next)
   }
-
-  const mounted = active && wide
 
   return (
     <div className="say-video">
@@ -324,9 +385,12 @@ function VideoCard({ active }: { active: boolean }) {
             src={VIDEO_SRC}
             title="Watch Dogs: the video behind the quote"
             allow="autoplay; encrypted-media"
-            loading="lazy"
             tabIndex={-1}
+            onLoad={onFrameLoad}
           />
+          <div className={`say-video-cover${revealed ? " off" : ""}`} aria-hidden="true">
+            <span>establishing link…</span>
+          </div>
           <button
             className="say-sound"
             type="button"
