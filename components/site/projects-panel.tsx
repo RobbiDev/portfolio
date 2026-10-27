@@ -109,11 +109,18 @@ export default function ProjectsPanel({
               const line = lineFor(project.categories)
               return (
                 <button className="brow" type="button" key={project.slug} onClick={() => onOpenProject(project.slug)}>
-                  {/* The board plate is a flat colour chip: the line the
-                      project runs on, with its name set over it. */}
+                  {/* The board plate is the project's cover image, or failing
+                      that a flat chip in its line colour with its name set over it. */}
                   <span className={`gthumb line-${line.dot}`}>
+                    {project.coverImage ? (
+                      <span className="rj-slot">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={project.coverImage} alt="" loading="lazy" />
+                      </span>
+                    ) : (
+                      <span className="gname">{project.title}</span>
+                    )}
                     <span className="gm">M</span>
-                    <span className="gname">{project.title}</span>
                   </span>
                   <span className="binfo">
                     <span className="bline">

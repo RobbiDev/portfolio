@@ -1,6 +1,6 @@
 ===
 {
-	"title": "Microsoft Product Redesign",
+	"title": "Microsoft UI Redesign",
 	"date": "2026-10-17",
 	"summary": "A self-directed UI/UX study reimagining Microsoft's website and products with less bloat and more of the polish Apple and Google are known for.",
 	"category": ["SOFTWARE"],
@@ -11,6 +11,7 @@
 	"status": "Work in progress",
 	"githubUrl": "https://github.com/RobbiDev/microsoft-redesign",
 	"projectColor": "#0078D4",
+	"coverImage": "/images/microsoft-redesign/cover.webp",
 	"features": [
 		"Main website — a simpler front door that leans on brand recognition instead of listing every product",
 		"SharePoint — a redesign in progress",

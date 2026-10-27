@@ -9,7 +9,7 @@
 	"category": "Blog",
 	"tags": ["Leadership", "Microsoft", "Community", "Career"],
 	"blogColor": "#0078D4",
-	"coverImage": "/images/blog/full-circle/microsoft1.jpg"
+	"coverImage": "/images/blog/full-circle/cover.jpg"
 }
 ===
 
