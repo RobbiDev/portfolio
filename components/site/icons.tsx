@@ -123,3 +123,23 @@ export function AlertIcon(props: IconProps) {
     </Svg>
   )
 }
+
+/** Speaker, sound off: the video's mute toggle while it is muted. */
+export function VolumeOffIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+      <path d="m22 9-6 6M16 9l6 6" />
+    </Svg>
+  )
+}
+
+/** Speaker, sound on. */
+export function VolumeOnIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+      <path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" />
+    </Svg>
+  )
+}
