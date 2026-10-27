@@ -1,36 +1,269 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { ArrowRightIcon } from "./icons"
 import { profile } from "@/lib/profile"
 import { attributionSummary, track } from "@/lib/analytics"
 
+/**
+ * "say hi." — the contact panel. Messages go to /api/contact; the limits below
+ * are client-side only, so they stop casual repeat sends rather than a
+ * determined spammer (the endpoint is the real gate).
+ */
 const STORAGE_KEY = "rj_contact_sends"
-const DAILY_LIMIT = 3
+const MAX_PER_DAY = 3
+const COOLDOWN_MS = 60_000
+const MAX_CHARS = 2000
 const DAY_MS = 86_400_000
 
-interface Quota {
-  t: number
-  n: number
-}
+const INFO = [
+  { label: "Email", value: profile.email, href: `mailto:${profile.email}`, copy: true, color: "#3fc8d8", via: "email" },
+  { label: "LinkedIn", value: profile.linkedinHandle, href: profile.linkedin, color: "#d3f05e", via: "linkedin" },
+  { label: "GitHub", value: profile.githubHandle, href: profile.github, color: "#c64ae2", via: "github" },
+  { label: "Location", value: "Greensboro, NC", color: "#f1f1ee" },
+  { label: "Availability", value: profile.availability, color: "#ff2d2d" },
+]
+const TILTS = ["-.6deg", ".5deg", "-.3deg", ".7deg", "-.4deg"]
 
-function readQuota(): Quota {
+const GLYPHS = "₿$€¥£¢₩₽₹ƒ₴₦₱₲₵₸Ð₭∆#%&@¶§ΞΦΨ".split("")
+const QUOTE = "you are now less valuable than the data you produce"
+
+type Field = "name" | "email" | "message"
+type LogLine = { text: string; tone: "ok" | "bad" | "c" }
+
+/* ── rolling 24h send log ─────────────────────────────────────────────── */
+
+let memorySends: number[] = [] // used when storage is blocked
+
+function readSends(): number[] {
   const now = Date.now()
   try {
-    const raw = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null")
-    if (raw && typeof raw.n === "number" && typeof raw.t === "number" && now - raw.t <= DAY_MS) return raw
+    const raw = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]")
+    return Array.isArray(raw) ? raw.filter((t): t is number => typeof t === "number" && now - t < DAY_MS) : []
   } catch {
-    /* storage unavailable or corrupt — start a fresh window */
+    return memorySends.filter((t) => now - t < DAY_MS)
   }
-  return { t: now, n: 0 }
 }
 
-function formatCountdown(ms: number): string {
-  const clamped = Math.max(0, ms)
-  const hours = Math.floor(clamped / 3_600_000)
-  const minutes = Math.floor((clamped % 3_600_000) / 60_000)
-  const seconds = Math.floor((clamped % 60_000) / 1000)
-  return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":")
+function recordSend() {
+  const sends = [...readSends(), Date.now()]
+  memorySends = sends
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(sends))
+  } catch {
+    /* the limit is a nicety, not a gate */
+  }
+}
+
+function lockState() {
+  const sends = readSends()
+  const left = Math.max(0, MAX_PER_DAY - sends.length)
+  const last = sends.length ? Math.max(...sends) : 0
+  return {
+    left,
+    cooldown: Math.max(0, last + COOLDOWN_MS - Date.now()),
+    reopen: left === 0 ? Math.min(...sends) + DAY_MS - Date.now() : 0,
+  }
+}
+
+function formatTimer(ms: number): string {
+  const s = Math.max(0, Math.ceil(ms / 1000))
+  return [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map((n) => String(n).padStart(2, "0")).join(":")
+}
+
+function validate(form: Record<Field, string>): Partial<Record<Field, string>> {
+  const errors: Partial<Record<Field, string>> = {}
+  const message = form.message.trim()
+  if (form.name.trim().length < 2) errors.name = "required"
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) errors.email = "not valid"
+  if (message.length < 10) errors.message = "at least 10 chars"
+  else if (message.length > MAX_CHARS) errors.message = "too long"
+  return errors
+}
+
+function prefersReducedMotion(): boolean {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
+
+/** Size a canvas to its box at the device's pixel ratio (capped at 2x). */
+function fit(canvas: HTMLCanvasElement) {
+  const rect = canvas.getBoundingClientRect()
+  const ratio = Math.min(window.devicePixelRatio || 1, 2)
+  canvas.width = Math.max(1, rect.width * ratio)
+  canvas.height = Math.max(1, rect.height * ratio)
+  const ctx = canvas.getContext("2d")!
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+  return { ctx, w: rect.width, h: rect.height }
+}
+
+/* ── background glyph field, with the quote hidden one letter per cell ── */
+
+function useGlyphField(canvasRef: React.RefObject<HTMLCanvasElement>, active: boolean) {
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas || !active) return
+
+    let g = fit(canvas)
+    let cells: string[] = []
+    let cols = 0
+    let cw = 20
+    const quoteCells = new Map<number, string>()
+    const pick = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+
+    const seed = () => {
+      g = fit(canvas)
+      cw = g.w < 640 ? 16 : 20
+      cols = Math.ceil(g.w / cw)
+      const rows = Math.ceil(g.h / (cw * 1.25))
+      cells = Array.from({ length: cols * rows }, pick)
+
+      const maxLen = Math.max(10, cols - 4)
+      const lines: string[] = []
+      let line = ""
+      for (const word of QUOTE.split(" ")) {
+        if ((line + " " + word).trim().length > maxLen) {
+          lines.push(line)
+          line = word
+        } else line = (line + " " + word).trim()
+      }
+      lines.push(line)
+
+      // Parked near the bottom so the cards don't cover it.
+      quoteCells.clear()
+      const startRow = Math.max(2, rows - lines.length - 3)
+      lines.forEach((text, r) => {
+        const startCol = Math.floor((cols - text.length) / 2)
+        Array.from(text).forEach((ch, c) => quoteCells.set((startRow + r) * cols + startCol + c, ch))
+      })
+    }
+
+    const draw = () => {
+      const { ctx, w, h } = g
+      ctx.fillStyle = "#c64ae2"
+      ctx.fillRect(0, 0, w, h)
+      ctx.textBaseline = "top"
+      ctx.font = `700 ${cw * 0.8}px "JetBrains Mono", monospace`
+      for (let i = 0; i < cells.length; i++) {
+        const x = (i % cols) * cw
+        const y = Math.floor(i / cols) * cw * 1.25
+        const quoted = quoteCells.get(i)
+        if (quoted !== undefined) {
+          if (quoted === " ") continue
+          ctx.fillStyle = "rgba(3,4,5,.85)"
+          ctx.fillText(quoted, x, y)
+        } else {
+          ctx.fillStyle = "rgba(3,4,5,.26)"
+          ctx.fillText(cells[i], x, y)
+        }
+      }
+    }
+
+    seed()
+    draw()
+
+    const interval = prefersReducedMotion()
+      ? undefined
+      : window.setInterval(() => {
+          for (let k = 0; k < cells.length * 0.02; k++) cells[Math.floor(Math.random() * cells.length)] = pick()
+          draw()
+        }, 70)
+
+    let resizeTimer: number | undefined
+    const onResize = () => {
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(() => {
+        seed()
+        draw()
+      }, 150)
+    }
+    window.addEventListener("resize", onResize)
+
+    return () => {
+      window.clearInterval(interval)
+      window.clearTimeout(resizeTimer)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [canvasRef, active])
+}
+
+/* ── the block burst off the send button ─────────────────────────────── */
+
+function burst(canvas: HTMLCanvasElement, from: DOMRect) {
+  if (prefersReducedMotion()) return
+  const { ctx, w, h } = fit(canvas)
+  const origin = canvas.getBoundingClientRect()
+  const parts = Array.from({ length: 70 }, () => ({
+    x: from.left - origin.left + Math.random() * from.width,
+    y: from.top - origin.top + Math.random() * from.height,
+    vx: (Math.random() - 0.5) * 14,
+    vy: -Math.random() * 12 - 2,
+    s: 6 + Math.random() * 12,
+    tri: Math.random() < 0.2,
+    c: Math.random() < 0.15 ? "#d3f05e" : "#f1f1ee",
+  }))
+  const start = performance.now()
+
+  const frame = (now: number) => {
+    const elapsed = (now - start) / 1000
+    ctx.clearRect(0, 0, w, h)
+    if (elapsed > 1.1) return
+    for (const p of parts) {
+      p.x += p.vx
+      p.y += p.vy
+      p.vy += 0.45
+      const s = p.s * (1 - elapsed / 1.1)
+      ctx.fillStyle = p.c
+      if (p.tri) {
+        ctx.beginPath()
+        ctx.moveTo(p.x, p.y + s)
+        ctx.lineTo(p.x + s, p.y + s)
+        ctx.lineTo(p.x + s, p.y)
+        ctx.fill()
+      } else ctx.fillRect(p.x, p.y, s, s)
+    }
+    requestAnimationFrame(frame)
+  }
+  requestAnimationFrame(frame)
+}
+
+function InfoRow({ item, index }: { item: (typeof INFO)[number]; index: number }) {
+  const [copyLabel, setCopyLabel] = useState("copy")
+
+  const copy = () => {
+    navigator.clipboard
+      .writeText(item.value)
+      .then(() => setCopyLabel("copied"))
+      .catch(() => setCopyLabel("ctrl+c"))
+    window.setTimeout(() => setCopyLabel("copy"), 1600)
+  }
+
+  return (
+    <div className="say-item" style={{ "--tilt": TILTS[index % TILTS.length] } as React.CSSProperties}>
+      <span className="say-code" style={{ "--k": item.color } as React.CSSProperties}>
+        {item.label}
+      </span>
+      <div className="say-what">
+        {item.href ? (
+          <a
+            href={item.href}
+            target={item.href.startsWith("mailto:") ? undefined : "_blank"}
+            rel="noreferrer noopener"
+            onClick={() => track("contact_link", { via: item.via ?? "link" })}
+          >
+            {item.value}
+          </a>
+        ) : (
+          <span>{item.value}</span>
+        )}
+      </div>
+      {item.copy ? (
+        <button className="say-copy" type="button" onClick={copy}>
+          {copyLabel}
+        </button>
+      ) : (
+        <span />
+      )}
+    </div>
+  )
 }
 
 interface ContactPanelProps {
@@ -40,252 +273,274 @@ interface ContactPanelProps {
 }
 
 export default function ContactPanel({ panelRef, open, reveal }: ContactPanelProps) {
-  const [quota, setQuota] = useState<Quota>({ t: Date.now(), n: 0 })
-  const [countdown, setCountdown] = useState("24:00:00")
-  const [shipping, setShipping] = useState(false)
-  const [sailing, setSailing] = useState(false)
-  const [toast, setToast] = useState<{ text: string; warn: boolean } | null>(null)
-  const [stamp, setStamp] = useState<string | null>(null)
-  const [form, setForm] = useState({ name: "", email: "", message: "" })
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [form, setForm] = useState<Record<Field, string>>({ name: "", email: "", message: "" })
+  const [honeypot, setHoneypot] = useState("")
+  const [errors, setErrors] = useState<Partial<Record<Field, string>>>({})
+  const [lock, setLock] = useState({ left: MAX_PER_DAY, cooldown: 0, reopen: 0 })
+  const [sending, setSending] = useState(false)
+  const [log, setLog] = useState<LogLine[]>([])
+  const [shake, setShake] = useState(0)
+  const [glitch, setGlitch] = useState(0)
 
-  // localStorage is only readable on the client, so seed after mount.
-  useEffect(() => setQuota(readQuota()), [])
+  const glyphRef = useRef<HTMLCanvasElement>(null)
+  const wipeRef = useRef<HTMLCanvasElement>(null)
+  const sendRef = useRef<HTMLButtonElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
+  const fieldRefs = {
+    name: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
+    message: useRef<HTMLTextAreaElement>(null),
+  }
 
-  const left = Math.max(0, DAILY_LIMIT - quota.n)
-  const locked = left === 0
+  useGlyphField(glyphRef, open)
 
+  const locked = lock.left === 0
+
+  // A locked form is inert under the overlay. React 18 has no `inert` prop.
   useEffect(() => {
-    if (!locked) return
-    const tick = () => {
-      const remaining = quota.t + DAY_MS - Date.now()
-      if (remaining <= 0) {
-        setQuota({ t: Date.now(), n: 0 })
-        return
-      }
-      setCountdown(formatCountdown(remaining))
-    }
-    tick()
-    const interval = setInterval(tick, 1000)
-    return () => clearInterval(interval)
-  }, [locked, quota.t])
+    if (formRef.current) formRef.current.inert = locked
+  }, [locked])
 
-  const flash = useCallback((text: string, warn = false) => {
-    setToast({ text, warn })
-    if (toastTimer.current) clearTimeout(toastTimer.current)
-    toastTimer.current = setTimeout(() => setToast(null), 2600)
-  }, [])
+  // localStorage is only readable on the client, so the lock is read after
+  // mount and then kept current once a second while the panel is open.
+  useEffect(() => {
+    if (!open) return
+    const refresh = () => setLock(lockState())
+    refresh()
+    const interval = window.setInterval(refresh, 1000)
+    return () => window.clearInterval(interval)
+  }, [open])
 
-  const send = useCallback(async () => {
-    if (shipping || locked) return
+  // The heading glitches when the panel opens and when the form locks.
+  useEffect(() => {
+    if (open) setGlitch((n) => n + 1)
+  }, [open, locked])
 
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      flash("Container is not full. Fill every field before shipping.", true)
-      return
-    }
+  const update = (field: Field) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((current) => ({ ...current, [field]: event.target.value }))
 
-    setShipping(true)
-    setSailing(true)
+  const recheck = (field: Field) => () => {
+    if (form[field]) setErrors(validate(form))
+  }
 
-    let ok = false
-    let error: string | null = null
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // The email carries where the sender came from, so a message from a
-        // recruiter arrives with its referrer already attached.
-        body: JSON.stringify({ ...form, attribution: attributionSummary() }),
-      })
-      const payload = await response.json().catch(() => ({}))
-      ok = response.ok
-      if (!ok) error = payload?.error || "The dock rejected that shipment. Try again later."
-      if (ok) track("contact_send")
-    } catch {
-      error = "Could not reach the dock. Check your connection and try again."
-    }
+  const submit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault()
+      if (sending) return
 
-    // Let the crane finish its cycle before reporting either way.
-    setTimeout(() => {
-      setShipping(false)
-      setSailing(false)
+      const state = lockState()
+      setLock(state)
+      if (state.left === 0 || state.cooldown > 0) return
 
-      if (!ok) {
-        flash(error || "Shipment failed.", true)
+      const found = validate(form)
+      setErrors(found)
+      const first = (Object.keys(found) as Field[])[0]
+      if (first) {
+        fieldRefs[first].current?.focus()
+        setShake((n) => n + 1)
         return
       }
 
-      const next = { t: quota.n === 0 ? Date.now() : quota.t, n: quota.n + 1 }
-      setQuota(next)
+      setSending(true)
+      setLog([])
+      if (wipeRef.current && sendRef.current) burst(wipeRef.current, sendRef.current.getBoundingClientRect())
+
+      // Bots fill the hidden field: pretend it worked and drop it.
+      if (honeypot) {
+        setLog([{ text: "sent.", tone: "ok" }])
+        setSending(false)
+        return
+      }
+
+      let ok = false
+      let why = ""
       try {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // The email carries where the sender came from, so a message from a
+          // recruiter arrives with its referrer already attached.
+          body: JSON.stringify({
+            name: form.name.trim(),
+            email: form.email.trim(),
+            message: form.message.trim(),
+            attribution: attributionSummary(),
+          }),
+        })
+        ok = response.ok
+        if (!ok) {
+          const payload = await response.json().catch(() => ({}))
+          why = payload?.error || `server said ${response.status}`
+        }
       } catch {
-        /* quota is a nicety, not a gate — ignore storage failures */
+        why = "no connection, check your internet and try again"
       }
 
-      setForm({ name: "", email: "", message: "" })
-      setStamp(`RJ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`)
-      setTimeout(() => setStamp(null), 3200)
-    }, 2600)
-  }, [shipping, locked, form, flash, quota])
+      if (ok) {
+        track("contact_send")
+        recordSend()
+        setForm({ name: "", email: "", message: "" })
+        setLog([{ text: "sent. i'll get back to you soon.", tone: "ok" }])
+      } else {
+        const reason = why.replace(/\.$/, "")
+        setLog([
+          { text: `didn't send: ${reason.charAt(0).toLowerCase()}${reason.slice(1)}. try again or email me directly.`, tone: "bad" },
+        ])
+        setShake((n) => n + 1)
+      }
+      setSending(false)
+      setLock(lockState())
+    },
+    // fieldRefs holds stable refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sending, form, honeypot],
+  )
+
+  const count = form.message.length
+  const buttonLabel = sending
+    ? "sending..."
+    : lock.cooldown > 0 && !locked
+      ? `wait ${Math.ceil(lock.cooldown / 1000)}s`
+      : "send"
 
   return (
-    <section
-      className={`panel${open ? " on" : ""}${reveal ? " reveal" : ""}${sailing ? " sailing" : ""}`}
-      id="panel-contact"
-      aria-hidden={!open}
-    >
+    <section className={`panel${open ? " on" : ""}${reveal ? " reveal" : ""}`} id="panel-contact" aria-hidden={!open}>
+      <canvas className="say-glyphs" ref={glyphRef} aria-hidden="true" />
+      <canvas className="say-wipe" ref={wipeRef} aria-hidden="true" />
+
       <div className="panel-scroll" ref={panelRef}>
-        <div className="panel-in">
-          <h2 className="port-title stagger s1">Ship me a message</h2>
-          <p className="port-sub stagger s2">
-            Load a container with your info, and the crane takes it from there. {DAILY_LIMIT} shipments per day.
-          </p>
+        <div className="panel-in say-grid">
+          <section
+            className={`say-card stagger s1${shake % 2 ? " shake-a" : shake ? " shake-b" : ""}`}
+            aria-labelledby="say-title"
+          >
+            <h2 id="say-title" className="say-title">
+              <span className={`say-glitch${glitch % 2 ? " hit-a" : glitch ? " hit-b" : ""}`} data-text="say hi.">
+                say hi.
+              </span>
+            </h2>
 
-          <div className="vessel2 stagger s3">
-            <div className="deckload">
-              <div className="bay">
-                <div className={`cargo${shipping ? " shipping" : ""}`}>
-                  <div className="cargo-head">
-                    <span className="stencil">Outbound</span>
-                    <span className="cap-lights" title="Shipments left today">
-                      {Array.from({ length: DAILY_LIMIT }).map((_, index) => (
-                        <i key={index} className={index >= left ? "off" : undefined} />
-                      ))}
-                    </span>
-                  </div>
-
-                  <div className="cfield">
-                    <label htmlFor="cf-name">Name</label>
-                    <input
-                      id="cf-name"
-                      type="text"
-                      placeholder="Your name"
-                      value={form.name}
-                      onChange={(event) => setForm({ ...form, name: event.target.value })}
-                    />
-                  </div>
-                  <div className="cfield">
-                    <label htmlFor="cf-email">Email</label>
-                    <input
-                      id="cf-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={form.email}
-                      onChange={(event) => setForm({ ...form, email: event.target.value })}
-                    />
-                  </div>
-                  <div className="cfield grow">
-                    <label htmlFor="cf-msg">Message</label>
-                    <textarea
-                      id="cf-msg"
-                      rows={4}
-                      placeholder="What are we shipping?"
-                      value={form.message}
-                      onChange={(event) => setForm({ ...form, message: event.target.value })}
-                    />
-                  </div>
-
-                  <button className="shipbtn" type="button" onClick={send} disabled={locked || shipping}>
-                    {shipping ? "Loading…" : "Load & ship"}
-                    {shipping ? null : <ArrowRightIcon />}
-                  </button>
-
-                  <div
-                    className={`ptoast${toast ? " show" : ""}`}
-                    style={toast?.warn ? { color: "#f2b632" } : undefined}
-                  >
-                    {toast?.text ?? "Container away!"}
-                  </div>
-
-                  <div className="cdoors" aria-hidden="true">
-                    <span>Sealed · In transit</span>
-                  </div>
-
-                  <div className={`dstamp${stamp ? " show" : ""}`} aria-hidden="true">
-                    <span className="dbox">
-                      Delivered<small>{stamp ?? ""}</small>
-                    </span>
-                  </div>
-
-                  <div className={`plock${locked ? " show" : ""}`}>
-                    <b>Container sealed</b>
-                    <span className="pl-sub">
-                      {DAILY_LIMIT} of {DAILY_LIMIT} daily shipments used. You can send again in
-                    </span>
-                    <span className="timer">{countdown}</span>
-                  </div>
+            <form ref={formRef} onSubmit={submit} noValidate>
+              <div className="say-row2">
+                <div className={`say-field${errors.name ? " bad" : ""}`}>
+                  <label htmlFor="say-name">
+                    name <span className="say-err">{errors.name}</span>
+                  </label>
+                  <input
+                    id="say-name"
+                    ref={fieldRefs.name}
+                    autoComplete="name"
+                    placeholder="your name"
+                    maxLength={80}
+                    value={form.name}
+                    onChange={update("name")}
+                    onBlur={recheck("name")}
+                  />
+                </div>
+                <div className={`say-field${errors.email ? " bad" : ""}`}>
+                  <label htmlFor="say-email">
+                    email <span className="say-err">{errors.email}</span>
+                  </label>
+                  <input
+                    id="say-email"
+                    ref={fieldRefs.email}
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    maxLength={120}
+                    value={form.email}
+                    onChange={update("email")}
+                    onBlur={recheck("email")}
+                  />
                 </div>
               </div>
 
-              <div className="shipstack">
-                <a
-                  className="cbox c-em"
-                  href={`mailto:${profile.email}`}
-                  onClick={() => track("contact_link", { via: "email" })}
-                >
-                  <span className="code">EML-001</span>
-                  <span className="ck">Email</span>
-                  <span className="cv">{profile.email}</span>
-                </a>
-                <a
-                  className="cbox c-li"
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  onClick={() => track("contact_link", { via: "linkedin" })}
-                >
-                  <span className="code">LNK-002</span>
-                  <span className="ck">LinkedIn</span>
-                  <span className="cv">{profile.linkedinHandle}</span>
-                </a>
-                <a
-                  className="cbox c-gh"
-                  href={profile.github}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  onClick={() => track("contact_link", { via: "github" })}
-                >
-                  <span className="code">GIT-003</span>
-                  <span className="ck">GitHub</span>
-                  <span className="cv">{profile.githubHandle}</span>
-                </a>
-                <div className="cbox c-loc">
-                  <span className="ck">Location</span>
-                  <span className="cv">Greensboro, NC</span>
-                </div>
-                <div className="cbox c-srv">
-                  <span className="ck">Availability</span>
-                  <span className="cv">{profile.availability}</span>
-                </div>
+              <div className={`say-field${errors.message ? " bad" : ""}`}>
+                <label htmlFor="say-message">
+                  message
+                  <span>
+                    <span className="say-err">{errors.message}</span>{" "}
+                    <span className={`say-count${count > MAX_CHARS ? " over" : ""}`}>
+                      {count} / {MAX_CHARS}
+                    </span>
+                  </span>
+                </label>
+                <textarea
+                  id="say-message"
+                  ref={fieldRefs.message}
+                  placeholder="what's up?"
+                  value={form.message}
+                  onChange={update("message")}
+                  onBlur={recheck("message")}
+                />
               </div>
-            </div>
 
-            <div className="hullzone">
-              <div className="bridge" aria-hidden="true">
-                <i className="mast" />
-                <i className="mast m2" />
-                <span className="btop" />
-                <span className="bwin" />
-                <span className="bbase" />
-              </div>
-              <div className="deckline" />
-              <div className="hull2">
-                <span className="bowred" />
-                <span className="ports">
-                  <i />
-                  <i />
-                  <i />
+              <div className="say-slots" aria-live="polite">
+                <span>
+                  transmissions left today: <b>{lock.left}</b>
+                </span>
+                <span className="say-pips">
+                  {Array.from({ length: MAX_PER_DAY }, (_, index) => (
+                    <span key={index} className={`say-pip${index < lock.left ? "" : " used"}`} />
+                  ))}
                 </span>
               </div>
-            </div>
 
-            <div className="sea">
-              <span className="wake w1" />
-              <span className="wake w2" />
-              <span className="wake w3" />
-            </div>
-          </div>
+              {/* Honeypot: real people never see or fill this. */}
+              <div className="say-hp" aria-hidden="true">
+                <label htmlFor="say-company">company</label>
+                <input
+                  id="say-company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(event) => setHoneypot(event.target.value)}
+                />
+              </div>
+
+              <div className="say-send">
+                <button
+                  className="say-go"
+                  ref={sendRef}
+                  type="submit"
+                  disabled={sending || locked || lock.cooldown > 0}
+                >
+                  {buttonLabel}
+                </button>
+              </div>
+            </form>
+
+            <pre className="say-log" aria-live="polite">
+              {log.map((line, index) => (
+                <span key={index} className={line.tone}>
+                  {line.text}
+                  {"\n"}
+                </span>
+              ))}
+            </pre>
+
+            {locked ? (
+              <div className="say-locked">
+                <span className="say-tag">locked</span>
+                <h3>
+                  daily limit
+                  <br />
+                  reached.
+                </h3>
+                <p>you can send again when the timer runs out, or email me directly.</p>
+                <div className="say-timer">
+                  {formatTimer(lock.reopen)}
+                  <small>until you can send again</small>
+                </div>
+              </div>
+            ) : null}
+          </section>
+
+          <aside className="say-info stagger s2" aria-label="Contact info">
+            {INFO.map((item, index) => (
+              <InfoRow key={item.label} item={item} index={index} />
+            ))}
+          </aside>
         </div>
       </div>
     </section>
