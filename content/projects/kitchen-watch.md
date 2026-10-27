@@ -1,13 +1,13 @@
 ===
 {
 	"title": "KitchenWatch",
-	"date": "2024-07-27",
+	"date": "2025-11-01",
 	"summary": "A full-stack task-tracking system built for a high-volume Chick-fil-A kitchen: glanceable timers, SMS alerts, and analytics that hold up during the lunch rush.",
 	"category": ["SOFTWARE"],
 	"technologies": ["Next.js", "Tailwind CSS", "Express.js", "MongoDB"],
 	"role": "Design & development, end to end",
 	"client": "Chick-fil-A · Grandover Village, NC",
-	"timeline": "2023 - 2024",
+	"timeline": "October 2021 - November 2025",
 	"status": "Retired",
 	"githubUrl": "https://github.com/RobbiDev/KitchenWatch",
 	"projectColor": "#E51636",
@@ -26,7 +26,7 @@
 
 <!--
 STARTER: facts here come from the KitchenWatch README and the "Shipping KitchenWatch" post.
-CHECK: timeline, status (is it still running?), and whether "Retired" is right.
+Timeline and results come from the résumé (Sep 2026).
 ADD: screenshots to public/images/kitchenwatch/ and list them in "gallery".
 Published while in progress: the prompts below show on the site until you replace them.
 -->
@@ -82,11 +82,12 @@ how the app recovers when the connection drops, how the year-over-year analytics
 
 ## Results
 
-<!-- What changed once it shipped? Fewer missed tasks, faster tickets, a quote from a manager. -->
+KitchenWatch ran in production for two years before its planned end of service.
 
-| Measure | Before | After |
-| --- | --- | --- |
-| — | — | — |
+| Measure | Result |
+| --- | --- |
+| Missed equipment maintenance tasks | Down 80% |
+| Delayed fryer oil replacements | Zero |
 
 ## What I'd Do Differently
 

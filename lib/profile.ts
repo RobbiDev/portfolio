@@ -19,7 +19,7 @@ export interface SkillGroup {
 export const profile = {
   name: "Robert Johnson",
   nickname: "Robby",
-  role: "IT & Network/Controls Engineer",
+  role: "Digital Systems Engineer",
   employer: "Imaflex USA",
   location: "Greensboro, North Carolina",
   email: "me@robbyj.dev",
@@ -27,7 +27,8 @@ export const profile = {
   githubHandle: "RobbiDev",
   linkedin: "https://www.linkedin.com/in/robby-johnson/",
   linkedinHandle: "in/robby-johnson",
-  resumeUrl: "https://www.robbyj.dev/@/Robert-Johnson-Resume.pdf",
+  /** Served from public/; replace that file to update the download. */
+  resumeUrl: "/Robert-Johnson-Resume.pdf",
   availability: "Remote friendly · worldwide",
   status: "Open to projects & opportunities",
   /** Drop a portrait in public/ and point this at it to fill the ID badge. */
@@ -38,37 +39,43 @@ export const profile = {
     "Obsessed with how things work and how to make them work better. Network engineering, industrial control systems, and software, currently studying Computer Science at UNC Charlotte.",
   bio: [
     'Subject has always been obsessed with how things work and, more importantly, how to make them work even better. Specializes in <b>Network Engineering</b> with a focus on infrastructure and implementation, with deep experience designing and managing <b>Industrial Control Systems</b>.',
-    'Currently balances IT support, network engineering, and controls/automation engineering at <b>Imaflex USA</b> while pursuing a Computer Science degree at <b>UNC Charlotte</b> (Networks & Systems focus, ECE minor).',
+    'Currently the Digital Systems Engineer at <b>Imaflex USA</b>, building custom software for the plant floor and running its IT, network and industrial systems, while pursuing a Computer Science degree at <b>UNC Charlotte</b> (minor in Computer Engineering) and co-leading Microsoft Learn at UNCC.',
   ],
 
   experience: [
     {
-      period: "May 2025 – Present",
+      period: "Dec 2023 – Present",
       place: "Imaflex USA · Thomasville, NC",
-      role: "IT & Network/Controls Engineer",
+      role: "Digital Systems Engineer",
       detail:
-        "Manages IT infrastructure and network systems in a manufacturing environment. Supports PLC control systems, troubleshoots production tech issues, and leads integration of new control systems.",
+        "Builds end-to-end software that modernizes legacy manufacturing processes. Administers the IT ecosystem and Microsoft tenant, managing devices with Intune. Sole technical engineer for the facility's network, hardware, software and PLC interfaces, holding 99.8% system uptime.",
     },
     {
-      period: "Jun 2023 – Nov 2023",
-      place: "Chick-fil-A · Grandover Village, NC",
-      role: "Back of House Supervisor",
+      period: "Jan 2026 – Present",
+      place: "Microsoft Learn at UNCC · Charlotte, NC",
+      role: "Co-President & Co-Founder",
       detail:
-        "Managed BOH operations and food prep logistics. Handled restaurant IT issues including POS and hardware. Built internal time-tracking tools for kitchen task compliance.",
+        "Grew the organization to 100+ active members with certification study tracks in Azure and Excel. Raised workshop attendance 45% through department outreach and guest speakers, and secured 10 donated enterprise workstations.",
+    },
+    {
+      period: "Apr 2021 – Nov 2023",
+      place: "Chick-fil-A · Jamestown, NC",
+      role: "Kitchen Supervisor",
+      detail:
+        "Ran kitchen operations and food-safety compliance, earning two consecutive years of 100 health inspection scores. Pitched and built KitchenWatch with restaurant leadership, which went on to run in production.",
     },
   ] satisfies TimelineEntry[],
 
   education: [
     {
-      period: "Jan 2026 – Present",
-      place: "UNC Charlotte",
+      period: "Jan 2026 – May 2028",
+      place: "UNC Charlotte · Charlotte, NC",
       role: "B.S. Computer Science",
-      detail:
-        "Networks & Systems focus, minoring in Electrical & Computer Engineering. Expected graduation Jan 2028.",
+      detail: "Minor in Computer Engineering. Expected graduation May 2028.",
     },
     {
       period: "Aug 2024 – Dec 2025",
-      place: "Guilford Technical CC",
+      place: "Guilford Technical CC · Jamestown, NC",
       role: "Associate in Science",
       detail: "Focus on Computer Science and Information Technology. Graduated with a 3.7 GPA.",
     },
@@ -76,20 +83,20 @@ export const profile = {
 
   skills: [
     {
-      name: "Network Engineering",
-      items: ["Cisco", "Ubiquiti", "Fortinet", "VLAN & MPLS", "Routing & Switching", "SD-WAN"],
+      name: "Languages",
+      items: ["Python", "C", "C++", "TypeScript", "JavaScript", "SQL"],
     },
     {
-      name: "Software Engineering",
-      items: ["Python", "JavaScript", "Java", "RESTful APIs", "Databases", "Git & CI/CD"],
+      name: "Systems & Administration",
+      items: ["Microsoft Intune", "Microsoft 365 Tenant", "Windows Server", "Linux", "Docker"],
     },
     {
-      name: "Control Systems",
-      items: ["PLC Programming", "Industrial Wiring", "System Integration", "Automation", "Low Voltage"],
+      name: "Networking & Hardware",
+      items: ["Ubiquiti UniFi", "VLAN Routing", "Custom Firewalls", "PLC Interfaces", "Industrial Telemetry"],
     },
     {
-      name: "Information Technology",
-      items: ["Tier 2/3 Support", "Windows Server", "Linux", "Active Directory", "Provisioning"],
+      name: "Frameworks & Technologies",
+      items: ["Next.js", "React.js", "Node.js", "REST APIs", "Microsoft Power Platform", "Git"],
     },
   ] satisfies SkillGroup[],
 }

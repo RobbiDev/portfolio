@@ -131,8 +131,7 @@ export default function AboutPanel({
             <a
               className="dtab"
               href={profile.resumeUrl}
-              target="_blank"
-              rel="noreferrer noopener"
+              download="Robert-Johnson-Resume.pdf"
               onClick={() => track("resume_download", { from: "quick-look" })}
             >
               Take a copy
@@ -271,8 +270,7 @@ export default function AboutPanel({
         <a
           className="fdl"
           href={profile.resumeUrl}
-          target="_blank"
-          rel="noreferrer noopener"
+          download="Robert-Johnson-Resume.pdf"
           onClick={() => track("resume_download", { from: "file" })}
         >
           <ArrowDownIcon />
