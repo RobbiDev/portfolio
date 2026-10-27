@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { VolumeOffIcon, VolumeOnIcon } from "./icons"
 import { profile } from "@/lib/profile"
 import { attributionSummary, track } from "@/lib/analytics"
 
@@ -24,12 +25,14 @@ const INFO = [
 ]
 const TILTS = ["-.6deg", ".5deg", "-.3deg", ".7deg", "-.4deg"]
 
-/** The video the background's hidden quote comes from. Autoplay only works
- * muted; the player's controls let a visitor turn the sound on. */
+/** The video the background's hidden quote comes from. It plays muted (the
+ * only way autoplay is allowed) with YouTube's controls hidden; the page's own
+ * button mutes and unmutes it through the player's postMessage API. */
 const VIDEO_ID = "scyA9cnbja4"
 const VIDEO_SRC =
   `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
-  `?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&playsinline=1&rel=0&modestbranding=1`
+  `?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&playsinline=1&rel=0&modestbranding=1` +
+  `&controls=0&disablekb=1&fs=0&iv_load_policy=3&enablejsapi=1`
 
 const GLYPHS = "₿$€¥£¢₩₽₹ƒ₴₦₱₲₵₸Ð₭∆#%&@¶§ΞΦΨ".split("")
 const QUOTE = "you are now less valuable than the data you produce"
@@ -293,17 +296,47 @@ function useWideScreen(): boolean {
  * only while the panel is open, so it never plays unseen. */
 function VideoCard({ active }: { active: boolean }) {
   const wide = useWideScreen()
+  const frameRef = useRef<HTMLIFrameElement>(null)
+  const [muted, setMuted] = useState(true)
+
+  // Every mount starts muted, matching the player.
+  useEffect(() => {
+    if (!active) setMuted(true)
+  }, [active])
+
+  const toggleSound = () => {
+    const next = !muted
+    frameRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "command", func: next ? "mute" : "unMute", args: [] }),
+      "*",
+    )
+    setMuted(next)
+  }
+
+  const mounted = active && wide
 
   return (
     <div className="say-video">
-      {active && wide ? (
-        <iframe
-          src={VIDEO_SRC}
-          title="Watch Dogs: the video behind the quote"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-          loading="lazy"
-        />
+      {mounted ? (
+        <>
+          <iframe
+            ref={frameRef}
+            src={VIDEO_SRC}
+            title="Watch Dogs: the video behind the quote"
+            allow="autoplay; encrypted-media"
+            loading="lazy"
+            tabIndex={-1}
+          />
+          <button
+            className="say-sound"
+            type="button"
+            onClick={toggleSound}
+            aria-label={muted ? "Unmute video" : "Mute video"}
+            aria-pressed={!muted}
+          >
+            {muted ? <VolumeOffIcon /> : <VolumeOnIcon />}
+          </button>
+        </>
       ) : null}
     </div>
   )
