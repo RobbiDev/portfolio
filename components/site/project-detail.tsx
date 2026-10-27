@@ -11,6 +11,9 @@ interface ProjectDetailProps {
   onClose: () => void
   onOpenCaseStudy: () => void
   onOpenImage: (images: GalleryImage[], index: number) => void
+  /** Posts that name this project. */
+  posts: ContentItem[]
+  onOpenPost: (slug: string) => void
 }
 
 export default function ProjectDetail({
@@ -19,6 +22,8 @@ export default function ProjectDetail({
   onClose,
   onOpenCaseStudy,
   onOpenImage,
+  posts,
+  onOpenPost,
 }: ProjectDetailProps) {
   const line = project ? lineFor(project.categories) : null
   // The stack shows the top three shots; the lightbox holds the whole gallery.
@@ -135,6 +140,18 @@ export default function ProjectDetail({
                       Full Case Study
                     </button>
                   </div>
+
+                  {posts.length > 0 ? (
+                    <div className="pv-posts">
+                      <span className="pv-posts-h">Written about in</span>
+                      {posts.map((post) => (
+                        <button key={post.slug} type="button" onClick={() => onOpenPost(post.slug)}>
+                          {post.title}
+                          <ArrowRightIcon />
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </>

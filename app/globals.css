@@ -1301,3 +1301,164 @@ button.btn {
 .cs-plate:has(.rj-slot) {
   aspect-ratio: 16 / 9;
 }
+
+/* ── post extras ──────────────────────────────────────────────────────────
+ * A post's photo gallery and the project it is about, between the article
+ * and the sign-off. Both use the postcard's ink border and hard shadow.
+ */
+.bp-gallery {
+  margin-top: clamp(30px, 4vw, 48px);
+}
+
+.bp-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 18px;
+  font-family: var(--helv);
+  font-weight: 900;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.bp-section::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: #1e2726;
+  opacity: 0.85;
+}
+
+.bp-project {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  width: 100%;
+  margin-top: clamp(30px, 4vw, 48px);
+  padding: 0;
+  text-align: left;
+  color: #1e2726;
+  background: #f7f3ea;
+  border: 1.5px solid #1e2726;
+  box-shadow: 6px 6px 0 #1e2726;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+}
+
+.bp-project:hover {
+  transform: translate(-3px, -5px);
+  box-shadow: 11px 12px 0 #1e2726;
+}
+
+.bp-project .gthumb {
+  border-right: 1.5px solid #1e2726;
+}
+
+.bp-project .gthumb .gname {
+  font-size: clamp(18px, 2.4vw, 28px);
+  padding: 0 8%;
+  text-align: center;
+}
+
+.bp-project-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: clamp(16px, 2.4vw, 26px);
+  font-family: var(--helv);
+}
+
+.bp-project-kick {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a34a24;
+}
+
+.bp-project-title {
+  font-weight: 900;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.bp-project-sum {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(30, 39, 38, 0.7);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.bp-project-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bp-project-go .rj-icon {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+@media (max-width: 600px) {
+  .bp-project {
+    grid-template-columns: 1fr;
+  }
+
+  .bp-project .gthumb {
+    border-right: none;
+    border-bottom: 1.5px solid #1e2726;
+  }
+}
+
+/* The posts a project is written up in, under its buttons. */
+.pv-posts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.pv-posts-h {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.pv-posts button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: var(--helv);
+  font-weight: 700;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pv-posts button:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.pv-posts .rj-icon {
+  width: 1em;
+  height: 1em;
+}

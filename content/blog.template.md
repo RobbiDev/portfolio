@@ -10,6 +10,7 @@
 	"tags": ["Systems", "Design"],
 	"blogColor": "#10b981",
 	"coverImage": "/images/blog/cover.jpg",
+	"project": "kitchen-watch",
 	"gallery": [
 		{ "url": "/images/blog/one.png", "title": "First shot", "caption": "What it shows", "alt": "Alt text" }
 	]
@@ -26,7 +27,7 @@ Beyond that, a few directives expand into the site's own components.
 
 ## Callouts
 
-:::note Field note
+:::note A note
 `:::note`, `:::tip`, `:::warn` and `:::danger`. The text after the keyword is the
 title, and the body is full markdown. Close with `:::`.
 :::
@@ -75,7 +76,14 @@ Or be explicit, which also lets you add a caption:
 	::gallery
 
 `::gallery` renders every image from this file's own `gallery` metadata as a
-clickable strip that opens the lightbox.
+clickable strip that opens the lightbox. Leave it out and the strip appears at the
+end of the post under "Photos".
+
+## Linking a project
+
+Set `"project"` in the metadata to a project's filename (without `.md`). The post
+ends with a card that opens that project, and the project's panel lists the post
+under "Written about in".
 
 Linking to `#work`, `#writing`, `#about` or `#contact` moves the reader to that
 panel instead of following a dead anchor.

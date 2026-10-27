@@ -33,6 +33,8 @@ export interface ContentItem {
   coverImage?: string
   gallery: GalleryImage[]
   readingMinutes: number
+  /* post-only: the slug of the project the post is about */
+  project?: string
   /* project-only */
   client?: string
   timeline?: string
@@ -131,6 +133,7 @@ function readItem(filePath: string, kind: ContentKind, draft: boolean): ContentI
       coverImage: resolveMedia(metadata.coverImage),
       gallery: toGallery(metadata.gallery ?? metadata.images),
       readingMinutes: estimateReadingTime(body).minutes,
+      project: typeof metadata.project === "string" ? metadata.project.trim() || undefined : undefined,
       client: metadata.client,
       timeline: metadata.timeline,
       role: metadata.role,

@@ -4,7 +4,7 @@ import type { GalleryImage } from "./types"
  * Markdown on this site is "rich": alongside ordinary prose it understands a
  * small set of directives that expand into the design's own components.
  *
- *   :::note Field note          fenced callout (note | tip | warn | danger)
+ *   :::note A note              fenced callout (note | tip | warn | danger)
  *   body markdown
  *   :::
  *

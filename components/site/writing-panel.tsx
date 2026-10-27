@@ -62,7 +62,7 @@ export default function WritingPanel({ posts, panelRef, open, reveal, onOpenPost
 
         <div className="panel-in">
           <h2 className="wp-title stagger s1">
-            Field <span>Notes</span>
+            My <span>Writing</span>
           </h2>
           <p className="wp-sub stagger s2">
             News, blog posts, and talks. Postcards from wherever the work takes me.
@@ -131,7 +131,7 @@ export default function WritingPanel({ posts, panelRef, open, reveal, onOpenPost
                 </span>
               </div>
               <div className="pc-body">
-                <h3 className="pc-t">Notes from the field: next dispatch loading</h3>
+                <h3 className="pc-t">Next post loading</h3>
                 <div className="pc-meta">
                   <span className="district blog">Blog</span>
                   <span className="pc-note">In the mailbag</span>

@@ -7,7 +7,8 @@
 	"location": "Charlotte, NC",
 	"category": "Blog",
 	"tags": ["Software Engineering", "Systems", "Product", "KitchenWatch"],
-	"blogColor": "#E51636"
+	"blogColor": "#E51636",
+	"project": "kitchen-watch"
 }
 ===
 
