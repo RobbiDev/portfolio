@@ -590,39 +590,21 @@ button.btn {
 }
 
 /* ── phones ───────────────────────────────────────────────────────────────
- * The design fanned four overlapping cards in one row and hid the fourth
- * below 760px. Four abreast will not fit a phone at a readable size, so the
- * deck folds into two rows — but the cards still overlap each other on both
- * axes, so it reads as a stack rather than a tidy grid. Each label sits clear
- * of the card stacked in front of it.
+ * Phones keep the desktop fan — one overlapping row — with three cards
+ * instead of four, so each stays large enough to read and tap. Contact is
+ * the one dropped; it is still in the Learn menu.
  */
 @media (max-width: 760px) {
-  .fan {
-    display: grid;
-    grid-template-columns: repeat(2, min(46vw, 23svh));
-    justify-content: center;
-    gap: 0;
-  }
-
   .fcard {
-    width: 100%;
+    width: min(33vw, 24svh);
   }
 
   .fcard.plain .cardname.big {
-    font-size: 5.2vw;
+    font-size: 4.2vw;
   }
 
-  /* Front to back, so each card's label falls on bare paper. */
-  .fw.f1 { z-index: 4; margin: 0; }
-  .fw.f2 { z-index: 3; margin: 0 0 0 -7vw; }
-  .fw.f3 { z-index: 2; margin: -9vw 0 0; }
-  .fw.f4 { z-index: 1; margin: -9vw 0 0 -7vw; display: block; }
-
-  /* Gentler angles than the desktop fan: the overlap does the work here. */
-  .fcard.c1 { transform: rotate(-5deg); }
-  .fcard.c2 { transform: rotate(4deg); }
-  .fcard.c3 { transform: rotate(3deg); }
-  .fcard.c4 { transform: rotate(-4deg); }
+  .fw.f2 { margin: 0 -14px; }
+  .fw.f4 { display: none; }
 }
 
 /* Respect a reduced-motion preference: keep the layout, drop the theatre. */
@@ -685,15 +667,34 @@ button.btn {
 }
 
 /* ── postcard grid ────────────────────────────────────────────────────────
- * `auto-fit` collapses its empty tracks, so a row holding one or two
- * postcards stretched them across the whole panel — a single card came out
- * over a thousand pixels wide, with art to match. Capping the track keeps a
- * postcard postcard-sized however many there are, and the row fills from the
- * left as more arrive.
+ * `auto-fill` keeps its empty tracks, so one or two postcards hold a column's
+ * width instead of stretching across the panel, while a full row still meets
+ * the featured card's edges. On a phone that is a single column, exactly as
+ * wide as the feature above it.
  */
 .pcards {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 380px));
-  justify-content: start;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+}
+
+/* The feature's title and meta sit together in the middle of their half,
+ * rather than the title at the top and the meta pinned to the bottom. */
+.feature .pc-meta {
+  margin-top: 0;
+}
+
+/* ── menu ─────────────────────────────────────────────────────────────────
+ * The menu lists its words without the design's 00–04 numbering; on a phone
+ * they centre under each other.
+ */
+@media (max-width: 760px) {
+  .mitem {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .mitem:hover .word {
+    transform: none;
+  }
 }
 
 /* ── case study plate ─────────────────────────────────────────────────────

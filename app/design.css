@@ -228,7 +228,6 @@ body{height:100svh;overflow:hidden;display:flex;flex-direction:column;}
 .menu.on .mitem:nth-child(3){transition-delay:.26s;}
 .menu.on .mitem:nth-child(4){transition-delay:.33s;}
 .menu.on .mitem:nth-child(5){transition-delay:.4s;}
-.mitem .idx{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--acc);width:34px;flex:none;}
 .mitem .word{font-family:var(--disp);font-weight:900;font-size:clamp(30px,6svh,62px);line-height:1;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;transition:color .4s cubic-bezier(.22,1,.36,1),text-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1);}
 .mitem:hover .word{color:#fff;text-shadow:0 0 26px rgba(62,111,184,.9),0 0 3px rgba(62,111,184,.8);transform:translateX(10px);}
 .mitem .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(233,232,227,.4);margin-left:auto;white-space:nowrap;transition:color .2s;}
