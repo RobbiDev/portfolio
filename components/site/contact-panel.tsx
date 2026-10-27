@@ -294,10 +294,15 @@ function useWideScreen(): boolean {
 
 /** How long YouTube's start-of-play overlay (title, channel, buttons, logo)
  * stays up once playback begins; the cover lifts after it has faded. */
-const OVERLAY_MS = 3500
+const OVERLAY_MS = 4500
 /** If the player never reports that it is playing, show it anyway. */
 const FALLBACK_MS = 8000
 const PLAYING = 1
+/** Jump back to the start this close to the end, so YouTube's end screen
+ * ("More videos") never shows; the cover hides the jump. */
+const LOOP_LEAD_S = 1.2
+/** How long the cover stays up after that jump. */
+const LOOP_COVER_MS = 1500
 
 /** The video under the contact rows, on wider screens only. It is mounted
  * only while the panel is open, so it never plays unseen. */
@@ -321,14 +326,30 @@ function VideoCard({ active }: { active: boolean }) {
     }
   }, [mounted])
 
-  // YouTube draws its own overlay whenever playback starts, including on
-  // each loop, and an embed can't switch it off. So the video stays under a
-  // cover until it has been playing long enough for that overlay to fade,
-  // and the cover returns whenever the player stops playing.
+  // YouTube draws its own overlay whenever playback starts and shows an end
+  // screen when a video finishes, and an embed can't switch either off. So
+  // the video stays under a cover until it has been playing long enough for
+  // the start overlay to fade, the cover snaps back whenever the player
+  // stops, and the loop is done here, just before the end, so the end
+  // screen is never reached.
   useEffect(() => {
     if (!mounted) return
     let revealTimer: number | undefined
     let lastState: number | null = null
+    let duration = 0
+    let looping = false
+
+    const onTime = (time: number) => {
+      if (looping || duration <= 0 || duration - time > LOOP_LEAD_S) return
+      looping = true
+      window.clearTimeout(revealTimer)
+      setRevealed(false)
+      send("seekTo", [0, true])
+      revealTimer = window.setTimeout(() => {
+        looping = false
+        if (lastState === PLAYING) setRevealed(true)
+      }, LOOP_COVER_MS)
+    }
 
     const onState = (state: number) => {
       if (state === lastState) return
@@ -336,7 +357,13 @@ function VideoCard({ active }: { active: boolean }) {
       window.clearTimeout(revealTimer)
       if (state === PLAYING) {
         send("unloadModule", ["captions"])
-        revealTimer = window.setTimeout(() => setRevealed(true), OVERLAY_MS)
+        revealTimer = window.setTimeout(
+          () => {
+            looping = false
+            setRevealed(true)
+          },
+          looping ? LOOP_COVER_MS : OVERLAY_MS,
+        )
       } else {
         setRevealed(false)
       }
@@ -351,8 +378,13 @@ function VideoCard({ active }: { active: boolean }) {
         return
       }
       if (data?.event === "onStateChange" && typeof data.info === "number") onState(data.info)
-      const info = data?.event === "infoDelivery" ? (data.info as { playerState?: unknown } | undefined) : undefined
+      const info =
+        data?.event === "infoDelivery"
+          ? (data.info as { playerState?: unknown; duration?: unknown; currentTime?: unknown } | undefined)
+          : undefined
+      if (typeof info?.duration === "number") duration = info.duration
       if (typeof info?.playerState === "number") onState(info.playerState)
+      if (typeof info?.currentTime === "number") onTime(info.currentTime)
     }
 
     window.addEventListener("message", onMessage)

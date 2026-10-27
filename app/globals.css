@@ -1120,12 +1120,14 @@ button.btn {
   justify-content: center;
   background: var(--say-void);
   opacity: 1;
-  transition: opacity 0.6s ease;
   pointer-events: none;
 }
 
+/* It fades away when lifting, but covers again instantly: a fade back in
+ * would let a frame of YouTube's overlay show through. */
 .say-video-cover.off {
   opacity: 0;
+  transition: opacity 0.6s ease;
 }
 
 .say-video-cover span {
