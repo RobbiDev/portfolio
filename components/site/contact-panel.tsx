@@ -273,78 +273,38 @@ function InfoRow({ item, index }: { item: (typeof INFO)[number]; index: number }
   )
 }
 
-/** Robby's local time, ticking while the panel is open. Rendered only after
- * mount, since the server's clock and timezone aren't the visitor's. */
-function useLocalTime(active: boolean): string | null {
-  const [time, setTime] = useState<string | null>(null)
+/** True once the viewport is wider than a phone. False on the server and on
+ * the first render, so the video never loads where it is hidden. */
+function useWideScreen(): boolean {
+  const [wide, setWide] = useState(false)
 
   useEffect(() => {
-    if (!active) return
-    const format = new Intl.DateTimeFormat("en-US", {
-      timeZone: "America/New_York",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZoneName: "short",
-    })
-    const tick = () => setTime(format.format(new Date()))
-    tick()
-    const interval = window.setInterval(tick, 15_000)
-    return () => window.clearInterval(interval)
-  }, [active])
+    const query = window.matchMedia("(min-width: 761px)")
+    const update = () => setWide(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
+  }, [])
 
-  return time
+  return wide
 }
 
-function StatusCard({ active }: { active: boolean }) {
-  const time = useLocalTime(active)
-  const [now] = profile.experience
-  const [school] = profile.education
+/** The video under the contact rows, on wider screens only. It is mounted
+ * only while the panel is open, so it never plays unseen. */
+function VideoCard({ active }: { active: boolean }) {
+  const wide = useWideScreen()
 
   return (
-    <div className="say-status">
-      <p className="say-open">
-        <i className="say-dot" />
-        {profile.status}
-      </p>
-      <dl>
-        <div>
-          <dt>now</dt>
-          <dd>
-            {now.role} · {now.place.split(" · ")[0]}
-          </dd>
-        </div>
-        <div>
-          <dt>studying</dt>
-          <dd>
-            {school.role} · {school.place}
-          </dd>
-        </div>
-        <div>
-          <dt>local time</dt>
-          <dd>{time ?? "—"} · Greensboro</dd>
-        </div>
-      </dl>
-      <div className="say-video">
-        {/* Only mounted while the panel is open, so it never plays unseen. */}
-        {active ? (
-          <iframe
-            src={VIDEO_SRC}
-            title="Watch Dogs: the video behind the quote"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            allowFullScreen
-            loading="lazy"
-          />
-        ) : null}
-      </div>
-      <a
-        className="say-resume"
-        href={profile.resumeUrl}
-        target="_blank"
-        rel="noreferrer noopener"
-        onClick={() => track("resume_view", { file: "contact" })}
-      >
-        résumé <span aria-hidden="true">↗</span>
-      </a>
+    <div className="say-video">
+      {active && wide ? (
+        <iframe
+          src={VIDEO_SRC}
+          title="Watch Dogs: the video behind the quote"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          loading="lazy"
+        />
+      ) : null}
     </div>
   )
 }
@@ -623,7 +583,7 @@ export default function ContactPanel({ panelRef, open, reveal }: ContactPanelPro
             {INFO.map((item, index) => (
               <InfoRow key={item.label} item={item} index={index} />
             ))}
-            <StatusCard active={open} />
+            <VideoCard active={open} />
           </aside>
         </div>
       </div>

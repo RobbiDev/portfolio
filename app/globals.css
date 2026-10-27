@@ -1040,7 +1040,7 @@ button.btn {
   min-width: 0;
 }
 
-/* Beside the form, both columns share one height: the status card takes up
+/* Beside the form, both columns share one height: the video takes up
  * whatever the contact rows leave, and the message box grows to match when
  * the info column is the taller one. */
 @media (min-width: 901px) {
@@ -1063,73 +1063,20 @@ button.btn {
     grid-template-rows: auto 1fr;
   }
 
-  .say-status {
+  .say-video {
     flex: 1;
+    aspect-ratio: auto;
+    min-height: 200px;
   }
 }
 
-.say-status {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-top: 4px;
-  padding: clamp(18px, 2vw, 24px);
-  background: var(--say-void);
-  font-family: var(--mono);
-  font-size: 11.5px;
-  line-height: 1.6;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--say-dim);
-}
-
-.say-open {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--say-paper);
-}
-
-.say-dot {
-  width: 8px;
-  height: 8px;
-  flex: none;
-  background: var(--say-flash);
-  animation: say-pulse 1.6s infinite;
-}
-
-@keyframes say-pulse { 50% { opacity: 0.25; } }
-
-.say-status dl {
-  margin: 0;
-  display: grid;
-  gap: 10px;
-}
-
-.say-status dl div {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--say-line);
-}
-
-.say-status dt {
-  color: var(--say-dim);
-}
-
-.say-status dd {
-  margin: 0;
-  color: var(--say-paper);
-  overflow-wrap: anywhere;
-}
-
+/* The video under the contact rows. Beside the form it takes whatever
+ * height the rows leave (YouTube letterboxes it inside); phones skip it. */
 .say-video {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: var(--say-panel);
-  border: 1px solid var(--say-line);
+  margin-top: 4px;
+  background: var(--say-void);
 }
 
 .say-video iframe {
@@ -1140,23 +1087,11 @@ button.btn {
   border: 0;
 }
 
-.say-resume {
-  margin-top: auto;
-  align-self: flex-start;
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
-  padding: 12px 18px;
-  background: var(--say-paper);
-  color: var(--say-void);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  text-decoration: none;
+@media (max-width: 760px) {
+  .say-video {
+    display: none;
+  }
 }
-
-.say-resume:hover { background: var(--say-flash); }
-.say-resume:focus-visible { outline: 2px solid var(--say-flash); outline-offset: 3px; }
 
 .say-item {
   display: grid;
@@ -1297,14 +1232,8 @@ button.btn {
     font-size: 15px;
   }
 
-  .say-go,
-  .say-resume {
+  .say-go {
     width: 100%;
-    justify-content: center;
-  }
-
-  .say-status dl div {
-    grid-template-columns: 84px minmax(0, 1fr);
   }
 }
 
