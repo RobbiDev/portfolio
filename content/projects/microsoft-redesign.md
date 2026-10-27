@@ -13,8 +13,8 @@
 	"projectColor": "#0078D4",
 	"features": [
 		"Main website — a simpler front door that leans on brand recognition instead of listing every product",
-		"SharePoint — TODO: the one change that matters most",
-		"Copilot — TODO: the one change that matters most"
+		"SharePoint — a redesign in progress",
+		"Copilot — a redesign in progress"
 	],
 	"gallery": []
 }
@@ -24,7 +24,7 @@
 STARTER: the copy below comes from the microsoft-redesign README.
 Check "technologies" (Figma?) and fill in the SharePoint and Copilot features.
 Export before/after shots to public/images/microsoft-redesign/ and add them to "gallery".
-When it's ready, move this file up to content/projects/ to publish it.
+Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach

@@ -2,13 +2,11 @@
 {
 	"title": "Plate Inventory System",
 	"date": "2026-09-09",
-	"summary": "TODO: one or two sentences on what's being inventoried, who uses it, and the result.",
+	"summary": "An inventory system for tracking plates: where each one is, and whether it is ready for the next job.",
 	"category": ["SOFTWARE"],
-	"technologies": ["TODO"],
 	"role": "Design & development, end to end",
-	"client": "TODO: Imaflex USA, or Personal Project",
-	"timeline": "TODO",
-	"status": "TODO",
+	"timeline": "2026 - Present",
+	"status": "In development",
 	"githubUrl": "https://github.com/RobbiDev/Plate-Inventory-System",
 	"projectColor": "#2e8f5a",
 	"features": [
@@ -20,8 +18,9 @@
 
 <!--
 STARTER: the GitHub repo only has a README so far, so everything here is a prompt.
+The summary is a placeholder guess; replace it. Add "technologies" and "client".
 Add a thumbnail at public/images/plate-inventory-system/thumbnail.png and set "coverImage".
-When it's ready, move this file up to content/projects/ to publish it.
+Published while in progress: the prompts below show on the site until you replace them.
 -->
 
 :::problem The Problem & The Approach
@@ -56,7 +55,7 @@ The bug, edge case or constraint that took the longest, and what fixed it.
 
 | Measure | Before | After |
 | --- | --- | --- |
-| Time to find a plate | TODO | TODO |
+| Time to find a plate | — | — |
 
 ## What I'd Do Differently
 
