@@ -10,7 +10,7 @@ import PostReader from "./post-reader"
 import ProjectDetail from "./project-detail"
 import ProjectsPanel from "./projects-panel"
 import WritingPanel from "./writing-panel"
-import { AsteriskIcon, CloseIcon, StarIcon } from "./icons"
+import { ArrowLeftIcon, AsteriskIcon, CloseIcon, StarIcon } from "./icons"
 import { profile } from "@/lib/profile"
 import { track } from "@/lib/analytics"
 import type { ContentItem } from "@/lib/content"
@@ -258,6 +258,15 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
     setLightbox({ images, index })
   }, [])
 
+  /* The innermost open page, and how to leave it. */
+  const backAction = caseStudyOpen
+    ? closeCaseStudy
+    : postSlug
+      ? closePost
+      : projectSlug
+        ? () => setProjectSlug(null)
+        : null
+
   /* ── keyboard ─────────────────────────────────────────────────────────── */
 
   useEffect(() => {
@@ -392,6 +401,15 @@ export default function SiteShell({ projects, posts }: SiteShellProps) {
         </span>
       </div>
       <div className="tpfx" />
+
+      {/* On phones, the inner pages (case study, post, project) take their
+          way back from a pill joined to the menu orb instead of the top. */}
+      {backAction && panel ? (
+        <button className="orb-back" type="button" onClick={backAction}>
+          <ArrowLeftIcon />
+          Back
+        </button>
+      ) : null}
 
       <button className={`orb${panel ? " show" : ""}`} type="button" aria-label="Menu" onClick={() => setMenuOpen(true)}>
         <StarIcon />
